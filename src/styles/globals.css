@@ -40,3 +40,13 @@ a {
     color-scheme: dark;
   }
 }
+
+.fp-col {
+  display: flex;
+  flex-direction: column;
+}
+.fp {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
