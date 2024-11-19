@@ -1,5 +1,5 @@
 /* Login Form */
-.loginForm {
+.signupForm {
     max-width: 400px;
     margin: 2rem auto;
     padding: 2rem;
@@ -10,24 +10,24 @@
     flex-direction: column;
     gap: 1.5rem;
   }
-  .loginForm__title {
+  .signupForm__title {
     font-size: 1.5rem;
     font-weight: 600;
     color: #2c3e50;
   }
   
-  .loginForm__row {
+  .signupForm__row {
     display: flex;
     flex-direction: column;
   }
   
-  .loginForm__label {
+  .signupForm__label {
     color: #2c3e50;
     margin-bottom: 0.5rem;
     font-weight: 600;
   }
   
-  .loginForm__input {
+  .signupForm__input {
     padding: 0.75rem;
     border: 2px solid #e0e0e0;
     background: #fff;
@@ -37,13 +37,13 @@
     color: #2c3e50;
   }
   
-  .loginForm__input:focus {
+  .signupForm__input:focus {
     outline: none;
     border-color: #3498db;
     box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
   }
   
-  .loginForm__validate {
+  .signupForm__validate {
     color: #e74c3c;
     font-size: 0.875rem;
     margin-top: 0.5rem;

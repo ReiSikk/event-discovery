@@ -2,8 +2,10 @@ import Head from "next/head";
 import Image from "next/image";
 import localFont from "next/font/local";
 import styles from "@/styles/Home.module.css";
-import { supabase } from "@/utils/supabase/component";
+import Script from "next/script";
+import { supabase } from "@/utils/supabase/server-props";
 import { useEffect, useState } from "react";
+import SignUp from "@/components/SignupForm";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -47,7 +49,7 @@ export default function Home() {
         <meta name="description" content="Welcome to Events Discovery" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
-        <script src="https://accounts.google.com/gsi/client" async></script>
+        <Script src="https://accounts.google.com/gsi/client" strategy="afterInteractive" />
       </Head>
       <div
         className={`${styles.page} ${geistSans.variable} ${geistMono.variable}`}
@@ -63,6 +65,8 @@ export default function Home() {
                 "Some stats will go here"
               </div>
               <div className="heroSection__btns">
+                <h2>Sign up to get started</h2>
+                <SignUp />
               </div>
             </div>
             <div className="heroSection__side">
