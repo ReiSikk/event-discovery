@@ -6,6 +6,10 @@ import Script from "next/script";
 import { supabase } from "@/utils/supabase/server-props";
 import { useEffect, useState } from "react";
 import SignUp from "@/components/SignupForm";
+import SiteNav from "@/components/SiteNav";
+import Link from "next/link";
+import { ArrowTopRightIcon } from "@radix-ui/react-icons"
+
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -45,7 +49,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Landing page</title>
+        <title>Leia App - Find social activities & Create your own</title>
         <meta name="description" content="Welcome to Events Discovery" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
@@ -54,28 +58,52 @@ export default function Home() {
       <div
         className={`${styles.page} ${geistSans.variable} ${geistMono.variable}`}
       >
+        <SiteNav />
         <main className={styles.main}>
-          <section className="heroSection">
-            <div className="heroSection__main">
-              <h1 className="heroSection__title">Start exploring events!</h1>
-              <p className="heroSection__text">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat.
+          <section className={`${styles.heroSection} ${styles.container}`}>
+            <div className={styles.heroSection__main}>
+              <h1 className={styles.heroSection__title}>Discover. Connect. Grow.</h1>
+              <p className={styles.heroSection__text}>
+              Leia is more than an event platform — it's your gateway to building genuine relationships. Whether you're seeking professional networking, friendship, or exciting experiences, we help you find your tribe.
               </p>
-              <div className="stats">
-                "Some stats will go here"
-              </div>
-              <div className="heroSection__btns">
-                <h2>Sign up to get started</h2>
-                <SignUp />
+            <div className={styles.uspContainer}>
+              <div className={styles.uspGrid}>
+                <div className={styles.uspItem}>
+                  <span className={styles.uspIcon}>🎭</span>
+                  <h3 className={styles.uspTitle}>Event Discovery</h3>
+                  <p className={styles.uspDescription}>Discover events tailored to your interests</p>
+                </div>
+                <div className={styles.uspItem}>
+                  <span className={styles.uspIcon}>💸</span>
+                  <h3 className={styles.uspTitle}>Cost-Effective</h3>
+                  <p className={styles.uspDescription}>Most events are free or low-cost. Socialising should be about money</p>
+                </div>
+                <div className={styles.uspItem}>
+                  <span className={styles.uspIcon}>🌐</span>
+                  <h3 className={styles.uspTitle}>Expand your personal and professional circles</h3>
+                  <p className={styles.uspDescription}>Meet people who share your passions</p>
+                </div>
               </div>
             </div>
-            <div className="heroSection__side">
+            <div className={styles.heroSection__btns}>
+                <Link href="/signup" className="btn__primary">
+                Sign Up
+                <ArrowTopRightIcon />
+                </Link>
+                <Link href="/login" className="btn__primary">
+                Log In
+                <ArrowTopRightIcon />
+                </Link>
+            </div>
+            </div>
+            <div className={styles.heroSection__side}>
               <Image
-                src="https://placehold.co/600x400"
+                src="https://placehold.co/531x699"
                 unoptimized
                 alt="Hero image"
                 width={500}
                 height={500}
+                className={styles.heroSection__img}
               />
             </div>
           </section>

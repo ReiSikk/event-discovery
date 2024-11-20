@@ -25,8 +25,8 @@ export default function LoginPage() {
   }
 
   return (
-    <main>
+    <section className='loginForm__section container'>
       <SignupForm signUp={signUp} />
-    </main>
+    </section>
   )
 }

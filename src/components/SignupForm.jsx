@@ -1,7 +1,8 @@
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-
 import { createClient } from '@/utils/supabase/component'
+import styles from './SignupForm.module.css'
+import Link from 'next/link'
 
 export default function SignUp() {
   const router = useRouter()
@@ -44,25 +45,35 @@ export default function SignUp() {
   }
 
   return (
-    <main>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="email">Email:</label>
-        <input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-        <label htmlFor="password">Password:</label>
-        <input
-          id="password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button type="button">
+    <div className={styles.signupForm__wrap}>
+      <h1 className={styles.signupForm__title}>Log In or Register</h1>
+      <form onSubmit={handleSubmit} className={styles.signupForm}>
+        <div className={styles.signupForm__row}>
+          <label className={styles.signupForm__label} htmlFor="email">Email:</label>
+          <input
+            className={styles.signupForm__input}
+          id="email"
+          type="email" 
+          value={email} 
+          onChange={(e) => setEmail(e.target.value)} 
+          />
+        </div>
+        <div className={styles.signupForm__row}>
+          <label className={styles.signupForm__label} htmlFor="password">Password:</label>
+          <input
+            className={styles.signupForm__input}
+            id="password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        <button type="button" className={styles.loginBtn}>
           Log in
         </button>
-        <button type="submit">
-          Sign up
-        </button>
+        <p className={styles.signUp__text}>Don't have an account? <Link href="/signup" className={styles.signUp__link}>Sign Up</Link> </p>
         {error && <p>{error}</p>}
       </form>
-    </main>
+    </div>
   )
 }
