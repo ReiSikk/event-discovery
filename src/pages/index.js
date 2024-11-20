@@ -5,10 +5,11 @@ import styles from "@/styles/Home.module.css";
 import Script from "next/script";
 import { supabase } from "@/utils/supabase/server-props";
 import { useEffect, useState } from "react";
-import SignUp from "@/components/SignupForm";
+import SignUp from "@/components/LoginForm";
 import SiteNav from "@/components/SiteNav";
 import Link from "next/link";
 import { ArrowTopRightIcon } from "@radix-ui/react-icons"
+import placehold_image from '../../public/assets/landing_place.webp'
 
 
 const geistSans = localFont({
@@ -76,7 +77,7 @@ export default function Home() {
                 <div className={styles.uspItem}>
                   <span className={styles.uspIcon}>💸</span>
                   <h3 className={styles.uspTitle}>Cost-Effective</h3>
-                  <p className={styles.uspDescription}>Most events are free or low-cost. Socialising should be about money</p>
+                  <p className={styles.uspDescription}>Most events are free or low-cost. Money shouldn't be the reason for staying in and couch slouching</p>
                 </div>
                 <div className={styles.uspItem}>
                   <span className={styles.uspIcon}>🌐</span>
@@ -98,7 +99,7 @@ export default function Home() {
             </div>
             <div className={styles.heroSection__side}>
               <Image
-                src="https://placehold.co/531x699"
+                src={placehold_image} // Placeholder image,  
                 unoptimized
                 alt="Hero image"
                 width={500}

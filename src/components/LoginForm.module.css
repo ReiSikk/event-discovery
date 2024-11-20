@@ -1,0 +1,82 @@
+/* Login Form */
+.loginForm {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  border: 1px solid var(--blue);
+  border-radius: 10px;
+  padding: 24px;
+  
+  @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+    width: 33.333vw;
+    padding: 48px;
+  }
+  }
+  .loginForm__title {
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  .loginForm__row {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .loginForm__label {
+    color: var(--black);
+    margin-bottom: 0.5rem;
+  }
+  
+  .loginForm__input {
+    padding: 0.75rem;
+    border: 1px solid var(--black);
+    background: #fff;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    color: var(--blue);
+  }
+  
+  .loginForm__input:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+  }
+  
+  .loginForm__validate {
+    color: #e74c3c;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+  }
+  
+  .loginBtn {
+    display: inline-flex;
+    min-width: 125px;
+    padding-block: 10px 9px;
+    padding-inline: 18px;
+    flex-shrink: 0;
+    border-radius: 200px;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border: 1px solid var(--blue);
+    background: var(--background);
+    color: var(--blue);
+    transition: background 0.3s ease-in-out;
+
+    &:hover {
+        background: var(--blue);
+        color: var(--background);
+    }
+
+  }
+
+  .login__text {
+    color: var(--black);
+    text-align: center;
+  }
+  .login__link {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    color: var(--blue);
+  }
+  

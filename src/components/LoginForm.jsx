@@ -1,18 +1,16 @@
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { createClient } from '@/utils/supabase/component'
-import styles from './SignUpForm.module.css'
+import styles from './LoginForm.module.css'
 import Link from 'next/link'
-import { ArrowBottomRightIcon } from '@radix-ui/react-icons'
 
-export default function SignUpForm() {
+export default function Login() {
   const router = useRouter()
   const supabase = createClient()
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState(null)
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,12 +21,12 @@ export default function SignUpForm() {
       return;
     }
 
-    await signup();
+    await login();
   };
 
-  async function signup() {
+  async function login() {
 
-    const { data, error } = await supabase.auth.signup({ email, password })
+    const { data, error } = await supabase.auth.login({ email, password })
     if (error) {
       console.error(error)
       setError(error.message)
@@ -39,33 +37,33 @@ export default function SignUpForm() {
   }
 
   return (
-    <div className={styles.signupForm__wrap}>
-      <h1 className={styles.signupForm__title}>Register an account</h1>
-      <form onSubmit={handleSubmit} className={styles.signupForm}>
-        <div className={styles.signupForm__row}>
-          <label className={styles.signupForm__label} htmlFor="email">Email:</label>
+    <div className={styles.loginForm__wrap}>
+      <h1 className={styles.loginForm__title}>Log in to your account</h1>
+      <form onSubmit={handleSubmit} className={styles.loginForm}>
+        <div className={styles.loginForm__row}>
+          <label className={styles.loginForm__label} htmlFor="email">Email:</label>
           <input
-            className={styles.signupForm__input}
+            className={styles.loginForm__input}
           id="email"
           type="email" 
           value={email} 
           onChange={(e) => setEmail(e.target.value)} 
           />
         </div>
-        <div className={styles.signupForm__row}>
-          <label className={styles.signupForm__label} htmlFor="password">Password:</label>
+        <div className={styles.loginForm__row}>
+          <label className={styles.loginForm__label} htmlFor="password">Password:</label>
           <input
-            className={styles.signupForm__input}
+            className={styles.loginForm__input}
             id="password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <button type="button" className={styles.signupBtn}>
-            Sign Up 
+        <button type="button" className={styles.loginBtn}>
+          Log in
         </button>
-        <p className={styles.signup__text}>Already have an account? <Link href="/login" className={styles.signup__link}>Log In</Link> </p>
+        <p className={styles.login__text}>Don't have an account? <Link href="/signup" className={styles.login__link}>Sign Up</Link> </p>
         {error && <p>{error}</p>}
       </form>
     </div>

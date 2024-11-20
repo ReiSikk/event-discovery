@@ -73,14 +73,17 @@
   width: 100%;
   @media only screen and (min-width: 1025px) {
       width: 50%;
-      padding-inline: 8.0555vw 3.333vw;
+      padding-inline: 5.7638vw;
   }
 
 }
 .heroSection__img {
-  width: 100%;
-  height: 100%;
   object-fit: cover;
+  height: auto;
+  max-width: 100%;
+  width: 36.875vw;
+  max-height: 48.5416vw;
+  border-radius: var(--bradius);
 }
 
 

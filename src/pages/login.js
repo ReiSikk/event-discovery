@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { createClient } from '@/utils/supabase/component'
-import SignupForm from '@/components/SignupForm'
+import SignupForm from '@/components/LoginForm'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -16,17 +16,9 @@ export default function LoginPage() {
     router.push('/')
   }
 
-  async function signUp() {
-    const { error } = await supabase.auth.signUp({ email, password })
-    if (error) {
-      console.error(error)
-    }
-    router.push('/')
-  }
-
   return (
     <section className='loginForm__section container'>
-      <SignupForm signUp={signUp} />
+      <SignupForm logIn={logIn} />
     </section>
   )
 }
