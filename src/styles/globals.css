@@ -4,8 +4,8 @@
   --background: #fcf6ecff;
   --blue: #283cffff;
   --lightblue: #99b2f2ff;
-  --black: #1e1e1eff;
-  --white: #f1f1f1ff;
+  --black: #1A1A1A;
+  --white: #ffffff;
 
   /*  Grid  */
   --container-width: 100%;
@@ -275,3 +275,10 @@ h4, .h4 {
     @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
     }
    }
+
+
+     /* Override Google sign in button styles */
+
+  .googleBtn {
+    margin-inline: auto;
+  }

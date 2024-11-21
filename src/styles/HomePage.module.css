@@ -1,0 +1,205 @@
+.mainContainer {
+  background: var(--white);
+  }
+  
+  .heroSection {
+    padding: 4rem 2rem;
+    text-align: center;
+  }
+  
+  .mainHeading {
+    font-size: 3.5rem;
+    margin-bottom: 3rem;
+    color: var(--black);
+  }
+  
+  .highlight {
+    background: linear-gradient(120deg, var(--blue) 0%, var(--lightblue) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .actionCards {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    margin: 2rem auto;
+    max-width: 1200px;
+  }
+  
+  .card {
+    background: var(--background);
+    color: var(--blue);
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    width: 300px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--blue);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+    
+  .activeCard::before {
+    transform: scaleX(1);
+  }
+  
+  .firstButton, .secondaryButton, .tertiaryButton {
+    padding: 0.75rem 1.5rem;
+    border-radius: 10px;
+    border: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    width: 100%;
+    margin-top: auto;
+  }
+
+  .btn__primary {
+    display: inline-flex;
+    min-width: 125px;
+    padding-block: 10px 9px;
+    padding-inline: 18px;
+    flex-shrink: 0;
+    border-radius: 200px;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border: 1px solid var(--blue);
+    transition: background 0.3s ease-in-out;
+    background: var(--background);
+    color: var(--blue);
+
+
+    &:hover {
+        background: var(--blue);
+        color: var(--background);
+    }
+} 
+  
+  .secondaryButton {
+    background: var(--white);;
+    border: 2px solid #ff6b6b;
+    color: #ff6b6b;
+  }
+  
+  .tertiaryButton {
+    background: #f8f9fa;
+    color: #1a1a1a;
+    border: 2px solid #e9ecef;
+  }
+  
+  .dynamicSection {
+    height: 300px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  .contentWrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  
+  .previewContent {
+    animation: fadeIn 0.3s ease;
+  }
+
+  .previewContentList {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+    @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+      gap: 0.8333vw;
+    }
+    
+  }
+
+  .previewContent__card {
+    border: 1px solid var(--blue);
+    width: 12.8472vw;
+    height: 18.0664vh;
+    padding-inline: 16px;
+    padding-block: 16px 24px;
+    color: var(--blue);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .featuredSection {
+    max-width: 1200px;
+    margin: 4rem auto;
+    padding: 0 2rem;
+  }
+  
+  .sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+  
+  .viewAllButton {
+    padding: 0.5rem 1rem;
+    border: none;
+    background: transparent;
+    color: #ff6b6b;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  
+  .eventGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .actionCards {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .card {
+      width: 100%;
+      max-width: 400px;
+    }
+  
+    .mainHeading {
+      font-size: 2.5rem;
+    }
+  }
