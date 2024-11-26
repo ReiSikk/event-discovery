@@ -7,7 +7,7 @@
     text-align: center;
   }
   
-  .mainHeading {
+  .header__title {
     font-size: 3.5rem;
     margin-bottom: 3rem;
     color: var(--black);
@@ -60,12 +60,6 @@
   }
   
   .firstButton, .secondaryButton, .tertiaryButton {
-    padding: 0.75rem 1.5rem;
-    border-radius: 10px;
-    border: none;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    cursor: pointer;
     width: 100%;
     margin-top: auto;
   }
@@ -93,15 +87,12 @@
 } 
   
   .secondaryButton {
-    background: var(--white);;
-    border: 2px solid #ff6b6b;
-    color: #ff6b6b;
+    background: var(--blue);;
+    color: var(--white);
   }
   
   .tertiaryButton {
-    background: #f8f9fa;
-    color: #1a1a1a;
-    border: 2px solid #e9ecef;
+
   }
   
   .dynamicSection {
@@ -191,15 +182,10 @@
   @media (max-width: 768px) {
     .actionCards {
       flex-direction: column;
-      align-items: center;
     }
   
     .card {
       width: 100%;
       max-width: 400px;
-    }
-  
-    .mainHeading {
-      font-size: 2.5rem;
     }
   }

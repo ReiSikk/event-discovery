@@ -2,6 +2,15 @@
    Categories List component for browse page
    ========================================================================== */
 .categories {
+    padding-inline: 16px;
+  
+    @media only screen and (max-width: 767px) {
+      padding-inline: 4.1025vw;
+    }
+  
+    @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+      padding-inline: 1.6666vw;
+    }
 
 
 }
@@ -11,17 +20,26 @@
     padding-block: 2.222vw 6.944vw;
 
 }
-.categoriesHeader {
-
-}
 .categories__btn {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+    width: fit-content;
+    margin-bottom: 16px;
+    
+    &:hover {
+        text-decoration: none;
+        
+    }
 
 }
 .categoriesList {
     display: flex;
-    flex-wrap: wrap;
+    overflow: auto;
+    width: 100%;
     list-style-type: none;
     gap: 16px;
+    scrollbar-width: none;
 
     @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
         gap: 1.666vw;
@@ -33,6 +51,11 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    min-width: 25vw;
+
+    &:hover {
+        cursor: pointer;
+    }
 
 }
 .categoriesList__img {

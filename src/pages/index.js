@@ -52,7 +52,6 @@ export async function getServerSideProps() {
 
 export default function Home({ pageData, error}) {
   const [data, setData] = useState([])
-  console.log(pageData, "pageData")
 
   useEffect(() => {
 

@@ -1,77 +1,65 @@
 import React, { useEffect, useState } from 'react';
 import { Calendar, Users, Sparkles, TvIcon } from 'lucide-react';
 import styles from "@/styles/HomePage.module.css";
+import CategoriesList from '@/components/CategoriesList';
 
-// export async function getServerSideProps() {
-//   try {
-//     const res = await fetch('http://localhost:1337/api/home-template');
-//     if (!res.ok) {
-//       throw new Error('Failed to fetch data');
-//     }
-//     const json = await res.json();
+export async function getServerSideProps() {
+  const url = process.env.NEXT_PUBLIC_CMS_URL + 'home?populate=*'
+  try {
+    const res = await fetch(url);
+    if (!res.ok) {
+      throw new Error('Failed to fetch data');
+    }
+    const json = await res.json();
 
-//     return {
-//       props: {
-//         pageData: json.data || null,
-//       },
-//     };
-//   } catch (error) {
-//     console.error('Error fetching data:', error);
-//     return {
-//       props: {
-//         pageData: null,
-//         error: 'Failed to load page data',
-//       },
-//     };
-//   }
-// }
+    return {
+      props: {
+        pageData: json.data || null,
+      },
+    };
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    return {
+      props: {
+        pageData: null,
+        error: 'Failed to load page data',
+      },
+    };
+  }
+}
 
 
 const HomePage = ({ pageData, error }) => {
   const [activeCard, setActiveCard] = useState(null);
 
   return (
-    <main className={styles.mainContainer}>
-      <section className={styles.heroSection}>
-        <h1 className={styles.mainHeading}>
-          Where Communities <span className={styles.highlight}>Thrive</span>
-        </h1>
-        
-        <div className={styles.actionCards}>
-          <div 
-            className={`${styles.card} ${activeCard === 'browse' ? styles.activeCard : ''}`}
-            onMouseEnter={() => setActiveCard('browse')}
+    <>
+    <header className={styles.heroSection}>
+      <h1 className={styles.header__title}>
+        {pageData.title}
+      </h1>
+      <p className={styles.header__text}>
+        {pageData.lead}
+      </p>
+      <ul className={styles.actionCards}>
+        {pageData.headerSlider.map((card) => (
+            <li
+            key={card.id} 
+            className={`${styles.card} ${activeCard === card.id ? styles.activeCard : ''}`}
+            onMouseEnter={() => setActiveCard(card.id)}
             onMouseLeave={() => setActiveCard(null)}
           >
             <Calendar size={32} />
-            <h2>Discover Events</h2>
-            <p className={styles.actionCard__text}>Find your next adventure</p>
-            <button className={`${styles.firstButton} ${styles.btn__primary}`}>Browse Events</button>
-          </div>
+            <h2>{card.title}</h2>
+            <p className={styles.actionCard__text}>{card.text}</p>
+            <button className={`${styles.firstButton} ${styles.btn__primary}`}>{card.link}</button>
+          </li>
+        ))}
+      </ul>
+    </header>
+    <main className={styles.mainContainer}>
 
-          <div 
-            className={`${styles.card} ${activeCard === 'create' ? styles.activeCard : ''}`}
-            onMouseEnter={() => setActiveCard('create')}
-            onMouseLeave={() => setActiveCard(null)}
-          >
-            <Sparkles size={32} />
-            <h2>Host an Event</h2>
-            <p>Share your passion</p>
-            <button className={styles.secondaryButton}>Create Event</button>
-          </div>
-
-          <div 
-            className={`${styles.card} ${activeCard === 'organizer' ? styles.activeCard : ''}`}
-            onMouseEnter={() => setActiveCard('organizer')}
-            onMouseLeave={() => setActiveCard(null)}
-          >
-            <Users size={32} />
-            <h2>Become an Organizer</h2>
-            <p>Build your community</p>
-            <button className={styles.tertiaryButton}>Get Started</button>
-          </div>
-        </div>
-      </section>
+      <CategoriesList />
 
       <section className={styles.dynamicSection}>
         <div className={styles.contentWrapper}>
@@ -161,6 +149,7 @@ const HomePage = ({ pageData, error }) => {
         </div>
       </section>
     </main>
+    </>
   );
 };
 
