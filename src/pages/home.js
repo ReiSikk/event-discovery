@@ -1,8 +1,33 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Calendar, Users, Sparkles, TvIcon } from 'lucide-react';
 import styles from "@/styles/HomePage.module.css";
 
-const HomePage = () => {
+// export async function getServerSideProps() {
+//   try {
+//     const res = await fetch('http://localhost:1337/api/home-template');
+//     if (!res.ok) {
+//       throw new Error('Failed to fetch data');
+//     }
+//     const json = await res.json();
+
+//     return {
+//       props: {
+//         pageData: json.data || null,
+//       },
+//     };
+//   } catch (error) {
+//     console.error('Error fetching data:', error);
+//     return {
+//       props: {
+//         pageData: null,
+//         error: 'Failed to load page data',
+//       },
+//     };
+//   }
+// }
+
+
+const HomePage = ({ pageData, error }) => {
   const [activeCard, setActiveCard] = useState(null);
 
   return (

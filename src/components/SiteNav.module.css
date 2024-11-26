@@ -32,11 +32,15 @@
 .header {
     width: 100%;
     justify-content: flex-end;
-    padding-block: 1.111vw;
-    padding-inline: 2.222vw;
     border-bottom: 1px solid var(--blue);
     position: sticky;
     top: 0;
+    padding-block: 12px;
+    padding-inline: 16px;
+    @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+      padding-block: 1.111vw;
+      padding-inline: 2.222vw;
+    }
 
 }
 .siteNav {
