@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Calendar, Users, Sparkles, TvIcon } from 'lucide-react';
+import { Calendar, Users, Sparkles, TvIcon, Plus } from 'lucide-react';
 import styles from "@/styles/HomePage.module.css";
 import CategoriesList from '@/components/CategoriesList';
+import FilterCard from '@/components/FilterCard';
 
 export async function getServerSideProps() {
   const url = process.env.NEXT_PUBLIC_CMS_URL + 'home?populate=*'
@@ -31,6 +32,18 @@ export async function getServerSideProps() {
 
 const HomePage = ({ pageData, error }) => {
   const [activeCard, setActiveCard] = useState(null);
+  const [activeFilterId, setActiveFilterId] = useState(null);
+
+  const toggleFilter = (filterId) => {
+    console.log("toggle called");
+    setActiveFilterId(activeFilterId === filterId ? null : filterId);
+  };
+
+  const filters = [
+    { id: 1, text: "Select categories" },
+    { id: 2, text: "Filter by date" },
+    { id: 3, text: "View on the map" }
+  ];
 
   return (
     <>
@@ -42,6 +55,17 @@ const HomePage = ({ pageData, error }) => {
         {pageData.lead}
       </p>
       <ul className={styles.actionCards}>
+      {filters.map((filter) => (
+          <FilterCard
+            key={filter.id}
+            id={filter.id}
+            isActive={activeFilterId === filter.id}
+            onClick={toggleFilter}
+            filter={filter.text}
+          />
+        ))}
+      </ul>
+      {/* <ul className={styles.actionCards}>
         {pageData.headerSlider.map((card) => (
             <li
             key={card.id} 
@@ -55,11 +79,11 @@ const HomePage = ({ pageData, error }) => {
             <button className={`${styles.firstButton} ${styles.btn__primary}`}>{card.link}</button>
           </li>
         ))}
-      </ul>
+      </ul> */}
     </header>
     <main className={styles.mainContainer}>
 
-      <CategoriesList />
+      {/* <CategoriesList /> */}
 
       <section className={styles.dynamicSection}>
         <div className={styles.contentWrapper}>
@@ -135,17 +159,6 @@ const HomePage = ({ pageData, error }) => {
               </ul>
             </div>
           )}
-        </div>
-      </section>
-
-      {/* Featured Events Grid */}
-      <section className={styles.featuredSection}>
-        <div className={styles.sectionHeader}>
-          <h2>Happening Near You</h2>
-          <button className={styles.viewAllButton}>View All</button>
-        </div>
-        <div className={styles.eventGrid}>
-          {/* Event cards will go here */}
         </div>
       </section>
     </main>

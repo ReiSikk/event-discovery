@@ -1,8 +1,10 @@
 :root {
 
   /* CSS HEX */
-  --background: #fcf6ecff;
-  --blue: #283cffff;
+  /* --background: #fcf6ecff;
+  --blue: #283cffff; */
+  --background: #381026;
+  --blue: #FF5745;
   --lightblue: #99b2f2ff;
   --black: #1A1A1A;
   --white: #ffffff;

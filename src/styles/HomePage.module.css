@@ -24,7 +24,6 @@
     gap: 2rem;
     justify-content: center;
     margin: 2rem auto;
-    max-width: 1200px;
   }
   
   .card {
@@ -176,16 +175,5 @@
     to {
       opacity: 1;
       transform: translateY(0);
-    }
-  }
-  
-  @media (max-width: 768px) {
-    .actionCards {
-      flex-direction: column;
-    }
-  
-    .card {
-      width: 100%;
-      max-width: 400px;
     }
   }

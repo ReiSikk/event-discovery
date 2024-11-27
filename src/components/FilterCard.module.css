@@ -1,0 +1,24 @@
+.filterCard {
+    padding: 8px 16px;
+    border: 1px solid var(--blue);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    height: fit-content;
+    transition: all 0.6s ease;
+}
+.title {
+    margin-right: auto;
+
+}
+.button {
+    margin-left: auto;
+}
+.expanded {
+    height: 300px;
+}
+.expanded > .button {
+    transform: rotate(45deg);
+    transition: all 0.3s ease;
+}
