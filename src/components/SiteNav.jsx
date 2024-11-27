@@ -2,6 +2,8 @@ import React from 'react'
 import styles from './SiteNav.module.css'
 import Link from 'next/link'
 import { ArrowTopRightIcon } from "@radix-ui/react-icons"
+import SiteNavMenu from './SiteNavMenu'
+
 
 function SiteNav() {
   return (
@@ -11,6 +13,7 @@ function SiteNav() {
             <h1 className={styles.siteNav__logo}>Leia</h1>
         </Link>
       <ul className={styles.siteSiteNavList}>
+        <SiteNavMenu />
         <li className={styles.siteNavList__item}>
           <Link href="/create" className={`${styles.siteNavList__link} ${styles.siteNav__btn}`}>
             Create Events

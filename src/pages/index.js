@@ -1,27 +1,12 @@
 import Head from "next/head";
 import Image from "next/image";
-import localFont from "next/font/local";
 import styles from "@/styles/Home.module.css";
 import Script from "next/script";
 import { supabase } from "@/utils/supabase/server-props";
 import { useEffect, useState } from "react";
-import SignUp from "@/components/LoginForm";
-import SiteNav from "@/components/SiteNav";
 import Link from "next/link";
-import { ArrowTopRightIcon } from "@radix-ui/react-icons"
 import placehold_image from '../../public/assets/landing_place.webp'
 
-
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
 
 export async function getServerSideProps() {
   const url = process.env.NEXT_PUBLIC_CMS_URL + 'landing?populate=*'
@@ -83,9 +68,7 @@ export default function Home({ pageData, error}) {
         <Script src="https://accounts.google.com/gsi/client" strategy="afterInteractive" />
       </Head>
       <div
-        className={`${styles.page} ${geistSans.variable} ${geistMono.variable}`}
       >
-        <SiteNav />
         <main className={styles.main}>
           <section className={`${styles.heroSection} ${styles.container}`}>
             <div className={styles.heroSection__main}>
@@ -116,16 +99,6 @@ export default function Home({ pageData, error}) {
                     </div>
                   </div>
                 ) : null}
-            <div className={styles.heroSection__btns}>
-                <Link href="/signup" className="btn__primary">
-                Sign Up
-                <ArrowTopRightIcon />
-                </Link>
-                <Link href="/login" className="btn__primary">
-                Log In
-                <ArrowTopRightIcon />
-                </Link>
-            </div>
             </div>
             <div className={styles.heroSection__side}>
               <Image

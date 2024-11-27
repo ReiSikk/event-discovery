@@ -60,15 +60,6 @@
 .stats {
 
 }
-.heroSection__btns {
-  display: flex;
-  padding-top: 24px;
-  gap: 16px;
-  @media only screen and (min-width: 1025px) {
-      padding-top: 32px;
-  }
-
-}
 .heroSection__side {
   width: 100%;
 
@@ -135,7 +126,7 @@
   }
   
   .uspTitle {
-    color: var(--blue);
+    color: var(--orange);
     margin-bottom: 0.5rem;
     font-size: 1.25rem;
   }

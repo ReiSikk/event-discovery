@@ -32,11 +32,12 @@
 .header {
     width: 100%;
     justify-content: flex-end;
-    border-bottom: 1px solid var(--blue);
+    border-bottom: 1px solid var(--orange);
     position: sticky;
     top: 0;
     padding-block: 12px;
     padding-inline: 16px;
+    z-index: 10;
     @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
       padding-block: 1.111vw;
       padding-inline: 2.222vw;
@@ -68,6 +69,8 @@
 
 }
 .siteNavList__link {
+  font-family: var(--font-headings);
+  font-weight: 500;
 
 }
 .siteNav__btn {
@@ -77,8 +80,8 @@
     padding-block: 10px 9px;
     padding-inline: 18px;
     flex-shrink: 0;
-    border: 1px solid var(--blue);
-    background: var(--blue);
+    border: 1px solid var(--orange);
+    background: var(--orange);
     color: var(--background);
     border-radius: 200px;
     gap: 6px;
@@ -86,8 +89,8 @@
 
     &:hover {
         background: var(--background);
-        border: 1px solid var(--blue);
-        color: var(--blue);
+        border: 1px solid var(--orange);
+        color: var(--orange);
     }
 
 }

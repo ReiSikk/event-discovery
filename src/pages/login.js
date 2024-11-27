@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { createClient } from '@/utils/supabase/component'
-import SignupForm from '@/components/LoginForm'
+import LoginForm from '@/components/LoginForm'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -18,7 +18,7 @@ export default function LoginPage() {
 
   return (
     <section className='loginForm__section container'>
-      <SignupForm logIn={logIn} />
+      <LoginForm login={logIn}/>
     </section>
   )
 }

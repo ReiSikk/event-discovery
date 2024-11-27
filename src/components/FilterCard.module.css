@@ -1,6 +1,6 @@
 .filterCard {
     padding: 8px 16px;
-    border: 1px solid var(--blue);
+    border: 1px solid var(--orange);
     border-radius: 8px;
     display: flex;
     flex-direction: column;

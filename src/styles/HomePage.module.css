@@ -10,11 +10,10 @@
   .header__title {
     font-size: 3.5rem;
     margin-bottom: 3rem;
-    color: var(--black);
   }
   
   .highlight {
-    background: linear-gradient(120deg, var(--blue) 0%, var(--lightblue) 100%);
+    background: linear-gradient(120deg, var(--orange) 0%, var(--pink) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
@@ -28,7 +27,7 @@
   
   .card {
     background: var(--background);
-    color: var(--blue);
+    color: var(--orange);
     padding: 2rem;
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
@@ -49,7 +48,7 @@
     left: 0;
     right: 0;
     height: 4px;
-    background: var(--blue);
+    background: var(--orange);
     transform: scaleX(0);
     transition: transform 0.3s ease;
   }
@@ -73,20 +72,21 @@
     align-items: center;
     justify-content: center;
     gap: 6px;
-    border: 1px solid var(--blue);
+    border: 1px solid var(--orange);
     transition: background 0.3s ease-in-out;
     background: var(--background);
-    color: var(--blue);
-
-
+    color: var(--orange);
+    font-family: var(--font-headings);
+    font-weight: 500;
+    
     &:hover {
-        background: var(--blue);
+        background: var(--orange);
         color: var(--background);
     }
 } 
   
   .secondaryButton {
-    background: var(--blue);;
+    background: var(--orange);;
     color: var(--white);
   }
   
@@ -122,12 +122,12 @@
   }
 
   .previewContent__card {
-    border: 1px solid var(--blue);
+    border: 1px solid var(--orange);
     width: 12.8472vw;
     height: 18.0664vh;
     padding-inline: 16px;
     padding-block: 16px 24px;
-    color: var(--blue);
+    color: var(--orange);
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;

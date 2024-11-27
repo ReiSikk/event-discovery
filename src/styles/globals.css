@@ -1,13 +1,17 @@
 :root {
 
+    /* Font families */
+    --font-body: 'Quicksand-Medium', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-headings: 'GeneralSans-Medium', -apple-system, BlinkMacSystemFont, sans-serif;
+
   /* CSS HEX */
   /* --background: #fcf6ecff;
-  --blue: #283cffff; */
+  --orange: #283cffff; */
   --background: #381026;
-  --blue: #FF5745;
-  --lightblue: #99b2f2ff;
+  --orange: #FF5745;
+  --pink: #EF92B8;
   --black: #1A1A1A;
-  --white: #ffffff;
+  --white: #f4e0d9;
 
   /*  Grid  */
   --container-width: 100%;
@@ -38,10 +42,10 @@ body {
 }
 
 body {
-  color: var(--blue);
+  color: var(--orange);
   background: var(--background);
   font-size: clamp(1.4rem, 2vw, 1.6rem);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -60,25 +64,30 @@ a {
 h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
 	margin-top: 0;
 	margin-bottom: 1rem;
-  font-weight: 600;
-  line-height: 1.4;
+  font-weight: 500;
+  line-height: normal;
   font-style: normal;
+  font-family: var(--font-headings);
 }
 h1, .h1 {
     font-size: clamp(2.8rem, 2.9166vw, 4.2rem);
+    font-weight: 600;
 
 }
 h2, .h2 {
     font-size: clamp(2.6rem, 2.4305vw, 3.5rem);
+    font-weight: 600;
 }
 
 
 h3, .h3 {
     font-size: clamp(2.4rem, 1.9444vw, 2.8rem);
+    font-weight: 600;
     
 }
 h4, .h4 {
     font-size: clamp(1.8rem, 1.5277vw, 2.2rem);
+    font-weight: 500;
 }
 
 .txt-small {
@@ -248,13 +257,15 @@ h4, .h4 {
     align-items: center;
     justify-content: center;
     gap: 6px;
-    border: 1px solid var(--blue);
+    border: 1px solid var(--orange);
     background: var(--background);
-    color: var(--blue);
+    color: var(--orange);
+    font-family: var(--font-headings);
+    font-weight: 500;
     transition: background 0.3s ease-in-out;
 
     &:hover {
-        background: var(--blue);
+        background: var(--orange);
         color: var(--background);
     }
 } 
@@ -284,3 +295,65 @@ h4, .h4 {
   .googleBtn {
     margin-inline: auto;
   }
+
+
+
+
+  /*
+     FONTS
+     ========================================================================== */
+
+     /**
+      * @license
+      *
+      * Font Family: Quicksand
+      * Designed by: Andrew Paglinawan
+      * URL: https://www.fontshare.com/fonts/quicksand
+      * Â© 2024 Indian Type Foundry
+      *
+      * Quicksand Medium 
+
+      *
+      */
+
+  @font-face {
+    font-family: 'Quicksand-Medium';
+    src: url('../../public/assets/fonts/Quicksand-Medium.woff2') format('woff2'),
+         url('../../public/assets/fonts/Quicksand-Medium.woff') format('woff');
+    font-weight: 500;
+    font-display: swap;
+    font-style: normal;
+  }
+
+
+/**
+* @license
+*
+* Font Family: General Sans
+* Designed by: Frode Helland
+* URL: https://www.fontshare.com/fonts/general-sans
+* © 2024 Indian Type Foundry
+*
+* General Sans Variable (Variable font)
+
+*
+*/
+/**
+* This is a variable font
+* You can control variable axes as shown below:
+* font-variation-settings: wght 700.0;
+*
+* available axes:
+'wght' (range from 200.0 to 700.0
+*/
+@font-face {
+  font-family: 'GeneralSans-Variable';
+  src: url('../../public/assets/fonts/GeneralSans-Variable.woff2') format('woff2'),
+       url('../../public/assets/fonts/GeneralSans-Variable.woff') format('woff');
+  font-weight: 200 700;
+  font-display: swap;
+  font-style: normal;
+}
+
+  
+  
