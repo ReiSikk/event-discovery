@@ -12,25 +12,7 @@ function SiteNav() {
         <Link href="/">
             <h1 className={styles.siteNav__logo}>Leia</h1>
         </Link>
-      <ul className={styles.siteSiteNavList}>
         <SiteNavMenu />
-        <li className={styles.siteNavList__item}>
-          <Link href="/create" className={`${styles.siteNavList__link} ${styles.siteNav__btn}`}>
-            Create Events
-            <ArrowTopRightIcon />
-          </Link>
-        </li>
-        <li className={styles.nav__item}>
-          <Link href="/login" className={styles.siteNavList__link}>
-            Log In
-          </Link>
-        </li>
-        <li className={styles.nav__item}>
-          <Link href="/signup" className={styles.siteNavList__link}>
-            Sign Up
-          </Link>
-        </li>
-      </ul>
     </nav>
   </header>
   )

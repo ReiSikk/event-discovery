@@ -72,9 +72,9 @@ const SiteNavMenu = () => {
 							</ListItem>
 							<ListItem
 							className={styles.ListItem}
-							 title="Styling" 
+							 title="Not sure where to start?" 
 							 href="/faq">
-								Not sure which events/activites are allowed? Check out our FAQ.
+								Check out our FAQ.
 							</ListItem>
 						</ul>
 					</NavigationMenu.Content>
