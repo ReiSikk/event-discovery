@@ -1,6 +1,25 @@
-.mainContainer {
-  background: var(--white);
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  margin-inline: auto;
+  max-width: var(--container-width);
+  width: 100%;
+  position: relative;
+  padding-inline: 16px;
+
+  @media only screen and (max-width: 767px) {
+    padding-inline: 4.1025vw;
   }
+
+  @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+    padding-inline: 1.6666vw;
+  }
+
+  &.block {
+    display: block;
+  }
+}
   
   .heroSection {
     padding: 4rem 2rem;
@@ -18,43 +37,11 @@
     -webkit-text-fill-color: transparent;
   }
   
-  .actionCards {
+  .filterCards {
     display: flex;
+    width: 100%;
     gap: 2rem;
-    justify-content: center;
     margin: 2rem auto;
-  }
-  
-  .card {
-    background: var(--background);
-    color: var(--orange);
-    padding: 2rem;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-    width: 300px;
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-  }
-  
-  .card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: var(--orange);
-    transform: scaleX(0);
-    transition: transform 0.3s ease;
-  }
-    
-  .activeCard::before {
-    transform: scaleX(1);
   }
   
   .firstButton, .secondaryButton, .tertiaryButton {
@@ -78,95 +65,119 @@
     color: var(--orange);
     font-family: var(--font-headings);
     font-weight: 500;
-    
+    cursor: pointer;
+
     &:hover {
         background: var(--orange);
         color: var(--background);
     }
-} 
-  
-  .secondaryButton {
-    background: var(--orange);;
-    color: var(--white);
-  }
-  
-  .tertiaryButton {
+}
+
+
+/*
+   Content Section
+   ========================================================================== */
+
+  .mainContainer {
+    background: var(--background);
+    display: block;
 
   }
-  
-  .dynamicSection {
-    height: 300px;
-    overflow: hidden;
-    transition: all 0.3s ease;
-  }
-  
-  .contentWrapper {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
-  }
-  
-  .previewContent {
-    animation: fadeIn 0.3s ease;
-  }
-
-  .previewContentList {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 10px;
-    @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
-      gap: 0.8333vw;
-    }
-    
-  }
-
-  .previewContent__card {
-    border: 1px solid var(--orange);
-    width: 12.8472vw;
-    height: 18.0664vh;
-    padding-inline: 16px;
-    padding-block: 16px 24px;
-    color: var(--orange);
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-  }
-  
-  .featuredSection {
-    max-width: 1200px;
-    margin: 4rem auto;
-    padding: 0 2rem;
-  }
-  
-  .sectionHeader {
+  .mainContainer__header {
+    width: 100%;
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
+
   }
-  
-  .viewAllButton {
-    padding: 0.5rem 1rem;
-    border: none;
-    background: transparent;
-    color: #ff6b6b;
-    font-weight: 600;
-    cursor: pointer;
+  .content {
+    display: flex;
+    align-items: stretch;
+    flex-direction: column;
+    @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+      flex-direction: row;
+    }
+
+
   }
-  
-  .eventGrid {
+  .content_sidebar {
+    width: 25%;
+    padding-right: 32px;
+
+  }
+  .sidebar__title {
+
+  }
+  .sidebar__filters {
+
+  }
+  .sidebarList {
+    list-style-type: none;
+
+  }
+  .sidebar__filter {
+    padding-block: 5px;
+    width: fit-content;
+    background: var(--orange);
+    color: var(--white);
+    min-width: fit-content;
+
+    &:hover {
+      background: var(--background);
+      color: var(--orange);
+    }
+
+  }
+  .content_main {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+
+  }
+  .mapBtn {
+    margin-left: auto;
+    margin-bottom: 24px;
+  }
+  .eventsList {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+    
+    @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+      gap: 1.666vw;
+    }
+
   }
-  
+  .eventsCard {
+    background: var(--white);
+    color: var(--orange);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--bradius);
+
+  }
+  .eventsCard_media {
+    height: 200px;
+    border: 1px solid var(--orange);
+    width: 100%;
+
+  }
+  .eventsCard__label {
+
+  }
+  .eventsCard__inner {
+
+  }
+  .eventsCard__title {
+
+  }
+  .eventsCard__description {
+
+  }
+  .eventsCard__link {
+
+  }
+
   @keyframes fadeIn {
     from {
       opacity: 0;

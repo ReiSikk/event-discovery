@@ -3,6 +3,8 @@ import { Calendar, Users, Sparkles, TvIcon, Plus } from 'lucide-react';
 import styles from "@/styles/HomePage.module.css";
 import CategoriesList from '@/components/CategoriesList';
 import FilterCard from '@/components/FilterCard';
+import classNames from 'classnames';
+import Link from 'next/link';
 
 export async function getServerSideProps() {
   const url = process.env.NEXT_PUBLIC_CMS_URL + 'home?populate=*'
@@ -54,7 +56,7 @@ const HomePage = ({ pageData, error }) => {
       <p className={styles.header__text}>
         {pageData.lead}
       </p>
-      <ul className={styles.actionCards}>
+      <ul className={styles.filterCards}>
       {filters.map((filter) => (
           <FilterCard
             key={filter.id}
@@ -65,100 +67,77 @@ const HomePage = ({ pageData, error }) => {
           />
         ))}
       </ul>
-      {/* <ul className={styles.actionCards}>
-        {pageData.headerSlider.map((card) => (
-            <li
-            key={card.id} 
-            className={`${styles.card} ${activeCard === card.id ? styles.activeCard : ''}`}
-            onMouseEnter={() => setActiveCard(card.id)}
-            onMouseLeave={() => setActiveCard(null)}
-          >
-            <Calendar size={32} />
-            <h2>{card.title}</h2>
-            <p className={styles.actionCard__text}>{card.text}</p>
-            <button className={`${styles.firstButton} ${styles.btn__primary}`}>{card.link}</button>
-          </li>
-        ))}
-      </ul> */}
     </header>
-    <main className={styles.mainContainer}>
+    <main className={classNames(styles.mainContainer, styles.container)}>
+        <div className={styles.mainContainer__header}>
+            <h2 className={styles.sidebar__title}>Browsing events in "location here"</h2>
+            <button className={classNames(styles.btn__primary, styles.mapBtn)}>View on the map</button>
+        </div>
+      <section className={styles.content}>
+        <div className={styles.content_sidebar}>
+          <div className={styles.sidebar__filters}>
+            <ul className={styles.sidebarList}>
+              <li className={classNames(styles.btn__primary, styles.sidebar__filter)}>
+                Filter
+              </li>
 
-      {/* <CategoriesList /> */}
-
-      <section className={styles.dynamicSection}>
-        <div className={styles.contentWrapper}>
-          {activeCard === 'browse' && (
-            <div className={styles.previewContent}>
-              <h3>Trending Events</h3>
-              {/* //TODO REMOVE TEMP!!! */}
-              <ul className={styles.previewContentList}>
-                <li className={styles.previewContent__card}>
-                    <TvIcon />
-                    <span className="txt_small"></span>
-                </li>
-                <li className={styles.previewContent__card}>
-                    <TvIcon />
-                    <span className="txt_small"></span>
-                </li>
-                <li className={styles.previewContent__card}>
-                    <TvIcon />
-                    <span className="txt_small"></span>
-                </li>
-                <li className={styles.previewContent__card}>
-                    <TvIcon />
-                    <span className="txt_small"></span>
-                </li>
-                <li className={styles.previewContent__card}>
-                    <TvIcon />
-                    <span className="txt_small"></span>
-                </li>
-              </ul>
-            </div>
-          )}
-          
-          {activeCard === 'create' && (
-            <div className={styles.previewContent}>
-              <h3>Event Creation Tools</h3>
-              <ul className={styles.previewContentList}>
-                <li className={styles.previewContent__card}>
-                    <TvIcon />
-                    <span className="txt_small"></span>
-                </li>
-                <li className={styles.previewContent__card}>
-                    <TvIcon />
-                    <span className="txt_small"></span>
-                </li>
-                <li className={styles.previewContent__card}>
-                    <TvIcon />
-                    <span className="txt_small"></span>
-                </li>
-              </ul>
-            </div>
-          )}
-          
-          {activeCard === 'organizer' && (
-            <div className={styles.previewContent}>
-              <h3>Organizer Benefits</h3>
-              <ul className={styles.previewContentList}>
-                <li className={styles.previewContent__card}>
-                    <TvIcon />
-                    <span className="txt_small"></span>
-                </li>
-                <li className={styles.previewContent__card}>
-                    <TvIcon />
-                    <span className="txt_small"></span>
-                </li>
-                <li className={styles.previewContent__card}>
-                    <TvIcon />
-                    <span className="txt_small"></span>
-                </li>
-                <li className={styles.previewContent__card}>
-                    <TvIcon />
-                    <span className="txt_small"></span>
-                </li>
-              </ul>
-            </div>
-          )}
+            </ul>
+          </div>
+        </div>{/* content_sidebar */}
+        <div className={styles.content_main}>
+          <ul className={styles.eventsList}>
+            <li className={styles.eventsCard}>
+              <div className={styles.eventsCard_media}>
+                <img src="/images/event.jpg" alt="Event" width={300} height={200} />
+                <span className={styles.eventsCard__label}>Label</span>
+              </div>
+              <div className={styles.eventsCard__inner}>
+                <h4 className={styles.eventsCard__title}>
+                  Event title
+                </h4>
+                <p className={styles.eventsCard__description}>
+                  Event description
+                </p>
+                <Link href="/event" className={styles.eventsCard__link}>
+                  Read more
+                </Link>
+              </div>
+            </li>
+            <li className={styles.eventsCard}>
+              <div className={styles.eventsCard_media}>
+                <img src="/images/event.jpg" alt="Event" width={300} height={200} />
+                <span className={styles.eventsCard__label}>Label</span>
+              </div>
+              <div className={styles.eventsCard__inner}>
+                <h4 className={styles.eventsCard__title}>
+                  Event title
+                </h4>
+                <p className={styles.eventsCard__description}>
+                  Event description
+                </p>
+                <Link href="/event" className={styles.eventsCard__link}>
+                  Read more
+                </Link>
+              </div>
+            </li>
+            <li className={styles.eventsCard}>
+              <div className={styles.eventsCard_media}>
+                <img src="/images/event.jpg" alt="Event" width={300} height={200} />
+                <span className={styles.eventsCard__label}>Label</span>
+              </div>
+              <div className={styles.eventsCard__inner}>
+                <h4 className={styles.eventsCard__title}>
+                  Event title
+                </h4>
+                <p className={styles.eventsCard__description}>
+                  Event description
+                </p>
+                <Link href="/event" className={styles.eventsCard__link}>
+                  Read more
+                </Link>
+              </div>
+            </li>
+          </ul>
         </div>
       </section>
     </main>
