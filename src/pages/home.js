@@ -1,12 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { Calendar, Users, Sparkles, TvIcon, Plus } from 'lucide-react';
+import { Calendar, Users, Sparkles, TvIcon, Plus, LocateIcon } from 'lucide-react';
 import styles from "@/styles/HomePage.module.css";
 import CategoriesList from '@/components/CategoriesList';
 import FilterCard from '@/components/FilterCard';
 import classNames from 'classnames';
 import Link from 'next/link';
+import { createClient } from '@/utils/supabase/component'
 
 export async function getServerSideProps() {
+  const supabase = createClient()
+
+  let { data: events, error } = await supabase
+  .from('events')
+  .select('*')
+
+
   const url = process.env.NEXT_PUBLIC_CMS_URL + 'home?populate=*'
   try {
     const res = await fetch(url);
@@ -18,6 +26,7 @@ export async function getServerSideProps() {
     return {
       props: {
         pageData: json.data || null,
+        events: events || [],
       },
     };
   } catch (error) {
@@ -32,7 +41,7 @@ export async function getServerSideProps() {
 }
 
 
-const HomePage = ({ pageData, error }) => {
+const HomePage = ({ pageData, error, events }) => {
   const [activeCard, setActiveCard] = useState(null);
   const [activeFilterId, setActiveFilterId] = useState(null);
 
@@ -86,57 +95,32 @@ const HomePage = ({ pageData, error }) => {
         </div>{/* content_sidebar */}
         <div className={styles.content_main}>
           <ul className={styles.eventsList}>
-            <li className={styles.eventsCard}>
-              <div className={styles.eventsCard_media}>
-                <img src="/images/event.jpg" alt="Event" width={300} height={200} />
-                <span className={styles.eventsCard__label}>Label</span>
-              </div>
-              <div className={styles.eventsCard__inner}>
-                <h4 className={styles.eventsCard__title}>
-                  Event title
-                </h4>
-                <p className={styles.eventsCard__description}>
-                  Event description
-                </p>
-                <Link href="/event" className={styles.eventsCard__link}>
-                  Read more
-                </Link>
-              </div>
-            </li>
-            <li className={styles.eventsCard}>
-              <div className={styles.eventsCard_media}>
-                <img src="/images/event.jpg" alt="Event" width={300} height={200} />
-                <span className={styles.eventsCard__label}>Label</span>
-              </div>
-              <div className={styles.eventsCard__inner}>
-                <h4 className={styles.eventsCard__title}>
-                  Event title
-                </h4>
-                <p className={styles.eventsCard__description}>
-                  Event description
-                </p>
-                <Link href="/event" className={styles.eventsCard__link}>
-                  Read more
-                </Link>
-              </div>
-            </li>
-            <li className={styles.eventsCard}>
-              <div className={styles.eventsCard_media}>
-                <img src="/images/event.jpg" alt="Event" width={300} height={200} />
-                <span className={styles.eventsCard__label}>Label</span>
-              </div>
-              <div className={styles.eventsCard__inner}>
-                <h4 className={styles.eventsCard__title}>
-                  Event title
-                </h4>
-                <p className={styles.eventsCard__description}>
-                  Event description
-                </p>
-                <Link href="/event" className={styles.eventsCard__link}>
-                  Read more
-                </Link>
-              </div>
-            </li>
+          {events && events.map((event) => (
+              <li 
+              key={event.id}
+              className={styles.eventsCard}
+              >
+                <div className={styles.eventsCard_media}>
+                  <img src="/images/event.jpg" alt="Event" width={300} height={200} />
+                  <span className={styles.eventsCard__label}>Label</span>
+                </div>
+                <div className={styles.eventsCard__inner}>
+                  <h4 className={styles.eventsCard__title}>
+                    {event.title}
+                  </h4>
+                  <p className={styles.eventsCard__description}>
+                    {event.description}
+                  </p>
+                  <p className={styles.eventsCard__location}>
+                    <LocateIcon size={16} />
+                    {event.location}
+                  </p>
+                  <Link href={event.ticket_link ? event.ticket_link : "#"} className={classNames(styles.eventsCard__link, styles.btn__primary)}>
+                    Read more
+                  </Link>
+                </div>
+              </li>
+          ))}
           </ul>
         </div>
       </section>

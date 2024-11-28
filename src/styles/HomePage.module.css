@@ -87,6 +87,9 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
+    padding-bottom: 1.666vw;
+    margin-bottom: 2.222vw;
+    border-bottom: 1px solid var(--orange);
 
   }
   .content {
@@ -135,7 +138,6 @@
   }
   .mapBtn {
     margin-left: auto;
-    margin-bottom: 24px;
   }
   .eventsList {
     display: grid;
@@ -169,12 +171,19 @@
 
   }
   .eventsCard__title {
+    margin-block: 12px;
 
   }
   .eventsCard__description {
 
   }
+  .eventsCard__location {
+    
+  }
   .eventsCard__link {
+    width: 100%;
+    border: none;
+    margin-top: 16px;
 
   }
 
