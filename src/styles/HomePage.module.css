@@ -105,6 +105,11 @@
   .content_sidebar {
     width: 25%;
     padding-right: 32px;
+    padding-inline: 16px;
+    padding-block: 32px 10px;
+    margin-right: 16px;
+    border-radius: 8px;
+    background: var(--bg-dark);
 
   }
   .sidebar__title {
