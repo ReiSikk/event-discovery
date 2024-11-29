@@ -2,7 +2,8 @@ import React, {useState} from 'react'
 import { Plus } from 'lucide-react'
 import styles from './FilterCard.module.css'
 
-function FilterCard({ filter, children }) {
+function FilterCard({ filter, children, categories }) {
+  console.log(categories, "categories in filtercard")
   const [isExpanded, setIsExpanded] = useState(false);
 
   const toggleAccordion = () => {
@@ -22,7 +23,15 @@ function FilterCard({ filter, children }) {
       <div 
         className={`${styles.filterCard__inner} ${isExpanded ? styles.expanded : ''}`}
       >
-        {children}
+        {categories && 
+          <div className={styles.filterSelect}>
+            {categories.map((category) => (
+              <div key={category.id} className={styles.filterSelect__item}>
+                {category.name}
+              </div>
+            ))}
+          </div>
+        }
       </div>
     </div>
   )

@@ -32,7 +32,7 @@
   }
   
   .highlight {
-    background: linear-gradient(120deg, var(--orange) 0%, var(--pink) 100%);
+    background: linear-gradient(120deg, var(--primary) 0%, var(--pink) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
@@ -59,17 +59,17 @@
     align-items: center;
     justify-content: center;
     gap: 6px;
-    border: 1px solid var(--orange);
+    border: 1px solid var(--primary);
     transition: background 0.3s ease-in-out;
-    background: var(--background);
-    color: var(--orange);
+    background: var(--bg);
+    color: var(--primary);
     font-family: var(--font-headings);
     font-weight: 500;
     cursor: pointer;
 
     &:hover {
-        background: var(--orange);
-        color: var(--background);
+        background: var(--primary);
+        color: var(--bg);
     }
 }
 
@@ -79,7 +79,7 @@
    ========================================================================== */
 
   .mainContainer {
-    background: var(--background);
+    background: var(--bg);
     display: block;
 
   }
@@ -89,7 +89,7 @@
     justify-content: space-between;
     padding-bottom: 1.666vw;
     margin-bottom: 2.222vw;
-    border-bottom: 1px solid var(--orange);
+    border-bottom: 1px solid var(--primary);
 
   }
   .content {
@@ -120,13 +120,14 @@
   .sidebar__filter {
     padding-block: 5px;
     width: fit-content;
-    background: var(--orange);
+    background: var(--bg-dark);
+    border: 1px solid var(--primary);
     color: var(--white);
     min-width: fit-content;
 
     &:hover {
-      background: var(--background);
-      color: var(--orange);
+      background: var(--primary);
+      color: var(--bg);
     }
 
   }
@@ -137,6 +138,7 @@
 
   }
   .mapBtn {
+    background: var(--bg-dark);
     margin-left: auto;
   }
   .eventsList {
@@ -150,17 +152,16 @@
 
   }
   .eventsCard {
-    background: var(--white);
-    color: var(--orange);
+    background: var(--bg-dark);
+    color: var(--primary);
     padding: 16px;
     display: flex;
     flex-direction: column;
     border-radius: var(--bradius);
-
   }
   .eventsCard_media {
     height: 200px;
-    border: 1px solid var(--orange);
+    border: 1px solid var(--primary);
     width: 100%;
 
   }
@@ -168,6 +169,8 @@
 
   }
   .eventsCard__inner {
+    display: flex;
+    flex-direction: column;
 
   }
   .eventsCard__title {
@@ -178,12 +181,12 @@
 
   }
   .eventsCard__location {
-    
+
   }
   .eventsCard__link {
     width: 100%;
     border: none;
-    margin-top: 16px;
+    margin-top: 24px;
 
   }
 

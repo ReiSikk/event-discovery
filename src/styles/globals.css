@@ -5,10 +5,14 @@
     --font-headings: 'GeneralSans-Medium', -apple-system, BlinkMacSystemFont, sans-serif;
 
   /* CSS HEX */
-  /* --background: #fcf6ecff;
-  --orange: #283cffff; */
-  --background: #381026;
-  --orange: #FF5745;
+  /* --bg: #fcf6ecff;
+  --primary: #283cffff; */
+  /* --bg: #381026; */
+  --bg: #000F0A;
+  --bg-dark: #0D1B16;
+  /* --primary: #FF5745; */
+  --primary: #7DFFAF;
+  --secondary: #02F559;
   --pink: #EF92B8;
   --black: #1A1A1A;
   --white: #f4e0d9;
@@ -42,8 +46,8 @@ body {
 }
 
 body {
-  color: var(--orange);
-  background: var(--background);
+  color: var(--primary);
+  background: var(--bg);
   font-size: clamp(1.4rem, 2vw, 1.6rem);
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
@@ -257,16 +261,16 @@ h4, .h4 {
     align-items: center;
     justify-content: center;
     gap: 6px;
-    border: 1px solid var(--orange);
-    background: var(--background);
-    color: var(--orange);
+    border: 1px solid var(--primary);
+    background: var(--bg);
+    color: var(--primary);
     font-family: var(--font-headings);
     font-weight: 500;
     transition: background 0.3s ease-in-out;
 
     &:hover {
-        background: var(--orange);
-        color: var(--background);
+        background: var(--primary);
+        color: var(--bg);
     }
 } 
 

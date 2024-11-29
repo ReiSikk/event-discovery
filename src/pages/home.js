@@ -9,10 +9,25 @@ import { createClient } from '@/utils/supabase/component'
 
 export async function getServerSideProps() {
   const supabase = createClient()
-
+  const userLocation = await fetch(`https://api.ipregistry.co/?key=${process.env.NEXT_PUBLIC_IPREGISTRY_API_KEY}`)
+  .then((res) => {
+    return res.json();
+  }) 
+  .catch((error) => {
+    console.error('Error fetching user location:', error);
+    return null;
+  });
+  
   let { data: events, error } = await supabase
   .from('events')
   .select('*')
+
+
+let { data: categories, categoriesError } = await supabase
+.from('categories')
+.select('*')
+
+
 
 
   const url = process.env.NEXT_PUBLIC_CMS_URL + 'home?populate=*'
@@ -27,6 +42,8 @@ export async function getServerSideProps() {
       props: {
         pageData: json.data || null,
         events: events || [],
+        categories: categories || [],
+        location: userLocation.location || null,
       },
     };
   } catch (error) {
@@ -41,12 +58,11 @@ export async function getServerSideProps() {
 }
 
 
-const HomePage = ({ pageData, error, events }) => {
+const HomePage = ({ pageData, error, events, categories, location }) => {
   const [activeCard, setActiveCard] = useState(null);
   const [activeFilterId, setActiveFilterId] = useState(null);
 
   const toggleFilter = (filterId) => {
-    console.log("toggle called");
     setActiveFilterId(activeFilterId === filterId ? null : filterId);
   };
 
@@ -73,13 +89,16 @@ const HomePage = ({ pageData, error, events }) => {
             isActive={activeFilterId === filter.id}
             onClick={toggleFilter}
             filter={filter.text}
+            {...(filter.text === "Select categories" ? { categories } : {})}
           />
         ))}
       </ul>
     </header>
     <main className={classNames(styles.mainContainer, styles.container)}>
         <div className={styles.mainContainer__header}>
-            <h2 className={styles.sidebar__title}>Browsing events in "location here"</h2>
+        <h2 className={styles.sidebar__title}>
+          Browsing events in {location ? `${location.city}, ${location.country.code}` : 'your area'}
+        </h2>
             <button className={classNames(styles.btn__primary, styles.mapBtn)}>View on the map</button>
         </div>
       <section className={styles.content}>
