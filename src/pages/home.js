@@ -160,8 +160,14 @@ const HomePage = ({ pageData, events, categories, location }) => {
                     <LocateIcon size={16} />
                     {event.location}
                   </p>
-                  <Link href={event.ticket_link ? event.ticket_link : "#"} className={classNames(styles.eventsCard__link, styles.btn__primary)}>
+                  <Link 
+                   href={`/event/${event.id}`}
+                  className={classNames(styles.eventsCard__link, styles.btn__primary)}
+                  >
                     Read more
+                  </Link>
+                  <Link href={event.ticket_link ? event.ticket_link : "#"} className={classNames(styles.eventsCard__link, styles.btn__primary)}>
+                    Get tickets
                   </Link>
                 </div>
               </li>

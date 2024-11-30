@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styles from './FilterCard.module.css';
-import { CheckIcon, PlusIcon } from 'lucide-react';
+import { CheckIcon, ChevronDownIcon, PlusIcon } from 'lucide-react';
 
 function FilterCard({ filter, filterState, onCategorySelect, categories }) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -17,6 +17,7 @@ function FilterCard({ filter, filterState, onCategorySelect, categories }) {
         aria-expanded={isExpanded}
       >
         <span>{filter.text}</span>
+        <ChevronDownIcon size={24} />
       </div>
       <div 
         className={`${styles.filterCard__inner} ${

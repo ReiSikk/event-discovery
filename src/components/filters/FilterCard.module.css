@@ -63,7 +63,23 @@
   }
 
 .filterCard__button {
-    width: fit-content;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    &::before {
+        content: " ";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+}
+.filterCard__button svg {
+    transition: transform 0.3s ease-out;
+}
+.filterCard__button[aria-expanded="true"] svg {
+    transform: rotate(180deg);
 }
 
 .expanded {
@@ -96,6 +112,7 @@
     transition: all 0.2s ease;
     display: flex;
     justify-content: space-between;
+    align-items: center;
 
     &:hover {
         border: 1px solid var(--primary);

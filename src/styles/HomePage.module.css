@@ -103,13 +103,16 @@
 
   }
   .content_sidebar {
-    width: 25%;
-    padding-right: 32px;
-    padding-inline: 16px;
-    padding-block: 32px 10px;
-    margin-right: 16px;
+    padding: 16px;
     border-radius: 8px;
     background: var(--bg-dark);
+    
+    @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+      margin-right: 16px;
+      width: 25%;
+      padding-inline: 1.111vw;
+      padding-block: 1.666vw 0.6944vw;
+    }
 
   }
   .sidebar__title {
@@ -121,9 +124,10 @@
   .sidebarList {
     list-style-type: none;
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     gap: 12px;
     @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+      flex-direction: column;
       gap: 0.8333vw;        
     }
 
@@ -154,7 +158,7 @@
   }
   .eventsList {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 16px;
     
     @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
