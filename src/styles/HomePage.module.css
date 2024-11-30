@@ -110,8 +110,7 @@
     @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
       margin-right: 16px;
       width: 25%;
-      padding-inline: 1.111vw;
-      padding-block: 1.666vw 0.6944vw;
+      padding: 1.111vw;
     }
 
   }
@@ -196,12 +195,26 @@
 
   }
   .eventsCard__location {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+    @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+      margin-top: 0.833vw;
+    }
 
   }
   .eventsCard__link {
     width: 100%;
     border: none;
-    margin-top: 24px;
+
+    &:first-of-type {
+      margin-top: 24px;
+    }
+
+    &:last-of-type {
+      margin-top: 8px;
+    }
 
   }
 
