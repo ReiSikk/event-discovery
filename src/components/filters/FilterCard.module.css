@@ -19,23 +19,13 @@
 
 }
 .button {
-    margin-left: auto;
 }
 
-/* .filterCard__inner {
-    height: 0;
-    opacity: 0;
-    overflow: hidden;
-    transition: height 0.3s ease, opacity 0.3s ease;
-    margin-top: 16px;
-    @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
-        margin-top: 1.666vw;
-    }
-} */
 
 .filterCard__inner {
     height: 0;
     opacity: 0;
+    display: none;
     overflow: hidden;
     transition: height 0.3s ease, opacity 0.3s ease;
     background: var(--bg-dark);
@@ -69,11 +59,11 @@
     height: auto;
     overflow: auto;
     opacity: 1;
+    display: block;
   }
 
 .filterCard__button {
     width: fit-content;
-    margin-left: auto;
 }
 
 .expanded {
@@ -104,9 +94,19 @@
     border: 1px solid transparent;
     border-radius: 8px;
     transition: all 0.2s ease;
+    display: flex;
+    justify-content: space-between;
 
     &:hover {
         border: 1px solid var(--primary);
         background: var(--bg);
     }
+}
+.filterSelect__item > svg {
+    opacity: 0;
+    transition: all 0.2s ease;
+}
+
+.filterSelect__item.active > svg {
+    opacity: 1;
 }
