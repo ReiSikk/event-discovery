@@ -6,7 +6,7 @@ import Link from 'next/link'
 import Script from 'next/script'
 import GoogleSignInButton from './GoogleSignInButton'
 
-export default function Login() {
+export default function LoginForm() {
   const router = useRouter()
   const supabase = createClient()
 

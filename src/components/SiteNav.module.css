@@ -32,11 +32,12 @@
 .header {
     width: 100%;
     justify-content: flex-end;
-    border-bottom: 1px solid var(--blue);
+    border-bottom: 1px solid var(--primary);
     position: sticky;
     top: 0;
     padding-block: 12px;
     padding-inline: 16px;
+    z-index: 10;
     @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
       padding-block: 1.111vw;
       padding-inline: 2.222vw;
@@ -54,40 +55,5 @@
     text-transform: uppercase;
     cursor: pointer;
     margin-bottom: 0;
-
-}
-.siteSiteNavList {
-    display: flex;
-    flex-wrap: nowrap;
-    list-style-type: none;
-    align-items: center;
-    gap: 24px;
-
-}
-.siteNavList__item {
-
-}
-.siteNavList__link {
-
-}
-.siteNav__btn {
-    display: inline-flex;
-    align-items: center;
-    min-width: 125px;
-    padding-block: 10px 9px;
-    padding-inline: 18px;
-    flex-shrink: 0;
-    border: 1px solid var(--blue);
-    background: var(--blue);
-    color: var(--background);
-    border-radius: 200px;
-    gap: 6px;
-    transition: background 0.3s ease-in-out;
-
-    &:hover {
-        background: var(--background);
-        border: 1px solid var(--blue);
-        color: var(--blue);
-    }
 
 }
