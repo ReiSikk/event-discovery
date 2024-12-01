@@ -60,7 +60,7 @@
 
 }
 .eventHeader__img {
-    max-width: 100%;
+    width: 100%;
     height: auto;
     object-fit: cover;
     border-radius: var(--bradius);
@@ -89,7 +89,7 @@
     padding-inline: 16px;
     font-size: clamp(2.6rem, 2.4305vw, 3.5rem);
     font-weight: 600;
-    
+
     @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
       margin-bottom: 8px;
     }
@@ -118,3 +118,124 @@
     );
     z-index: -1;
   }
+
+
+  /*
+     Main Content section
+     ========================================================================== */
+
+.eventMain {
+  margin-bottom: 64px;
+  @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+    margin-bottom: 6.944vw;
+  }
+
+}
+.eventContent {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+.contentLeft {
+  padding-inline: 16px;
+  padding-block: 24px;
+  border-radius: var(--bradius);
+  background: var(--bg-dark);
+  width: 100%;
+  @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+    padding-inline: 3.333vw 1.111vw;
+    padding-block: 2.222vw;
+    width: 41.66%;
+  }
+
+}
+.contentLeft__lead {
+
+}
+.contentLeft__title {
+
+}
+.contentLeft__location {
+
+}
+.contentLeft__text {
+
+}
+.contentLeft__cost {
+
+}
+.contentRight {
+  padding-inline: 16px;
+  display: flex;
+  width: 100%;
+  @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+    padding-inline: 1.111vw 3.333vw;
+    flex-direction: column;
+    width: 58.33%;
+  }
+
+}
+.contentRight__top {
+  display: flex;
+  gap: 8px;
+}
+.contentRight__item {
+  background: var(--bg-dark);
+  border-radius: var(--bradius);
+  padding: 16px;
+  flex: 1;
+  @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+    padding-block: 1.111vw;
+    padding-inline: 1.666vw;
+  }
+
+}
+.contentRight__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+}
+.contentRight__subtitle {
+  margin-left: 32px;
+}
+.contentRight__text {
+  font-size: 1.2rem;
+  line-height: 1.35;
+  margin-left: 32px;
+  
+
+}
+.contentRight__link {
+  font-size: 1.2rem;
+  line-height: 1.35;
+  margin-left: 32px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+
+}
+.contentStats {
+
+}
+.contentStats__top {
+
+}
+.contentStats__title {
+
+}
+.contentStats__date {
+
+}
+.contentStats__bottom {
+
+}
+.contentStats__number {
+
+}
+.contentStats__lead {
+
+}
+.contentStats__text {
+
+}
+  

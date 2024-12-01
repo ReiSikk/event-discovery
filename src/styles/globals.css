@@ -50,6 +50,7 @@ body {
   background: var(--bg);
   font-size: clamp(1.4rem, 2vw, 1.6rem);
   font-family: var(--font-body);
+  overflow: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
