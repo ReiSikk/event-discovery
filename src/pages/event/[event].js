@@ -6,23 +6,33 @@ import placehold_image from '../../../public/assets/landing_place.webp'
 import Image from 'next/image'
 import { format } from 'date-fns';
 import { CalendarClock, MapPin } from 'lucide-react'
+import EventSwiper from '@/components/swipers/EventSwiper'
 
 
 export async function getServerSideProps({ params }) {
     const supabase = createClient()
     const eventId = params.event
-    console.log(eventId, "id of event")
     
     let { data: event, error } = await supabase
     .from('events')
     .select('*')
     .eq('id', eventId)
     .single()
+
+    // Related events
+    const { data: relatedEvents, error: relatedError } = await supabase
+    .from('events')
+    .select('*')
+    .eq('category', event.category)
+    .neq('id', eventId) // Exclude current
+    .limit(10)
+    .order('created_at', { ascending: false })
     
 
       return {
         props: {
-            event
+            event,
+            relatedEvents: relatedEvents || []
         },
       };
     } 
@@ -32,7 +42,7 @@ export async function getServerSideProps({ params }) {
       return format(new Date(timeString), 'HH:mm');
     };
 
-function EventPage ({ event }) {
+function EventPage ({ event, relatedEvents }) {
     console.log(event, "event")
 if (!event) return <div>Loading...</div>
 
@@ -41,7 +51,7 @@ if (!event) return <div>Loading...</div>
         <header className={styles.eventHeader}>
           <div className={classNames(styles.eventHeader__wrap, styles.container)}>
             <div className={styles.eventHeader__media}>
-              <Image src={placehold_image} alt={event.title} className={styles.eventHeader__img} />
+              <Image src={"https://placehold.co/1200x600/EEE/31343C"} width={1200} height={600} alt={event.title} className={styles.eventHeader__img} />
               <div className={styles.eventHeader__meta}>
                 <p className={styles.eventHeader__date}>December 12th, Thursday</p>
                 <p className={styles.eventHeader_time}>
@@ -92,6 +102,18 @@ if (!event) return <div>Loading...</div>
                 </div>
               </div>
             </section>
+            {relatedEvents?.length > 0 && (
+              <section className={styles.recommendedSection}>
+                <div className={styles.recommendedSection__wrap}>
+                  <h2 className={styles.recommendedSection__title}>
+                    Explore similar events
+                  </h2>
+                  <div className={styles.swiperWrap}>
+                    <EventSwiper relatedEvents={relatedEvents}/>
+                  </div>
+                </div>
+              </section>
+            )}
         </main>
     </>
   )
