@@ -1,0 +1,74 @@
+
+.btn__primary {
+    display: inline-flex;
+    min-width: 125px;
+    padding-block: 10px 9px;
+    padding-inline: 18px;
+    flex-shrink: 0;
+    border-radius: 200px;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border: 1px solid var(--primary);
+    transition: background 0.3s ease-in-out;
+    background: var(--bg);
+    color: var(--primary);
+    font-family: var(--font-headings);
+    font-weight: 500;
+    cursor: pointer;
+
+    &:hover {
+        background: var(--primary);
+        color: var(--bg);
+    }
+}
+
+.eventSwiper >  .swiper-button-prev, .swiper-button-next  {
+    color: var(--bg-dark)!important;
+  } 
+  
+  .eventSlide {
+    background: var(--bg-dark);
+    border-radius: var(--bradius);
+    padding: 16px;
+    height: 52.3168vh;
+    @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+        padding: 1.6666vw;
+        height: 61.9444vh;
+    }
+  }
+  .eventSlide__img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: var(--bradius);
+  }
+
+.eventSlide__main {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+        margin-top: 1.111vw;
+    }
+
+}
+.eventSlide__title {
+    margin-bottom: 8px;
+    @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+        margin-bottom: 0.555vw;
+    }
+
+}
+.eventSlide__text {
+
+}
+.eventsCard__link {
+    margin-top: 24px;
+
+    @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+        margin-top: 32px;
+        max-width: 20vw;
+        align-self: flex-end;
+    }
+}

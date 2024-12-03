@@ -8,6 +8,7 @@ const nextConfig = {
         hostname: 'placehold.co',
       },
     ],
+    dangerouslyAllowSVG: true,
   },
 };
 

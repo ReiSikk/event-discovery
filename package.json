@@ -15,11 +15,13 @@
     "@supabase/ssr": "^0.5.2",
     "@supabase/supabase-js": "^2.46.1",
     "classnames": "^2.5.1",
+    "date-fns": "^4.1.0",
     "lucide-react": "^0.460.0",
     "next": "15.0.3",
     "qs": "^6.13.1",
     "react": "19.0.0-rc-66855b96-20241106",
-    "react-dom": "19.0.0-rc-66855b96-20241106"
+    "react-dom": "19.0.0-rc-66855b96-20241106",
+    "swiper": "^11.1.15"
   },
   "devDependencies": {
     "eslint": "^8",
