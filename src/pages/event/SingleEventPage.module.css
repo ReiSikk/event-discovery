@@ -244,20 +244,34 @@
   padding-block: 24px;
   margin-top: 24px;
   border-radius: var(--bradius);
-
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  
   @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
     padding-inline: 3.333vw 1.111vw;
     padding-block: 2.222vw;
+    gap: 2.222vw;
   }
 
 }
-.contentStats__top {
+.contentStats__top,.contentStats__bottom {
+  padding-left: 16px;
+  border-left: 1px solid var(--primary);
+  @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+    padding-left: 2.222vw;
+  }
 
 }
-.contentStats__title {
+.contentStats__title, .contentStats__number {
+  font-size: clamp(2.6rem, 2.4305vw, 3.5rem);
+  font-weight: 600;
+  margin-bottom: 0px;
 
 }
 .contentStats__date {
+  font-size: 1.8rem;
+  line-height: 1.5;
 
 }
 .contentStats__bottom {
@@ -267,10 +281,16 @@
 
 }
 .contentStats__lead {
-
+  font-size: 1.8rem;
+  line-height: 1.5;
+  margin-bottom: 10px;
+  @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+    margin-bottom: 0.833vw;
+  }
 }
 .contentStats__text {
-
+  font-size: 1.2rem;
+  line-height: 1.35;
 }
   
 

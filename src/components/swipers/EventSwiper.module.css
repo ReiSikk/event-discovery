@@ -65,6 +65,7 @@
 }
 .eventsCard__link {
     margin-top: 24px;
+
     @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
         margin-top: 32px;
         max-width: 20vw;

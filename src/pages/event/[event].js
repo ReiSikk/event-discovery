@@ -96,8 +96,8 @@ if (!event) return <div>Loading...</div>
                   </div>
                   <div className={styles.contentStats__bottom}>
                     <h3 className={styles.contentStats__number}>15%</h3>
-                    <h3 className={styles.contentStats__lead}>Off our entire brunch menu for attendees</h3>
-                    <h3 className={styles.contentStats__text}>Some text describing the offer here</h3>
+                    <p className={styles.contentStats__lead}>Off our entire brunch menu for attendees</p>
+                    <p className={styles.contentStats__text}>Some text describing the offer here</p>
                   </div>
                 </div>
               </div>

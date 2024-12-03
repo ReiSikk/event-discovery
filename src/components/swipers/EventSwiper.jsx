@@ -20,7 +20,6 @@ function EventSwiper({ relatedEvents }) {
         className={styles.eventSwiper}
         modules={[Navigation]}
         navigation
-        loop
         >
         {relatedEvents ? relatedEvents.map((event) => (
                   <SwiperSlide>
@@ -29,13 +28,13 @@ function EventSwiper({ relatedEvents }) {
                       <div className={styles.eventSlide__main}>
                       <h3 className={styles.eventSlide__title}>{event.title}</h3>
                       <p className={styles.eventSlide__text}>{event.description}</p>
+                      </div>
                       <Link 
                           href={`/event/${event.id}`}
                           className={classNames(styles.eventsCard__link, styles.btn__primary)}
                           >
                           Read more
-                          </Link>
-                      </div>
+                      </Link>
                   </div>
                   </SwiperSlide>
         ))
