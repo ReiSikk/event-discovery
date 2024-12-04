@@ -48,8 +48,8 @@ const SiteNavMenu = () => {
 						<ul className={`${styles.List} two`}>
 							<ListItem
 							className={styles.ListItem}
-								title="Create an account"
-								href="/signup"
+								title="Publish your event/activity"
+								href="/create"
 							>
 								Sign up for a free account and start creating events.
 							</ListItem>
