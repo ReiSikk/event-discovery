@@ -22,19 +22,12 @@
     &.block {
       display: block;
     }
-  }
+}
 
-  .header {
+
+   .main > h1 {
     margin-block: 2.222vw 6.9444vw;
-
   }
-  .header > h1 {
-    text-align: center;
-  }
-
-   .main {
-
-   }
    .formSection {
     display: flex;
     width: 100%;
@@ -57,3 +50,43 @@
         padding-right: 5vw;
     }
    }
+
+   .feedbackToast {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    max-width: 300px;
+    padding: 16px 24px;
+    background: var(--bg-dark);
+    color: var(--white);
+    border-radius: var(--bradius);
+    border: 1px solid var(--primary);   
+    text-align: center;
+    z-index: 1000;
+    transform: translateX(200%);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    animation: slideIn 0.3s ease forwards, fadeOut 0.3s ease 1.5s forwards;
+  }
+  
+  @keyframes slideIn {
+    from {
+      transform: translateX(200%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes fadeOut {
+    from {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateX(20px);
+      opacity: 0;
+    }
+  }

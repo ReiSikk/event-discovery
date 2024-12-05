@@ -25,6 +25,7 @@ export async function getServerSideProps() {
 
 export default function CreateEventPage({ events: initialEvents }) {
   const [events, setEvents] = useState(initialEvents)
+  const [submitted, setSubmitted] = useState(false)
   const supabase = createClient()
   const router = useRouter();
 
@@ -35,6 +36,7 @@ export default function CreateEventPage({ events: initialEvents }) {
       .order('created_at', { ascending: false })
     
     setEvents(updatedEvents)
+    setSubmitted(true)
     setTimeout(() => {
       router.push('/home')
     }, 2000)
@@ -42,10 +44,8 @@ export default function CreateEventPage({ events: initialEvents }) {
 
   return (
     <>
-      <header className={styles.header}>
-        <h1>Create your event here</h1>
-      </header>
       <main className={classNames(styles.main, styles.container)}>
+      <h1>Create your event here</h1>
         <section className={styles.formSection}>
           <div className={styles.formProgress}>
             <h3>Side content here</h3>
@@ -53,6 +53,7 @@ export default function CreateEventPage({ events: initialEvents }) {
           <div className={styles.formSection__main}>
             <EventForm onSuccess={refreshEvents} />
           </div>
+        {submitted && <div className={styles.feedbackToast}>Event created successfully. Redirecting to home...</div>}
         </section>
       </main>
     </>

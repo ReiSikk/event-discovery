@@ -126,12 +126,13 @@ function EventForm({ onSuccess }) {
       </Form.Label>
       <Form.Control asChild/>
       <div className={styles.radioGroup} role="radiogroup">
-        <div className={classNames(styles.radioOption, ticketType === "free" ? styles.active : '')} onClick={() => setTicketType('free')}>
+        <div className={classNames(styles.radioOption, ticketType === "free" ? styles.active : '')}>
           <input 
             type="radio" 
             name="ticket_type" 
             id="free" 
             value="free"
+            onChange={() => setTicketType('free')}
             checked={ticketType === 'free'}
             className={styles.radio__input}
           />
@@ -140,12 +141,13 @@ function EventForm({ onSuccess }) {
           </label>
         </div>
 
-        <div className={classNames(styles.radioOption, ticketType === "tickets" ? styles.active : '')} onClick={() => setTicketType('tickets')}>
+        <div className={classNames(styles.radioOption, ticketType === "tickets" ? styles.active : '')}>
           <input 
             type="radio" 
             name="ticket_type" 
             id="tickets" 
             value="tickets"
+            onChange={() => setTicketType('tickets')}
             checked={ticketType === 'tickets'}
             className={styles.radio__input}
           />
@@ -154,12 +156,13 @@ function EventForm({ onSuccess }) {
           </label>
         </div>
 
-        <div className={classNames(styles.radioOption, ticketType === "registration" ? styles.active : '')} onClick={() => setTicketType('registration')}>
+        <div className={classNames(styles.radioOption, ticketType === "registration" ? styles.active : '')}>
           <input 
             type="radio" 
             name="ticket_type" 
             id="registration" 
             value="registration"
+            onChange={() => setTicketType('registration')}
             checked={ticketType === 'registration'}
             className={styles.radio__input}
           />
@@ -168,12 +171,13 @@ function EventForm({ onSuccess }) {
           </label>
         </div>
 
-        <div className={classNames(styles.radioOption, ticketType === "donation" ? styles.active : '')} onClick={() => setTicketType('donation')}>
+        <div className={classNames(styles.radioOption, ticketType === "donation" ? styles.active : '')}>
           <input 
             type="radio" 
             name="ticket_type" 
             id="donation" 
             value="donation"
+            onChange={() => setTicketType('donation')}
             checked={ticketType === 'donation'}
             className={styles.radio__input}
           />
@@ -201,7 +205,7 @@ function EventForm({ onSuccess }) {
               required
               className={styles.formField__input}
             />
-            <Form.Message match="valueMissing" className={styles.formField__message}>
+            <Form.Message match="valueMissing">
               Please enter a ticket link
             </Form.Message>
           </Form.Field>
