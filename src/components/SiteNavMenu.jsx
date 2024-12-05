@@ -49,7 +49,7 @@ const SiteNavMenu = () => {
 							<ListItem
 							className={styles.ListItem}
 								title="Publish your event/activity"
-								href="/create"
+								href="/event/create"
 							>
 								Sign up for a free account and start creating events.
 							</ListItem>

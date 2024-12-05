@@ -4,6 +4,7 @@ import EventForm from '@/components/forms/EventForm'
 import { useState } from 'react'
 import EventCard from '@/components/EventCard'
 import { useRouter } from 'next/router'
+import classNames from 'classnames'
 
 export async function getServerSideProps() {
   const supabase = createClient()
@@ -41,10 +42,17 @@ export default function CreateEventPage({ events: initialEvents }) {
 
   return (
     <>
-      <h1>Create your event here</h1>
-      <main className={styles.main}>
+      <header className={styles.header}>
+        <h1>Create your event here</h1>
+      </header>
+      <main className={classNames(styles.main, styles.container)}>
         <section className={styles.formSection}>
-          <EventForm onSuccess={refreshEvents} />
+          <div className={styles.formProgress}>
+            <h3>Side content here</h3>
+          </div>
+          <div className={styles.formSection__main}>
+            <EventForm onSuccess={refreshEvents} />
+          </div>
         </section>
       </main>
     </>
