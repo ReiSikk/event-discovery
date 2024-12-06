@@ -31,16 +31,28 @@
   .loginForm__input {
     padding: 0.75rem;
     border: 1px solid var(--white);
-    background: #fff;
+    background: var(--bg);
     border-radius: 4px;
     transition: all 0.3s ease;
-    color: var(--primary);
+    color: var(--white);
+  }
+  .loginForm__input::placeholder {
+    color: var(--white);
+    opacity: 0.6;
   }
   
   .loginForm__input:focus {
     outline: none;
     border-color: #3498db;
     box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+  }
+
+  .login__error {
+    text-align: center;
+    padding: 12px;
+    background: var(--bg-dark);
+    border-radius: var(--bradius);
+    margin-top: 8px;
   }
   
   .loginForm__validate {
@@ -63,6 +75,7 @@
     background: var(--bg);
     color: var(--primary);
     transition: background 0.3s ease-in-out;
+    cursor: pointer;
 
     &:hover {
         background: var(--primary);

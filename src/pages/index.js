@@ -36,28 +36,6 @@ export async function getServerSideProps() {
 
 
 export default function Home({ pageData, error}) {
-  const [data, setData] = useState([])
-
-  useEffect(() => {
-
-    const fetchEvents = async () => {
-      try {
-        const { data, error } = await supabase
-          .from("events")
-          .select()
-  
-        if (error) throw error
-        setData(data)
-        console.log(data,"Data")
-      } catch (error) {
-        console.log(error.message)
-      } finally {
-        console.log("done")
-      }
-    }
-
-      fetchEvents()
-  }, [])
   return (
     <>
       <Head>
@@ -65,7 +43,6 @@ export default function Home({ pageData, error}) {
         <meta name="description" content="Welcome to Events Discovery" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
-        <Script src="https://accounts.google.com/gsi/client" strategy="afterInteractive" />
       </Head>
       <div
       >

@@ -19,36 +19,46 @@ export default function LoginForm() {
     try {
       const { data, error: signInError } = await supabase.auth.signIn({ email, password })
       if (signInError) throw signInError
-      router.push('/dashboard') // Redirect to dashboard after successful login
+      router.push('/home') // Redirect to dashboard after successful login
     } catch (err) {
       setError(err.message)
     }
   }
 
-/*   async function handleSignInWithGoogle(response) {
+
+  async function handleSignInWithGoogle(response) {
     const { data, error } = await supabase.auth.signInWithIdToken({
       provider: 'google',
       token: response.credential,
     })
-  } */
-    const handleSignInWithGoogle = async () => {
-      const { data, error } = await supabase.auth.signInWithOAuth({
-        provider,
-        options: {
-          redirectTo: 'http://localhost:3000/auth/callback',
-        },
-      })
+  }
+ 
 
-      console.log(data, "Data from handleSignInWithGoogle");
-      
-      if (data.url) {
-        redirect(data.url) // use the redirect API for your server framework
+    // Keep global callback for Google's library
+    useEffect(() => {
+      window.handleSignInWithGoogle = async (response) => {
+        const { data, error } = await supabase.auth.signInWithIdToken({
+          provider: 'google',
+          token: response.credential,
+        })
+        if (error) {
+          console.error(error)
+          setError(error.message)
+        } else {
+          router.push('/home')
+        }
       }
-    };
+  
+      return () => {
+        delete window.handleSignInWithGoogle
+      }
+    }, [router])
+
+
 
   return (
     <>
-    <Script src="https://accounts.google.com/gsi/client" />
+    <Script src="https://accounts.google.com/gsi/client" async/>
     <div className={styles.loginForm__wrap}>
       <h1 className={styles.loginForm__title}>Log in to your account</h1>
       <form onSubmit={handleSubmit} className={styles.loginForm}>
@@ -59,6 +69,8 @@ export default function LoginForm() {
           id="email"
           type="email" 
           value={email} 
+          placeholder='Your email'
+          autoComplete='email'
           onChange={(e) => setEmail(e.target.value)} 
           />
         </div>
@@ -69,14 +81,16 @@ export default function LoginForm() {
             id="password"
             type="password"
             value={password}
+            autoComplete='current-password'
+            placeholder='Your password'
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
+        {error && <p className={styles.login__error}>{`${error}!`}</p>}
         <button type="button" className={styles.loginBtn}>
           Log in
         </button>
         <p className={styles.login__text}>Don't have an account? <Link href="/signup" className={styles.login__link}>Sign Up</Link> </p>
-        {error && <p>{error}</p>}
         <GoogleSignInButton onClick={handleSignInWithGoogle} />
       </form>
     </div>
