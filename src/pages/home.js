@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { LocateIcon } from 'lucide-react';
 import styles from "@/styles/HomePage.module.css";
 import CategoriesList from '@/components/CategoriesList';
 import FilterCard from '@/components/filters/FilterCard';
@@ -8,6 +7,7 @@ import Link from 'next/link';
 import { createClient } from '@/utils/supabase/component'
 import { FILTER_TYPES } from '@/utils/constants/constants';
 import { useFilters } from '@/components/filters/useFilters';
+import EventCard from '@/components/EventCard';
 
 export async function getServerSideProps() {
   const supabase = createClient()
@@ -141,36 +141,7 @@ const HomePage = ({ pageData, events, categories, location }) => {
         <div className={styles.content_main}>
           <ul className={styles.eventsList}>
           {events && events.map((event) => (
-              <li 
-              key={event.id}
-              className={styles.eventsCard}
-              >
-                <div className={styles.eventsCard_media}>
-                  <img src="/images/event.jpg" alt="Event" width={300} height={200} />
-                  <span className={styles.eventsCard__label}>Label</span>
-                </div>
-                <div className={styles.eventsCard__inner}>
-                  <h4 className={styles.eventsCard__title}>
-                    {event.title}
-                  </h4>
-                  <p className={styles.eventsCard__description}>
-                    {event.description}
-                  </p>
-                  <p className={styles.eventsCard__location}>
-                    <LocateIcon size={16} />
-                    {event.location}
-                  </p>
-                  <Link 
-                   href={`/event/${event.id}`}
-                  className={classNames(styles.eventsCard__link, styles.btn__primary)}
-                  >
-                    Read more
-                  </Link>
-                  <Link href={event.ticket_link ? event.ticket_link : "#"} className={classNames(styles.eventsCard__link, styles.btn__primary)}>
-                    Get tickets
-                  </Link>
-                </div>
-              </li>
+            <EventCard key={event.id} event={event} />
           ))}
           </ul>
         </div>

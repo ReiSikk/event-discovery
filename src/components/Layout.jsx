@@ -4,7 +4,7 @@ export default function Layout({ children }) {
   return (
     <>
       <SiteNav />
-      <main>{children}</main>
+      {children}
     </>
   )
 }
