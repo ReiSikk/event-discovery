@@ -42,7 +42,6 @@ function EventForm({ onSuccess }) {
     fetchCategories()
   }, [])
 
-
   return (
     <>
     	<Form.Root action={action} className={styles.form}>

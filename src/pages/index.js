@@ -2,15 +2,16 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "@/styles/Home.module.css";
 import Script from "next/script";
-import { supabase } from "@/utils/supabase/server-props";
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import placehold_image from '../../public/assets/landing_place.webp'
+import { useState, useEffect } from 'react'
+import { createClient } from '@/utils/supabase/component'
+import { useRouter } from "next/router";
 
 
 export async function getServerSideProps() {
   const url = process.env.NEXT_PUBLIC_CMS_URL + 'landing?populate=*'
-  console.log(url, "url");
+
   try {
     const res = await fetch(url);
     if (!res.ok) {
@@ -21,6 +22,7 @@ export async function getServerSideProps() {
     return {
       props: {
         pageData: json.data || null,
+        user: user
       },
     };
   } catch (error) {
@@ -34,8 +36,34 @@ export async function getServerSideProps() {
   }
 }
 
+/* const getUserSession = async () => {
+  const supabase = createClient()
+  // const session = await supabase.auth.getSession()
+  if (session) {
+    console.log('User has session', session );
+    return session
+  }
+} */
 
-export default function Home({ pageData, error}) {
+
+
+export default function Home({ pageData, error, user}) {
+  const [session, setSession] = useState(null);
+  const router = useRouter();
+  
+  useEffect(() => {
+    async function getSession() {
+      const { data, error } = await createClient().auth.getSession();
+      if (error) {
+        console.error('Error getting session:', error);
+      } else {
+        setSession(data.session);
+        router.push('/profile')
+      }
+    }
+    getSession();
+  }, []);
+
   return (
     <>
       <Head>
@@ -47,13 +75,18 @@ export default function Home({ pageData, error}) {
       <div
       >
         <main className={styles.main}>
+          {session ? (
+            <h1>Welcome {session.user.email}</h1>
+          ) : (
+            <h1>Not logged in</h1>
+          )}
           <section className={`${styles.heroSection} ${styles.container}`}>
             <div className={styles.heroSection__main}>
               <h1 className={styles.heroSection__title}>
-                {pageData.title}
+                {pageData?.title}
               </h1>
               <p className={styles.heroSection__text}>
-                {pageData.lead}
+                {pageData?.lead}
               </p>
               {pageData?.cardsRepeater ? (
                   <div className={styles.uspContainer}>

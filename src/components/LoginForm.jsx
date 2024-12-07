@@ -10,16 +10,29 @@ export default function LoginForm() {
   const router = useRouter()
   const supabase = createClient()
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [data, setData] = useState({
+    email: '',
+    password: ''
+  })
   const [error, setError] = useState(null)
+  const [success, setSuccess] = useState(false )
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      const { data, error: signInError } = await supabase.auth.signIn({ email, password })
+      const { data: dataUser, error: signInError } = await supabase
+      .auth
+      .signInWithOtp({
+         email: data.email,
+         options: {
+          shouldCreateUser: true
+         }
+        })
+
+        if(dataUser) {
+          setSuccess(true)
+        }
       if (signInError) throw signInError
-      router.push('/home') // Redirect to dashboard after successful login
     } catch (err) {
       setError(err.message)
     }
@@ -68,13 +81,13 @@ export default function LoginForm() {
             className={styles.loginForm__input}
           id="email"
           type="email" 
-          value={email} 
+          value={data?.email} 
           placeholder='Your email'
           autoComplete='email'
-          onChange={(e) => setEmail(e.target.value)} 
+          onChange={(e) => setData({...data, email: e.target.value})} 
           />
         </div>
-        <div className={styles.loginForm__row}>
+        {/* <div className={styles.loginForm__row}>
           <label className={styles.loginForm__label} htmlFor="password">Password:</label>
           <input
             className={styles.loginForm__input}
@@ -85,14 +98,15 @@ export default function LoginForm() {
             placeholder='Your password'
             onChange={(e) => setPassword(e.target.value)}
           />
-        </div>
+        </div> */}
         {error && <p className={styles.login__error}>{`${error}!`}</p>}
-        <button type="button" className={styles.loginBtn}>
+        <button type="submit" className={styles.loginBtn}>
           Log in
         </button>
         <p className={styles.login__text}>Don't have an account? <Link href="/signup" className={styles.login__link}>Sign Up</Link> </p>
         <GoogleSignInButton onClick={handleSignInWithGoogle} />
       </form>
+      {success && <p className={styles.login__success}>An email has been sent to {data.email} to login</p>}
     </div>
     </>
   )

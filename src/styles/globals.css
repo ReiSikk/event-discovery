@@ -46,7 +46,7 @@ body {
 }
 
 body {
-  color: var(--primary);
+  color: var(--white);
   background: var(--bg);
   font-size: clamp(1.4rem, 2vw, 1.6rem);
   font-family: var(--font-body);
