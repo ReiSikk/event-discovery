@@ -58,7 +58,6 @@ export default function Home({ pageData, error, user}) {
         console.error('Error getting session:', error);
       } else {
         setSession(data.session);
-        router.push('/profile')
       }
     }
     getSession();

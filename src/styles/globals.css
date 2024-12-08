@@ -253,6 +253,114 @@ h4, .h4 {
 
 
 /*
+   Modals
+   ========================================================================== */
+   .modal {
+    display: none;
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(3px);
+    opacity: 0;
+  }
+  
+  .modal {
+    display: none;
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(3px);
+    opacity: 0;
+  }
+  
+  .modal.open {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: slideDown 0.6s cubic-bezier(0.5, 1, 0.89, 1) forwards;
+  }
+  
+  @keyframes slideDown {
+    0% {
+      transform: translateY(-200%);
+      opacity: 0.2;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  .modal__content {
+    background-color: var(--bg-dark);
+    border-radius: var(--bradius);
+    padding: 20px;
+    display: flex;
+    align-items: stretch;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+      width: 80vw;
+      height: 66vh;
+    }
+  }
+
+  .modal__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .modal__title {
+      margin-bottom: 0;
+  }
+  
+  .modal__close {
+    height: fit-content;
+    font-weight: bold;
+    transition: color 0.2s ease;
+    color: var(--primary);
+  }
+  
+  .modal__close:hover,
+  .modal__close:focus {
+    color: var(--white);
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  .modal__footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: auto;
+    gap: 16px;
+  }
+  
+  .btn__primary.btn__cancel {
+    background: #f44336;
+    color: var(--bg-dark);
+    border: 1px solid var(--bg-dark);
+    &:hover {
+      background: #f44336;
+      color: var(--bg-dark);
+      border: 1px solid var(--white);
+    }
+  }
+
+
+
+/*
    Buttons
    ========================================================================== */
 
@@ -272,6 +380,8 @@ h4, .h4 {
     font-family: var(--font-headings);
     font-weight: 500;
     transition: background 0.3s ease-in-out;
+    cursor: pointer;
+
 
     &:hover {
         background: var(--primary);

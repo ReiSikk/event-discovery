@@ -23,53 +23,110 @@
       display: block;
     }
   }
+  .btn__primary {
+    display: inline-flex;
+    min-width: 125px;
+    padding-block: 10px 9px;
+    padding-inline: 18px;
+    flex-shrink: 0;
+    border-radius: 200px;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border: 1px solid var(--primary);
+    background: var(--bg);
+    color: var(--primary);
+    font-family: var(--font-headings);
+    font-weight: 500;
+    transition: background 0.3s ease-in-out;
+    cursor: pointer;
+
+    &:hover {
+        background: var(--primary);
+        color: var(--bg);
+    }
+} 
 
 .profileHeader {
-    padding-block: 24px 32px;
+    padding-block: 32px;
     @media only screen and (min-width: 768px) and (max-width: 1024px) {
-        padding-block: 1.666vw 3.888vw ;
+        padding-block: 4.444vw 3.888vw ;
     }
 
 }
 .profileCard {
+    position: relative;
     background: var(--bg-dark);
     border-radius: var(--bradius);
     padding: 24px;
     width: 100%;
+    overflow: hidden;
 
-    @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+    @media only screen and (min-width: 1025px) {
         padding: 1.666vw;
     }
-
+}
+.profileCard__edit {
+    user-select: none;
+    white-space: pre;
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    @media only screen and (min-width: 1025px) {
+        right: 1.666vw;
+    }
 }
 .profileCard__top {
     display: flex;
+    flex-wrap: wrap;
     gap: 16px;
 }
 .profileCard__top > div:first-child {
     display: flex;
+    max-width: 100%;
 }
 .personalInfoList {
     margin-top: 16px;
     list-style-type: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+        gap: 24px;
+    }
 
 }
 .personalInfo__card {
     padding-left: 10px;
-    border-left: 1px solid #000;
-
+    border-left: 1px solid var(--primary);
 }
+.personalInfo__card > span {
+    font-size: 1.2rem;
+    line-height: 1.35;
+    opacity: 0.8;
+}
+.personalInfo__card > p {
+    font-size: 1.8rem;
+    line-height: 1.5;
+}
+
 .image {
-    border-radius: 9999px;
+    border-radius: var(--bradius);
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+    object-fit: cover;
+    align-self: flex-start;
+    aspect-ratio: 1/1;
+    width: 25.641vw;
+    @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+        width: 8.6111vw;
+        height: 8.6111vw;
+    }
 
 }
 .name {
     margin-bottom: 0;
-    padding-top: 16px;
 
     @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
-        padding-top: 1.111vw;
     }
 
 }
@@ -93,5 +150,47 @@
     padding-block: 16px 12px;
     padding-inline: 24px;
     border-radius: var(--bradius);
+}
+.profileCardList__item > div {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-top: 10px;
+}
+.profileCardList__item > div > span {
+    font-size: 1.2rem;
+    line-height: 1.35;
+    opacity: 0.8;
+}
+.profileCardList__item > div > p {
+    font-size: clamp(2.4rem, 1.9444vw, 2.8rem);
+    font-weight: 600;
+}
 
+
+/*
+   Events grid
+   ========================================================================== */
+.eventsSection__title {
+    margin-block: 24px;
+
+    @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+        padding-inline: 3.333vw;
+        margin-block: 2.222vw;
+    }
+
+}
+.eventsList {
+    list-style-type: none;
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+        grid-template-columns: repeat(auto-fill, minmax(275px, 1fr));
+        padding-inline: 3.333vw;
+        gap:  2.222vw 1.666vw;
+    }
+}
+.eventsList > li {
+    width: 100%;
 }

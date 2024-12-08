@@ -2,19 +2,27 @@ import React, { useEffect, useState } from 'react'
 import { createClient } from '@/utils/supabase/component'
 import { useRouter } from 'next/router'
 import styles from '../styles/ProfilePage.module.css'
-import { UserCircle2 } from 'lucide-react';
+import { CalendarCheck, Edit2, EditIcon, Settings, UserCircle2 } from 'lucide-react';
 import { format } from 'date-fns';
 import classNames from 'classnames';
 import Link from 'next/link';
 import EventSwiper from '@/components/swipers/EventSwiper';
+import EventCard from '@/components/EventCard';
+import DialogModal from '@/components/DialogModal';
 
 function ProfilePage() {
     const [session, setSession] = useState(null);
     const [user, setUser] = useState(null); 
     const [userEvents, setUserEvents] = useState([]);
+    const [modalOpen, setModalOpen] = useState(false);
+
     const supabase = createClient();
-    const router = useRouter();
+    const router = useRouter(); 
     console.log(session, "session");
+
+    const toggleModal = () => {
+        setModalOpen(!modalOpen);
+      };
 
     const formatTime = (timeString) => {
         return format(new Date(timeString), 'dd.MM.yyyy');
@@ -64,6 +72,14 @@ function ProfilePage() {
     <>
         <div className={classNames(styles.profileHeader, styles.container)}>
             <div className={styles.profileCard}>
+                <DialogModal toggleModal={toggleModal} modalOpen={modalOpen} />
+                <div 
+                className={classNames(styles.profileCard__edit, styles.btn__primary)}
+                onClick={toggleModal}
+                >
+                    <Edit2 size={16} />
+                    Edit Profile
+                </div>
                 <div className={styles.profileCard__top}>
                         {session.user.user_metadata.avatar_url ? (
                             <img className={styles.image} src={user.user_metadata.avatar_url} alt="avatar" />
@@ -72,7 +88,11 @@ function ProfilePage() {
                         <h3 className={styles.name}>{user.user_metadata.full_name}</h3>
                         <ul className={styles.personalInfoList}>
                             <li className={styles.personalInfo__card}>
-                                <span>Email </span>
+                                <span>Email</span>
+                                <p>{session.user.email}</p>
+                            </li>
+                            <li className={styles.personalInfo__card}>
+                                <span>Email</span>
                                 <p>{session.user.email}</p>
                             </li>
                         </ul>
@@ -81,32 +101,40 @@ function ProfilePage() {
                 <ul className={styles.profileCardList}>
                     <li className={styles.profileCardList__item}>
                         <UserCircle2 size={24} />
-                        <h4>Email</h4>
-                        <p>{session.user.email}</p>
+                        <div>
+                            <span>Email</span>
+                            <p>{user.email}</p>
+                        </div>
                     </li>
                     <li className={styles.profileCardList__item}>
-                        <UserCircle2 size={24} />
-                        <h4>Member since</h4>
-                        <p>{formatTime(user.created_at)}</p>
+                        <CalendarCheck size={24} />
+                        <div>
+                            <span>Member since</span>
+                            <p>{formatTime(user.created_at)}</p>
+                        </div>
                     </li>
                     <li className={styles.profileCardList__item}>
-                        <UserCircle2 size={24} />
-                        <h4>Email</h4>
-                        <p>{user.email}</p>
+                        <EditIcon size={24} />
+                        <div>
+                            <span>Events you have created</span>
+                            <p>{userEvents.length}</p>
+                        </div>
                     </li>
                 </ul>
             </div>
         </div>
-        <main className={styles.container}>
-            <h2>My Events</h2>
-            { userEvents ? (
-                userEvents.map((event) => (
-                    <li key={event.id}>{event.title}</li>
-                ))
+        <main className={classNames(styles.container, styles.block)}>
+            <h2 className={styles.eventsSection__title}>My Events</h2>
+            {userEvents && userEvents.length > 0 ? (
+                <ul className={styles.eventsList}>
+                {userEvents.map((event) => (
+                    <EventCard key={event.id} event={event} />
+                ))}
+                </ul>
             ) : (
                 <>
-                    <p>We couldn't find any events for you</p>
-                    <div>Create your first event here</div>
+                <p>We couldn't find any events for you</p>
+                <div>Create your first event here</div>
                 </>
             )}
         </main>
