@@ -255,23 +255,10 @@ h4, .h4 {
 /*
    Modals
    ========================================================================== */
-   .modal {
-    display: none;
-    position: absolute;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(3px);
-    opacity: 0;
-  }
   
   .modal {
     display: none;
-    position: absolute;
+    position: fixed;
     z-index: 1;
     left: 0;
     top: 0;
@@ -280,6 +267,7 @@ h4, .h4 {
     overflow: auto;
     background-color: rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(3px);
+    border: none;
     opacity: 0;
   }
   
@@ -287,20 +275,14 @@ h4, .h4 {
     display: flex;
     justify-content: center;
     align-items: center;
-    animation: slideDown 0.6s cubic-bezier(0.5, 1, 0.89, 1) forwards;
+    animation: opacity 0.6s cubic-bezier(0.5, 1, 0.89, 1) forwards;
+    opacity: 1;
   }
-  
-  @keyframes slideDown {
-    0% {
-      transform: translateY(-200%);
-      opacity: 0.2;
-    }
-    100% {
-      transform: translateY(0);
-      opacity: 1;
-    }
+
+  .modal__body {
+    width: fit-content;
   }
-  
+
   .modal__content {
     background-color: var(--bg-dark);
     border-radius: var(--bradius);
@@ -311,8 +293,8 @@ h4, .h4 {
     height: 100%;
     width: 100%;
     @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
-      width: 80vw;
-      height: 66vh;
+      width: 90vw;
+      height: 75vh;
     }
   }
 
@@ -358,11 +340,18 @@ h4, .h4 {
     }
   }
 
+  .updateProfile__btn {
+    align-self: flex-end;
+  }
+
 
 
 /*
    Buttons
    ========================================================================== */
+   *.btn__primary {
+    width: fit-content;
+   }
 
    .btn__primary {
     display: inline-flex;
@@ -389,6 +378,15 @@ h4, .h4 {
     }
 } 
 
+.btn__secondary {
+  color: var(--bg);
+  background: var(--primary);
+  &:hover {
+    background: var(--bg);
+    color: var(--white);
+}
+}
+
 
 
 
@@ -396,6 +394,16 @@ h4, .h4 {
 /*
    Log In and Sign up forms
    ========================================================================== */
+   .form {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+
+    @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+        gap: 2.2222vw;
+    }
+}
+
    .loginForm__section,.signupForm__section {
     width: 100%;
     height: 100dvh;
@@ -408,6 +416,55 @@ h4, .h4 {
     }
    }
 
+   .form__row {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form__label {
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+  
+  .form__input {
+    padding: 0.75rem;
+    border: 1px solid var(--white);
+    background: var(--bg);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    color: var(--white);
+    width: 100%;
+    max-width: 300px;
+    @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+      width: 27.777vw;
+      max-width: 100%;
+    }
+  }
+  .form__input::placeholder {
+    color: var(--white);
+    opacity: 0.6;
+  }
+  
+  .form__input:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+  }
+
+  .input__error {
+    text-align: center;
+    padding: 12px;
+    background: var(--bg-dark);
+    border-radius: var(--bradius);
+    margin-top: 8px;
+  }
+  .input__message {
+    color: red;
+    font-size: 1.2rem;
+    line-height: 1.35;
+    margin-top: 4px;
+}
+  
 
      /* Override Google sign in button styles */
 

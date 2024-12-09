@@ -1,12 +1,4 @@
-.form {
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
 
-    @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
-        gap: 2.2222vw;
-    }
-}
 .formField {
     display: flex;
     flex-direction: column;
@@ -192,11 +184,4 @@
     gap: 8px;
     align-items: center;
     margin-bottom: 8px;
-}
-
-.formField__message {
-    color: red;
-    font-size: 1.2rem;
-    line-height: 1.35;
-    margin-top: 4px;
 }

@@ -72,7 +72,6 @@ function ProfilePage() {
     <>
         <div className={classNames(styles.profileHeader, styles.container)}>
             <div className={styles.profileCard}>
-                <DialogModal toggleModal={toggleModal} modalOpen={modalOpen} />
                 <div 
                 className={classNames(styles.profileCard__edit, styles.btn__primary)}
                 onClick={toggleModal}
@@ -137,6 +136,7 @@ function ProfilePage() {
                 <div>Create your first event here</div>
                 </>
             )}
+                <DialogModal toggleModal={toggleModal} modalOpen={modalOpen} />
         </main>
     </>
 ) : ( 

@@ -144,10 +144,10 @@ export default function SignUpForm() {
     <div className={styles.loginForm__wrap}>
       <h1 className={styles.loginForm__title}>Register an account</h1>
       <Form.Root onSubmit={createUser} className={styles.loginForm}>
-      <Form.Field name="email" className={styles.loginForm__row} >
-				<Form.Label className={styles.loginForm__label}>Email</Form.Label>
+      <Form.Field name="email" className="form__row" >
+				<Form.Label className="form__label">Email</Form.Label>
 				<Form.Control
-          className={styles.loginForm__input}
+          className="form__input"
           id="email"
           type="email" 
           value={email} 
@@ -156,14 +156,14 @@ export default function SignUpForm() {
           // onBlur={(e) => isValidEmail(e.target.value)} 
           onChange={(e) => setEmail(e.target.value)}
          />
-				<Form.Message match="valueMissing" className={styles.formField__message}>
+				<Form.Message match="valueMissing" className="input__message">
 					Please enter an email
 				</Form.Message>
 			</Form.Field>
-        <Form.Field name="password" className={styles.loginForm__row}>
-          <Form.Label className={styles.loginForm__label} htmlFor="password">Password:</Form.Label>
+        <Form.Field name="password" className="form__row">
+          <Form.Label className="form__label" htmlFor="password">Password:</Form.Label>
           <Form.Control
-            className={styles.loginForm__input}
+            className="form__input"
             id="password"
             type="password"
             placeholder='Enter a password'
@@ -172,10 +172,10 @@ export default function SignUpForm() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Field>
-        {/* <Form.Field className={styles.loginForm__row}>
-          <Form.Label className={styles.loginForm__label} htmlFor="password">Confirm Password:</Form.Label>
+        {/* <Form.Field className="form__row">
+          <Form.Label className="form__label" htmlFor="password">Confirm Password:</Form.Label>
           <input
-            className={styles.loginForm__input}
+            className="form__input"
             id="confirm-password"
             type="password"
             placeholder='Confirm Password'
@@ -184,7 +184,7 @@ export default function SignUpForm() {
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </Form.Field> */}
-        {error && <p className={styles.login__error}>{`${error}!`}</p>}
+        {error && <p className="input__error">{`${error}!`}</p>}
         <Form.Submit className={styles.loginBtn}>
           Submit
         </Form.Submit>

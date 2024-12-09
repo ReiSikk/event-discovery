@@ -121,3 +121,42 @@ export async function createUser(previousState, formData) {
         };
     }
 }
+
+
+export async function editProfile(previousState, formData) {
+    const supabase = createClient()
+    
+
+    try {
+        const profileData = {
+            email: formData.get('email'),
+            password: formData.get('password'),
+            phone_nr: formData.get('phone_nr'),
+        }
+
+        const { data, error: updateError } = await supabase
+            .from('profiles')
+            .update(profileData)
+            .eq('id', previousState.user.id)
+            .select()
+                      
+
+        if (updateError) {
+            console.error('Update error:', updateError)
+            throw new Error('Failed to create event. Please try again.')
+        }
+
+        return {
+            success: true,
+            message: 'Profile edited successfully',
+            data: data
+        }
+
+    } catch (error) {
+        console.error('Form submission error:', error)
+        return { 
+            success: false, 
+            message: error.message 
+        }
+    }
+}

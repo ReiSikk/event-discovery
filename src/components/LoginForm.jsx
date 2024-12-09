@@ -75,10 +75,10 @@ export default function LoginForm() {
     <div className={styles.loginForm__wrap}>
       <h1 className={styles.loginForm__title}>Log in to your account</h1>
       <form onSubmit={handleSubmit} className={styles.loginForm}>
-        <div className={styles.loginForm__row}>
-          <label className={styles.loginForm__label} htmlFor="email">Email:</label>
+        <div className="form__row">
+          <label className="form__label" htmlFor="email">Email:</label>
           <input
-            className={styles.loginForm__input}
+            className="form__input"
           id="email"
           type="email" 
           value={data?.email} 
@@ -87,10 +87,10 @@ export default function LoginForm() {
           onChange={(e) => setData({...data, email: e.target.value})} 
           />
         </div>
-        {/* <div className={styles.loginForm__row}>
-          <label className={styles.loginForm__label} htmlFor="password">Password:</label>
+        {/* <div className="form__row">
+          <label className="form__label" htmlFor="password">Password:</label>
           <input
-            className={styles.loginForm__input}
+            className="form__input"
             id="password"
             type="password"
             value={password}
@@ -99,7 +99,7 @@ export default function LoginForm() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div> */}
-        {error && <p className={styles.login__error}>{`${error}!`}</p>}
+        {error && <p className="input__error">{`${error}!`}</p>}
         <button type="submit" className={styles.loginBtn}>
           Log in
         </button>

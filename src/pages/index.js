@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 
 export async function getServerSideProps() {
   const url = process.env.NEXT_PUBLIC_CMS_URL + 'landing?populate=*'
+  console.log(url, "url");
 
   try {
     const res = await fetch(url);
@@ -22,7 +23,6 @@ export async function getServerSideProps() {
     return {
       props: {
         pageData: json.data || null,
-        user: user
       },
     };
   } catch (error) {
@@ -50,6 +50,7 @@ export async function getServerSideProps() {
 export default function Home({ pageData, error, user}) {
   const [session, setSession] = useState(null);
   const router = useRouter();
+  console.log(pageData, "pageData");
   
   useEffect(() => {
     async function getSession() {
@@ -74,11 +75,11 @@ export default function Home({ pageData, error, user}) {
       <div
       >
         <main className={styles.main}>
-          {session ? (
+          {/* {session ? (
             <h1>Welcome {session.user.email}</h1>
           ) : (
             <h1>Not logged in</h1>
-          )}
+          )} */}
           <section className={`${styles.heroSection} ${styles.container}`}>
             <div className={styles.heroSection__main}>
               <h1 className={styles.heroSection__title}>
@@ -87,6 +88,14 @@ export default function Home({ pageData, error, user}) {
               <p className={styles.heroSection__text}>
                 {pageData?.lead}
               </p>
+              <div className={styles.heroSection__cta}>
+                <Link href="/login" className="btn btn__primary">
+                  Sign In
+                </Link>
+                <Link href="/signup" className="btn btn__primary btn__secondary">
+                  Sign Up
+                </Link>
+              </div>
               {pageData?.cardsRepeater ? (
                   <div className={styles.uspContainer}>
                     <div className={styles.uspGrid}>
