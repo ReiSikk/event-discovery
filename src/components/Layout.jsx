@@ -1,4 +1,4 @@
-import SiteNav from './SiteNav'
+import SiteNav from './nav/SiteNav'
  
 export default function Layout({ children }) {
   return (

@@ -4,7 +4,7 @@ import { createClient } from '@/utils/supabase/component'
 import styles from './LoginForm.module.css'
 import Link from 'next/link'
 import Script from 'next/script'
-import GoogleSignInButton from './GoogleSignInButton'
+import GoogleSignInButton from '../GoogleSignInButton'
 
 export default function LoginForm() {
   const router = useRouter()
