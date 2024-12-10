@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
 import { createClient } from '@/utils/supabase/component'
-import LoginForm from '@/components/LoginForm'
+import LoginForm from '@/components/forms/LoginForm'
 import * as Tabs from "@radix-ui/react-tabs";
-import SignUpForm from '@/components/SignupForm';
+import SignUpForm from '@/components/forms/SignupForm';
 
 export default function LoginPage() {
   const router = useRouter()
