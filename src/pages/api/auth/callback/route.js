@@ -4,6 +4,10 @@ import { createClient } from '@/utils/supabase/server'
 export async function GET(request) {
   const { searchParams, origin } = new URL(request.url)
   const code = searchParams.get('code')
+  // if "next" is in param, use it as the redirect URL
+  const next = searchParams.get('next') ?? '/'
+
+  console.log('GET request sent', request);
   
   if (code) {
     const supabase = await createClient()
@@ -14,15 +18,15 @@ export async function GET(request) {
       const isLocalEnv = process.env.NODE_ENV === 'development'
       
       if (isLocalEnv) {
-        return NextResponse.redirect(`${origin}/`)
+        return NextResponse.redirect(`${origin}${next}`)
       } else if (forwardedHost) {
         return NextResponse.redirect(`https://${forwardedHost}/`)
       } else {
-        return NextResponse.redirect(`${origin}/`)
+        return NextResponse.redirect(`${origin}${next}`)
       }
     }
   }
   
-  // Return to error page with instructions
+  // return the user to an error page with instructions
   return NextResponse.redirect(`${origin}/auth/auth-code-error`)
 }

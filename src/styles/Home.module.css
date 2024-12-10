@@ -44,6 +44,8 @@
 }
 .heroSection__main {
   margin-bottom: 8.2051vw;
+  display: flex;
+  flex-direction: column;
   
   @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
     width: 50%;
@@ -56,6 +58,16 @@
 }
 .heroSection__text {
 
+}
+.heroSection__cta {
+  margin-top: 24px;
+  display: flex;
+  gap: 12px;
+  @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+    margin-top: 2.222vw;
+  }
+}
+.heroSection__cta > a {
 }
 .stats {
 
@@ -90,8 +102,9 @@
 
    .uspContainer {
      padding-block: 32px;
+     margin-top: auto;
     @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
-      padding-block: 3.888vw;
+      padding-block: 3.888vw 0;
     }
   }
   

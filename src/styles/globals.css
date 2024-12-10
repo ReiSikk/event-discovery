@@ -46,7 +46,7 @@ body {
 }
 
 body {
-  color: var(--primary);
+  color: var(--white);
   background: var(--bg);
   font-size: clamp(1.4rem, 2vw, 1.6rem);
   font-family: var(--font-body);
@@ -118,6 +118,14 @@ h4, .h4 {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+}
+
+.link__underline {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  &:hover {
+    text-decoration-color: var(--primary);
+  }
 }
 
 /* Grid system */
@@ -253,8 +261,105 @@ h4, .h4 {
 
 
 /*
+   Modals
+   ========================================================================== */
+  
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(3px);
+    border: none;
+    opacity: 0;
+  }
+  
+  .modal.open {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: opacity 0.6s cubic-bezier(0.5, 1, 0.89, 1) forwards;
+    opacity: 1;
+  }
+
+  .modal__body {
+    width: fit-content;
+  }
+
+  .modal__content {
+    background-color: var(--bg-dark);
+    border-radius: var(--bradius);
+    padding: 20px;
+    display: flex;
+    align-items: stretch;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+      width: 90vw;
+      height: 75vh;
+    }
+  }
+
+  .modal__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .modal__title {
+      margin-bottom: 0;
+  }
+  
+  .modal__close {
+    height: fit-content;
+    font-weight: bold;
+    transition: color 0.2s ease;
+    color: var(--primary);
+  }
+  
+  .modal__close:hover,
+  .modal__close:focus {
+    color: var(--white);
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  .modal__footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: auto;
+    gap: 16px;
+  }
+  
+  .btn__primary.btn__cancel {
+    background: #f44336;
+    color: var(--bg-dark);
+    border: 1px solid var(--bg-dark);
+    &:hover {
+      background: #f44336;
+      color: var(--bg-dark);
+      border: 1px solid var(--white);
+    }
+  }
+
+  .updateProfile__btn {
+    align-self: flex-end;
+  }
+
+
+
+/*
    Buttons
    ========================================================================== */
+   *.btn__primary {
+    width: fit-content;
+   }
 
    .btn__primary {
     display: inline-flex;
@@ -272,12 +377,23 @@ h4, .h4 {
     font-family: var(--font-headings);
     font-weight: 500;
     transition: background 0.3s ease-in-out;
+    cursor: pointer;
+
 
     &:hover {
         background: var(--primary);
         color: var(--bg);
     }
 } 
+
+.btn__secondary {
+  color: var(--bg);
+  background: var(--primary);
+  &:hover {
+    background: var(--bg);
+    color: var(--white);
+}
+}
 
 
 
@@ -286,24 +402,230 @@ h4, .h4 {
 /*
    Log In and Sign up forms
    ========================================================================== */
+   .form {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+
+    @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+        gap: 2.2222vw;
+    }
+}
+
    .loginForm__section,.signupForm__section {
     width: 100%;
     height: 100dvh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    background: var(--bg);
     align-items: center;
-
+    margin-top: 64px;
+    
     @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+      margin-top: 6.944vw;
     }
    }
 
+   .tabs__list {
+    position: relative;
+    display: flex;
+    background: var(--white);
+    border-radius: 200px;
+    border: 1px solid var(--white);
+    margin-inline: auto;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    width: 60.5128vw;
+    padding-inline: 3px;
+    padding-block: 3px;
+    margin-block: 0 4.1025vw;
+
+    @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+      width: 16.388vw;
+      max-width: 16.388vw;
+      margin-block: 0 1.111vw;
+    }
+
+    &:before {
+      content: "";
+      display: block;
+      position: absolute;
+      user-select: none;
+      white-space: pre;
+      width: 50%;
+      height: calc(100% - 6px);
+      background-color: var(--bg);  
+      z-index: 0;
+      left: 3px;
+      right: 3px;
+      border-radius: 200px;
+      transition: transform 300ms ease-in-out;
+   }
+   }
+
+   
+  .tabs__list.slide-right::before {
+      transform: translate(calc(100% - 6px));
+  }
+
+   .tabs__trigger {
+     display: flex;
+     position: relative;
+     flex-wrap: nowrap;
+     align-items: center;
+     justify-content: center;
+     color: var(--bg);
+     background: none;
+     border-radius: 200px;
+     border: none;
+     z-index: 1;
+     gap: 8px;
+     width: calc(50% + 8px);
+     padding-block: 14px 12px;
+     padding-inline: 0 3px;
+     cursor: pointer;
+     transition: color 0.3s ease;
+
+     &[data-state="active"] {
+      transition-delay: 200ms;
+       color: var(--primary);
+      }
+     
+      @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+        width: 8.333vw;
+        justify-content: center;
+      }
+   }
+
+   .tabs__content {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .tabs__content[data-state="active"] {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .tabs__content[data-state="inactive"] {
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
+    position: absolute;
+  }
+
+
+  /*
+     Form styles
+     ========================================================================== */
+  
+
+   .form__row {
+    display: flex;
+    flex-direction: column;
+  }
+  .input__wrap {
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .input__wrap > .input__icon {
+    display: flex;
+    pointer-events: none;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    bottom: 10px;
+
+    &.is--success {
+        color: var(--white);
+        opacity: 0.7;
+    }
+    &.is--error {
+        color: red;
+        opacity: 0.7;
+    }
+  }
+
+    .input__wrap > .form__input[data-invalid="true"] ~ .input__icon.is--success {
+      opacity: 1;
+    }
+  
+  .form__label {
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+  
+  .form__input {
+    padding: 10px;
+    border: 1px solid var(--white);
+    background: var(--bg);
+    border-radius: 4px;
+    transition: box-shadow 0.2s ease;
+    color: var(--white);
+    width: 100%;
+    @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+      width: 25vw;
+      max-width: 320px;
+    }
+  }
+  .form__input::placeholder {
+    color: var(--white);
+    opacity: 0.6;
+    font-size: 1.2rem;
+    line-height: 1.35;
+  }
+  
+  .form__input:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+  }
+
+  .input__error {
+    text-align: center;
+    padding: 12px;
+    background: var(--bg-dark);
+    border-radius: var(--bradius);
+    margin-top: 8px;
+  }
+  .input__message {
+    color: red;
+    font-size: 1.2rem;
+    line-height: 1.35;
+    margin-top: 4px;
+    max-width: 42ch;
+}
+
+.login__success,.signup__success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-block:  12px;
+  padding-inline: 8px;
+  text-align: center;
+  border-radius: var(--bradius);
+  background: var(--bg-dark);
+  margin-bottom: 8px;
+
+  @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+    padding: 1.111vw;
+    margin-bottom: 1.111vw;
+  }
+}
+
+.login__success > span ,.signup__success > span {
+  margin-top: 8px;
+}
 
      /* Override Google sign in button styles */
 
-  .googleBtn {
-    margin-inline: auto;
-  }
+     #googleBtn {
+      width: fit-content;
+      margin-inline: auto;
+     }
 
 
 
