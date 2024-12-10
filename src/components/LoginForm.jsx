@@ -74,17 +74,18 @@ export default function LoginForm() {
     <Script src="https://accounts.google.com/gsi/client" async/>
     <div className={styles.loginForm__wrap}>
       <h1 className={styles.loginForm__title}>Log in to your account</h1>
+      {success && <p className="login__success">An email has been sent to {data.email} to login</p>}
       <form onSubmit={handleSubmit} className={styles.loginForm}>
         <div className="form__row">
           <label className="form__label" htmlFor="email">Email:</label>
           <input
             className="form__input"
-          id="email"
-          type="email" 
-          value={data?.email} 
-          placeholder='Your email'
-          autoComplete='email'
-          onChange={(e) => setData({...data, email: e.target.value})} 
+            id="email"
+            type="email" 
+            value={data?.email} 
+            placeholder='Your email'
+            autoComplete='email'
+            onChange={(e) => setData({...data, email: e.target.value})} 
           />
         </div>
         {/* <div className="form__row">
@@ -104,9 +105,8 @@ export default function LoginForm() {
           Log in
         </button>
         <p className={styles.login__text}>Don't have an account? <Link href="/signup" className={styles.login__link}>Sign Up</Link> </p>
-        <GoogleSignInButton onClick={handleSignInWithGoogle} />
+        <GoogleSignInButton onClick={handleSignInWithGoogle} className="googleBtn"/>
       </form>
-      {success && <p className={styles.login__success}>An email has been sent to {data.email} to login</p>}
     </div>
     </>
   )

@@ -194,3 +194,24 @@
 .eventsList > li {
     width: 100%;
 }
+
+.sessionStatus {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+
+}
+
+.sessionStatus > a {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.noEventsFound {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+}

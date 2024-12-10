@@ -10,9 +10,9 @@
   padding: 24px;
   
   @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
-    width: 33.333vw;
-    padding: 48px;
+    padding: 3.333vw;
   }
+
   }
   .loginForm__title {
     text-align: center;
@@ -28,6 +28,7 @@
     border-radius: 200px;
     align-items: center;
     justify-content: center;
+    max-width: 320px;
     gap: 6px;
     border: 1px solid var(--primary);
     background: var(--bg);

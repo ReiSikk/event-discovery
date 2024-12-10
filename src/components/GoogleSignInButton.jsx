@@ -2,8 +2,8 @@ import React from 'react';
 
 function GoogleSignInButton() {
   return (
-    <>
-      <div id="g_id_onload"
+    <div id='googleBtn'>
+     <div id="g_id_onload"
      data-client_id="266223769834-v2mqkr1l8igtr5934bnu0lvclmosfl6f.apps.googleusercontent.com"
      data-context="signin"
      data-ux_mode="redirect"
@@ -23,7 +23,7 @@ function GoogleSignInButton() {
      data-logo_alignment="left">
 </div>
 
-    </>
+    </div>
   );
 }
 

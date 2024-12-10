@@ -3,147 +3,88 @@ import { useState, useActionState } from 'react'
 import { createClient } from '@/utils/supabase/component'
 import styles from './LoginForm.module.css'
 import Link from 'next/link'
-import { ArrowBottomRightIcon } from '@radix-ui/react-icons'
-import { createUser } from '@/actions/actions'
 import * as Form from '@radix-ui/react-form'
 
 export default function SignUpForm() {
   const router = useRouter()
   const supabase = createClient()
 
-  //WITH SERVER ACTIONS
-  // const [ response, action, isPending ] = useActionState(createUser, null);
-
   const [email, setEmail] = useState('')
+  const [name, setName] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [error, setError] = useState(null)
+  const [userCreated, setUserCreated] = useState(false)
+
 
     //User creation logic
-    const createUser = async (e) => {
-      e.preventDefault();
-
-      console.log(email, password, "sign up called with");
-  
+    const signUpNewUser = async (e) => {
+      e.preventDefault();  
+      console.log('signing up');
       try {
           const userData = {
-              email: email?.trim(), // Trim any whitespace
-              password: password?.trim(), // Trim any whitespace
+              email: email?.trim(),
+              password: password?.trim(),
           };
-  
-          // Log the user data before sign up
-          
-          // Check if email and password are valid
-          if (!userData.email || !userData.password) {
-            return {
-              success: false,
-              message: 'Email and password are required',
-            }
+
+          // Check if passwords match
+          if (password !== confirmPassword) {
+            console.log('passwords dont match');
+            serError('Passwords do not match');
+            return;
           }
           
-          console.log('User data for sign up:', userData);
-          // Step 1: Sign up the user
-          const { user, error: signUpError } = await supabase.auth.signUp(userData);
-  
-          // Log the full error object for debugging
-          if (signUpError) {
-              console.error('Sign up error:', signUpError);
-              throw new Error('Failed to create user. Please try again.');
-          }
-  
-          // Check if user is created successfully
-          if (!user) {
-              throw new Error('User creation failed. No user object returned.');
-          }
-  
-          // Step 2: Insert the profile
-          const profileData = {
-              id: user.id, // Use the user's ID from the sign-up response
-              email: userData.email, // Ensure this is set correctly
-              // Add other profile fields as necessary
-          };
-  
-          // Log the profile data before inserting
-          console.log('Profile data for insertion:', profileData);
-  
-          const { data, error: insertError } = await supabase
-              .from('profiles')
-              .insert([profileData])
-              .select()
-              .single();
-  
-          if (insertError) {
-              console.error('Insert error:', insertError.message);
-              throw new Error('Failed to create profile. Please try again.');
-          }
-  
-          return {
-              success: true,
-              message: 'User created successfully',
-              data: data,
-          };
+          const { data, error } = await supabase.auth.signUp({email: email, password: password});
+
+          if (data?.session?.access_token) (
+            setUserCreated(true),
+            setTimeout(() => {
+              router.push('/home')
+              setUserCreated(false)
+            }, 2000)
+          )
   
       } catch (error) {
           console.error('Form submission error:', error);
-          return { 
-              success: false, 
-              message: error.message 
-          };
+          setError(error.message);
       }
   }
-
-  
-  /* function isValidEmail(email) {
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailPattern.test(email);
-} */
-
-
- /*  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError(null);
-  
-    // Validation checks first
-    try {
-      if (!email || !password) {
-        setError('Email and password are required');
-        return;
-      }
-  
-      if (password !== confirmPassword) {
-        setError('Passwords do not match');
-        return;
-      }
-  
-      // Only proceed with API call if validations pass
-      console.log(email, password, "sign up called with");
-      if (!isValidEmail(email)) {
-        setError('Invalid email');
-        return;
-      }
-      
-      const { data, error } = await supabase.auth.signUp({ 
-        email, 
-        password 
-      });
-  
-      if (error) {
-        throw error;
-      }
-  
-      console.log(data);
-      router.push('/home');
-  
-    } catch (error) {
-      setError(error.message);
-    }
-  }; */
 
 
   return (
     <div className={styles.loginForm__wrap}>
       <h1 className={styles.loginForm__title}>Register an account</h1>
-      <Form.Root onSubmit={createUser} className={styles.loginForm}>
+      {userCreated &&
+      <div className="signup__success">
+        <p>
+          You have successfully signed up!
+        </p>
+        <span>Redirecting to home page...</span>
+      </div>
+      }
+      <Form.Root onSubmit={signUpNewUser} className={styles.loginForm}>
+      <Form.Field name="name" className="form__row" >
+				<Form.Label className="form__label">First and last name</Form.Label>
+				<Form.Control
+          className="form__input"
+          id="name"
+          type="text" 
+          value={name} 
+          maxLength={256}
+          placeholder='Your name'
+          autoComplete="name"
+          pattern="^[A-Za-zÀ-ÖØ-öø-ÿ\-']{2,}(?:\s+[A-Za-zÀ-ÖØ-öø-ÿ\-']{2,})+$"
+          required
+          onChange={(e) => setName(e.target.value)}
+         />
+          <Form.Message 
+            match="patternMismatch"
+            className="input__message"
+          >
+            Please enter a valid name
+				</Form.Message>
+        {error && <p className="input__error">{`${error.message}!`}</p>}
+			</Form.Field>
       <Form.Field name="email" className="form__row" >
 				<Form.Label className="form__label">Email</Form.Label>
 				<Form.Control
@@ -151,14 +92,19 @@ export default function SignUpForm() {
           id="email"
           type="email" 
           value={email} 
+          maxLength={256}
           placeholder='Your email'
           autoComplete="email"
-          // onBlur={(e) => isValidEmail(e.target.value)} 
+          required
           onChange={(e) => setEmail(e.target.value)}
          />
-				<Form.Message match="valueMissing" className="input__message">
-					Please enter an email
+          <Form.Message 
+            match="typeMismatch"
+            className="input__message"
+          >
+            Please enter a valid email address
 				</Form.Message>
+        {error && <p className="input__error">{`${error.message}!`}</p>}
 			</Form.Field>
         <Form.Field name="password" className="form__row">
           <Form.Label className="form__label" htmlFor="password">Password:</Form.Label>
@@ -168,25 +114,41 @@ export default function SignUpForm() {
             type="password"
             placeholder='Enter a password'
             autoComplete='current-password'
+            pattern='(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}'
+            required
+            minLength={8}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+          <Form.Message
+            match="patternMismatch"
+            className="input__message"
+          >
+            Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters
+          </Form.Message>
         </Form.Field>
-        {/* <Form.Field className="form__row">
-          <Form.Label className="form__label" htmlFor="password">Confirm Password:</Form.Label>
+        <Form.Field className="form__row">
+          <Form.Label className="form__label" htmlFor="confirm-password">Confirm Password:</Form.Label>
           <input
             className="form__input"
             id="confirm-password"
             type="password"
-            placeholder='Confirm Password'
+            placeholder='Confirm your password'
+            required
             minLength={8}
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
-        </Form.Field> */}
+          <Form.Message
+              match="valueMissing"
+              className="input__message"
+            >
+              Please repeat your password
+            </Form.Message>
+        </Form.Field>
         {error && <p className="input__error">{`${error}!`}</p>}
         <Form.Submit className={styles.loginBtn}>
-          Submit
+          Sign Up
         </Form.Submit>
         <p className={styles.login__text}>Already have an account? <Link href="/login" className={styles.login__link}>Log In</Link> </p>
       </Form.Root>

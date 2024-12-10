@@ -53,22 +53,24 @@ function ProfilePage() {
   useEffect(() => {
     async function getSession() {
       const { data, error } = await createClient().auth.getSession();
-      if (error) {
-        console.error('Error getting session:', error);
-        router.push('/login')
-      } else {
-        setSession(data.session);
-        setUser(data.session.user);
-        getEventsByUserId(data.session.user.id).then(events => {
-            setUserEvents(events);
-        });
+      if (error || !data?.session?.user?.id) {
+        console.error('No valid session or user found:', error || 'Missing user data');
+        router.push('/login');
+        return;
       }
+
+      setSession(data.session);
+      setUser(data.session.user);
+
+      const events = await getEventsByUserId(data.session.user.id);
+      setUserEvents(events);
+
     }
     getSession();
   }, [router, supabase]);
   return (
     <>
-    {session ? (
+    {session?.user ? (
     <>
         <div className={classNames(styles.profileHeader, styles.container)}>
             <div className={styles.profileCard}>
@@ -131,16 +133,18 @@ function ProfilePage() {
                 ))}
                 </ul>
             ) : (
-                <>
+                <div className={styles.noEventsFound}>
                 <p>We couldn't find any events for you</p>
-                <div>Create your first event here</div>
-                </>
+                <div>Create your first event <Link href="/event/create" className='link__underline'>here</Link></div>
+                </div>
             )}
                 <DialogModal toggleModal={toggleModal} modalOpen={modalOpen} />
         </main>
     </>
-) : ( 
-<p>No profile found... Please <Link href="/login">log in</Link></p> 
+    ) : ( 
+    <main className={classNames(styles.container, styles.block)}>
+        <p className={styles.sessionStatus}>No profile found... Please <Link href="/login" className={styles.login__link}>log in</Link></p> 
+    </main>
 )}
     </>
   )

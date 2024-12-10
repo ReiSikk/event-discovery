@@ -36,16 +36,6 @@ export async function getServerSideProps() {
   }
 }
 
-/* const getUserSession = async () => {
-  const supabase = createClient()
-  // const session = await supabase.auth.getSession()
-  if (session) {
-    console.log('User has session', session );
-    return session
-  }
-} */
-
-
 
 export default function Home({ pageData, error, user}) {
   const [session, setSession] = useState(null);
