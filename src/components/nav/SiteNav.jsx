@@ -50,7 +50,7 @@ function SiteNav() {
         </Link>
         }
         <MenuIcon size={32} className={styles.siteNav__toggle} onClick={toggleMenu}/>
-        {isMenuOpen && <MobileMenu />}
+        <MobileMenu />
     </nav>
   </header>
   )

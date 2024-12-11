@@ -4,6 +4,7 @@ import { AuthProvider } from "./api/auth/authprovider";
 import { BurgerMenuProvider } from "../components/nav/BurgerMenuProvider";
 
 export default function App({ Component, pageProps }) {
+
   return (
     <AuthProvider>
       <BurgerMenuProvider>
