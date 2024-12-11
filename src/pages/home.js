@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styles from "@/styles/HomePage.module.css";
-import CategoriesList from '@/components/CategoriesList';
 import FilterCard from '@/components/filters/FilterCard';
 import classNames from 'classnames';
 import Link from 'next/link';
@@ -8,8 +7,11 @@ import { createClient } from '@/utils/supabase/component'
 import { FILTER_TYPES } from '@/utils/constants/constants';
 import { useFilters } from '@/components/filters/useFilters';
 import EventCard from '@/components/EventCard';
+import SearchBar from '@/components/SearchBar';
+import { X } from 'lucide-react';
 
 export async function getServerSideProps() {
+  // Fetch user location and data from DB
   const supabase = createClient()
   const userLocation = await fetch(`https://api.ipregistry.co/?key=${process.env.NEXT_PUBLIC_IPREGISTRY_API_KEY}`)
   .then((res) => {
@@ -30,8 +32,7 @@ let { data: categories, categoriesError } = await supabase
 .select('*')
 
 
-
-
+  // Fetch data from CMS
   const url = process.env.NEXT_PUBLIC_CMS_URL + 'home?populate=*'
   try {
     const res = await fetch(url);
@@ -59,17 +60,20 @@ let { data: categories, categoriesError } = await supabase
   }
 }
 
-
 const HomePage = ({ pageData, events, categories, location }) => {
 
   const { filterState, updateFilter, getFilteredEvents } = useFilters(events);
   
-  const handleCategorySelect = (categoryName) => {
+  const handleCategorySelect = (categoryId) => {
     const current = filterState.categories;
-    const updated = current.includes(categoryName)
-      ? current.filter(id => id !== categoryName)
-      : [...current, categoryName];
+    const updated = current.includes(categoryId)
+      ? current.filter(id => id !== categoryId)
+      : [...current, categoryId];
     updateFilter(FILTER_TYPES.CATEGORY, updated);
+  };
+
+  const handleCategoryClick = (categoryId) => {
+    handleCategorySelect(categoryId);
   };
 
   const filters = [
@@ -89,6 +93,32 @@ const HomePage = ({ pageData, events, categories, location }) => {
       type: FILTER_TYPES.LOCATION 
     }
   ];
+
+
+  // Search Events
+  const [query, setQuery] = useState('');
+  // Handle Search bar input change
+  const handleSearchQuery = (e) => {
+      setQuery(e.target.value?.trimEnd());
+    updateFilter(FILTER_TYPES.QUERY, query?.toLowerCase());
+    }
+
+
+  const getCategoryNameById = (id) => {
+    const category = categories.find(cat => cat.id === id);
+    return category ? category.name : '';
+  };
+
+  // Clear all filters
+  const isAnyFilterActive = filterState.categories.length > 0 || filterState.date || filterState.location || filterState.query;
+
+  const clearFilters = () => {
+    updateFilter(FILTER_TYPES.CATEGORY, []);
+    updateFilter(FILTER_TYPES.DATE, null);
+    updateFilter(FILTER_TYPES.LOCATION, null);
+    updateFilter(FILTER_TYPES.QUERY, '');
+  };
+
 
   return (
     <>
@@ -110,6 +140,7 @@ const HomePage = ({ pageData, events, categories, location }) => {
         />
       ))}
       </ul>
+      {events && <SearchBar handleSearchQuery={handleSearchQuery} /> }
     </header>
     <main className={classNames(styles.mainContainer, styles.container)}>
         <div className={styles.mainContainer__header}>
@@ -121,16 +152,23 @@ const HomePage = ({ pageData, events, categories, location }) => {
       <section className={styles.content}>
         <div className={styles.content_sidebar}>
           <div className={styles.sidebar__filters}>
-            <h3>Selected filters</h3>
+            <div className={styles.sidebar__header}>
+              <h4>Selected filters</h4>
+              {isAnyFilterActive  && (
+                <div className={`${styles.clear} txt-small`} onClick={clearFilters}>Clear filters<X size={12} /></div>
+              )}
+            </div>
             <ul className={styles.sidebarList}>
               {filterState.categories.length > 0 && (
                 <>
-                  {filterState.categories.map((category) => (
+                  {filterState.categories.map((categoryId) => (
                      <li 
                      className={classNames(styles.btn__primary, styles.sidebar__filter)}
-                      key={category.id}
+                      key={categoryId}
+                      onClick={() => handleCategoryClick(categoryId)}
                      >
-                        {category}
+                        {getCategoryNameById(categoryId)}
+                        <X size={16} />
                     </li>
                   ))}
                 </>
@@ -140,8 +178,8 @@ const HomePage = ({ pageData, events, categories, location }) => {
         </div>{/* content_sidebar */}
         <div className={styles.content_main}>
           <ul className={styles.eventsList}>
-          {events && events.map((event) => (
-            <EventCard key={event.id} event={event} />
+          {getFilteredEvents().map((event) => (
+            <EventCard key={event.id} event={event} getCategoryNameById={getCategoryNameById} />
           ))}
           </ul>
         </div>

@@ -27,9 +27,9 @@ function FilterCard({ filter, filterState, onCategorySelect, categories }) {
         {categories && categories.map(category => (
           <div
             key={category.id}
-            onClick={() => onCategorySelect(category.name)}
+            onClick={() => onCategorySelect(category.id)}
             className={`${styles.filterSelect__item} ${
-              filterState.categories.includes(category.name) ? styles.active : ''
+              filterState.categories.includes(category.id) ? styles.active : ''
             }`}
           >
             {category.name}

@@ -4,7 +4,7 @@ import { LocateIcon } from 'lucide-react';
 import Link from 'next/link';
 import classNames from 'classnames';
 
-function EventCard({ event}) {
+function EventCard({ event, getCategoryNameById }) {
   return (
     <li 
     key={event.id}
@@ -12,12 +12,14 @@ function EventCard({ event}) {
     >
       <div className={styles.eventsCard_media}>
         <img src="/images/event.jpg" alt="Event" width={300} height={200} />
-        <span className={styles.eventsCard__label}>Label</span>
       </div>
       <div className={styles.eventsCard__inner}>
         <h4 className={styles.eventsCard__title}>
           {event.title}
         </h4>
+        <div className={styles.eventsCard__categories}>
+          <span className={`${styles.eventsCard__label} txt-medium`}>{getCategoryNameById(event.category_id)}</span>
+        </div>
         <p className={styles.eventsCard__description}>
           {event.description}
         </p>

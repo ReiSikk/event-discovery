@@ -2,7 +2,7 @@ import React from 'react'
 import styles from './SiteNav.module.css'
 import Link from 'next/link'
 import { ArrowTopRightIcon } from "@radix-ui/react-icons"
-import SiteNavMenu from '../SiteNavMenu'
+import SiteNavMenu from './SiteNavMenu'
 import { useAuth } from '@/pages/api/auth/authprovider'
 import { LogIn, LogOut, MenuIcon } from 'lucide-react'
 import { createClient } from '@/utils/supabase/component'
