@@ -317,15 +317,16 @@ h4, .h4 {
   }
   
   .modal__close {
+    cursor: pointer;
     height: fit-content;
     font-weight: bold;
     transition: color 0.2s ease;
-    color: var(--primary);
+    color: var(--white);
   }
   
   .modal__close:hover,
   .modal__close:focus {
-    color: var(--white);
+    color: var(--primary);
     text-decoration: none;
     cursor: pointer;
   }
