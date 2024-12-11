@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import styles from './FilterCard.module.css';
 import { CheckIcon, ChevronDownIcon, PlusIcon } from 'lucide-react';
+import CustomDateRangePicker from '@/components/DateRangePicker';
+
 
 function FilterCard({ filter, filterState, onCategorySelect, categories }) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -24,7 +26,7 @@ function FilterCard({ filter, filterState, onCategorySelect, categories }) {
           isExpanded ? styles.expanded : ''
         }`}
       >
-        {categories && categories.map(category => (
+        {filter.type === "categories" && categories ? categories.map(category => (
           <div
             key={category.id}
             onClick={() => onCategorySelect(category.id)}
@@ -35,7 +37,14 @@ function FilterCard({ filter, filterState, onCategorySelect, categories }) {
             {category.name}
             <CheckIcon size={16} />
           </div>
-        ))}
+        )) 
+        :
+        null 
+        }
+
+        {filter.type === "dateRange" && (
+          <CustomDateRangePicker />
+        )}
       </div>
     </div>
   );

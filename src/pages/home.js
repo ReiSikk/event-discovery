@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from "@/styles/HomePage.module.css";
 import FilterCard from '@/components/filters/FilterCard';
 import classNames from 'classnames';
