@@ -5,7 +5,7 @@ import classNames from 'classnames'
 import placehold_image from '../../../public/assets/landing_place.webp'
 import Image from 'next/image'
 import { format } from 'date-fns';
-import { CalendarClock, MapPin } from 'lucide-react'
+import { CalendarClock, MapPin, TicketIcon } from 'lucide-react'
 import EventSwiper from '@/components/swipers/EventSwiper'
 
 
@@ -23,27 +23,43 @@ export async function getServerSideProps({ params }) {
     const { data: relatedEvents, error: relatedError } = await supabase
     .from('events')
     .select('*')
-    .eq('category', event.category)
-    .neq('id', eventId) // Exclude current
+    .eq('category_id', event.category_id)
+    .neq('id', eventId)
     .limit(10)
     .order('created_at', { ascending: false })
+
+      // Fetch category data
+      let { data: categories, error: categoriesError } = await supabase
+      .from('categories')
+      .select('*')
+
+      if (categoriesError) {
+        console.error('Error fetching categories:', categoriesError)
+        return {
+          notFound: true,
+        }
+      }
+
+        // Match category ID with event's category ID
+      const eventCategory = categories.find(category => category.id === event.category_id)
     
 
       return {
         props: {
             event,
-            relatedEvents: relatedEvents || []
+            relatedEvents: relatedEvents || [],
+            category: eventCategory || null,
         },
       };
     } 
 
 
-  const formatTime = (timeString) => {
+const formatTime = (timeString) => {
       return format(new Date(timeString), 'HH:mm');
     };
 
-function EventPage ({ event, relatedEvents }) {
-    console.log(event, "event")
+function EventPage ({ event, relatedEvents, category }) {
+  console.log(event)
 if (!event) return <div>Loading...</div>
 
   return (
@@ -68,11 +84,26 @@ if (!event) return <div>Loading...</div>
         <main className={styles.eventMain}>
             <section className={classNames(styles.eventContent, styles.container)}>
               <div className={styles.contentLeft}>
-                <p className={styles.contentLeft__lead}>What?</p>
-                <h1 className={styles.contentLeft__title}>{event.title}</h1>
-                <p className={styles.contentLeft__location}></p>
-                <p className={styles.contentLeft__text}>{event.description}</p>
-                <p className={styles.contentLeft__cost}>{event.cost ? `Cost: ${event.cost}` : "This event is free" }</p>
+                <div className={styles.contentLeft__top}>
+                  <h1 className={styles.contentLeft__title}>{event.title}</h1>
+                  {category && 
+                  <div className={styles.contentLeft__cats}>
+                      <span key={category.id} className={`${styles.contentLeft__label} txt-medium`}>
+                        {category.name}
+                      </span>
+                      <div className={`${styles.contentLeft__cost} txt-medium`}>
+                          <TicketIcon size={24} />
+                          <p>
+                          {event.cost ? `Cost: ${event.cost}` : "This event is free" }    
+                          </p>
+                      </div>
+                  </div>
+                }
+                </div>
+                <div className={styles.contentLeft__main}>
+                  <p className={styles.contentLeft__location}></p>
+                  <p className={styles.contentLeft__text}>{event.description}</p>
+                </div>
               </div>
               <div className={styles.contentRight}>
                 <div className={styles.contentRight__top}>
@@ -84,7 +115,6 @@ if (!event) return <div>Loading...</div>
                   </div>
                   <div className={styles.contentRight__item}>
                     <h3 className={styles.contentRight__title}><MapPin />{event.location}</h3>
-                    <p className={styles.contentRight__subtitle}>Name of the place</p>
                     <p className={styles.contentRight__text}>Exact address here</p>
                     <a href="#" className={styles.contentRight__link} >Show on the map</a>
                   </div>
@@ -103,11 +133,14 @@ if (!event) return <div>Loading...</div>
               </div>
             </section>
             {relatedEvents?.length > 0 && (
-              <section className={styles.recommendedSection}>
+              <section className={`${styles.recommendedSection} container block`}>
                 <div className={styles.recommendedSection__wrap}>
-                  <h2 className={styles.recommendedSection__title}>
-                    Explore similar events
-                  </h2>
+                  <div className={`${styles.recommendedSection__top} fp`}>
+                    <h2 className={styles.recommendedSection__title}>
+                      Explore similar events
+                    </h2>
+                    <div className='btn btn__primary'>See all events</div>
+                  </div>
                   <div className={styles.swiperWrap}>
                     <EventSwiper relatedEvents={relatedEvents}/>
                   </div>
