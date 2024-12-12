@@ -4,7 +4,7 @@ import { FILTER_TYPES } from '@/utils/constants/constants';
 export const useFilters = (events) => {
   const [filterState, setFilterState] = useState({
     categories: [],
-    dateRange: null,
+    dateRange: { start: null, end: null },
     location: null,
     query: ''
   });
@@ -28,10 +28,22 @@ export const useFilters = (events) => {
       if (filterState.query && !(
         event.title.toLowerCase().includes(filterState.query.toLowerCase()) ||
         event.description.toLowerCase().includes(filterState.query.toLowerCase())
-        || event.location.toLowerCase().includes(filterState.query.toLowerCase())
       )) {
         return false;
       }
+
+      // Date Range Filter
+      if (filterState.dateRange.start && filterState.dateRange.end) {
+        const eventStart = new Date(event.start_time).getTime();
+        const eventEnd = new Date(event.end_time).getTime();
+        const filterStart = new Date(filterState.dateRange.start).getTime();
+        const filterEnd = new Date(filterState.dateRange.end).getTime();
+
+        if (eventStart < filterStart || eventEnd > filterEnd) {
+          return false;
+        }
+      }
+      
       // Include the events that pass all filters
       return true;
     });

@@ -9,6 +9,7 @@ import { useFilters } from '@/components/filters/useFilters';
 import EventCard from '@/components/EventCard';
 import SearchBar from '@/components/SearchBar';
 import { X } from 'lucide-react';
+import CustomDateRangePicker from '@/components/filters/DateRangePicker';
 
 export async function getServerSideProps() {
   // Fetch user location and data from DB
@@ -76,25 +77,7 @@ const HomePage = ({ pageData, events, categories, location }) => {
     handleCategorySelect(categoryId);
   };
 
-  const filters = [
-    { 
-      id: 1, 
-      text: "Select categories",
-      type: FILTER_TYPES.CATEGORY 
-    },
-    { 
-      id: 2, 
-      text: "Filter by date",
-      type: FILTER_TYPES.DATE 
-    },
-    { 
-      id: 3, 
-      text: "View on the map",
-      type: FILTER_TYPES.LOCATION 
-    }
-  ];
-
-
+ 
   // Search Events
   const [query, setQuery] = useState('');
   // Handle Search bar input change
@@ -109,15 +92,36 @@ const HomePage = ({ pageData, events, categories, location }) => {
     return category ? category.name : '';
   };
 
+  // Date Range Filter
+  const handleDateRangeChange = (newValue) => {
+    updateFilter(FILTER_TYPES.DATE, {
+      start: newValue.start ? new Date(newValue.start.year, newValue.start.month - 1, newValue.start.day).toISOString() : null,
+      end: newValue.end ? new Date(newValue.end.year, newValue.end.month - 1, newValue.end.day).toISOString() : null
+    });
+  };
+
   // Clear all filters
   const isAnyFilterActive = filterState.categories.length > 0 || filterState.date || filterState.location || filterState.query;
 
   const clearFilters = () => {
     updateFilter(FILTER_TYPES.CATEGORY, []);
-    updateFilter(FILTER_TYPES.DATE, null);
+    updateFilter(FILTER_TYPES.DATE, { start: null, end: null });
     updateFilter(FILTER_TYPES.LOCATION, null);
     updateFilter(FILTER_TYPES.QUERY, '');
   };
+
+  const filters = [
+    { 
+      id: 1, 
+      text: "Select categories",
+      type: FILTER_TYPES.CATEGORY 
+    },
+    { 
+      id: 2, 
+      text: "View on the map",
+      type: FILTER_TYPES.LOCATION 
+    }
+  ];
 
 
   return (
@@ -130,15 +134,17 @@ const HomePage = ({ pageData, events, categories, location }) => {
         {pageData.lead}
       </p>
       <ul className={styles.filterCards}>
-      {filters.map((filter) => (
-        <FilterCard
-          key={filter.id}
-          filter={filter}
-          filterState={filterState}
-          onCategorySelect={handleCategorySelect}
-          categories={filter.type === FILTER_TYPES.CATEGORY ? categories : null}
-        />
-      ))}
+        <CustomDateRangePicker handleDateRangeChange={handleDateRangeChange} filterState={filterState} />
+        {filters.map((filter) => (
+          <FilterCard
+            key={filter.id}
+            filter={filter}
+            filterState={filterState}
+            onCategorySelect={handleCategorySelect}
+            handleDateRangeChange={handleDateRangeChange}
+            categories={filter.type === FILTER_TYPES.CATEGORY ? categories : null}
+          />
+        ))}
       </ul>
       {events && <SearchBar handleSearchQuery={handleSearchQuery} /> }
     </header>

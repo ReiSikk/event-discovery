@@ -1,5 +1,6 @@
 .dateRangePicker__title {
     font-weight: 600;
+    display: none;
 }
 .dateRangePicker .group {
     display: flex;
@@ -15,7 +16,7 @@
     border-radius: 6px;
     background: var(--bg);
     white-space: nowrap;
-    margin-top: 16px;
+    /* margin-top: 16px; */
     width: 100%;
     
     &[data-pressed] {
@@ -28,7 +29,7 @@
         outline-offset: -1px;
     }
     @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
-        margin-top: 1.111vw;
+        /* margin-top: 1.111vw; */
         padding-inline: 0.6944vw;
         padding-block: 0.8333vw;
     }
@@ -51,6 +52,11 @@
     position: sticky;
     right: 0;
     cursor: pointer;
+    transition: transform 0.3s ease-out;
+    
+    &[aria-expanded="true"] {
+      transform: rotate(180deg);
+    }
 
     &[data-focus-visible] {
       outline: 2px solid var(--primary);
@@ -69,10 +75,11 @@
 
   .popover[data-trigger=DateRangePicker] {
     max-width: unset;
+    width: 33vw;
   }
 
   .rangeCalendar {
-    width: fit-content;
+    width: 100%;
     background: var(--white);
     max-width: 100%;
     color: var(--bg--dark);
@@ -90,13 +97,6 @@
           margin-bottom: 0.5555vw;
 
       }
-  
-      .react-aria-Heading {
-        flex: 1;
-        margin: 0;
-        text-align: center;
-        font-size: 1.375rem;
-      }
     }
 
     & table {
@@ -110,6 +110,13 @@
     }
 }
 
+.rangeCalendar__header {
+  flex: 1;
+  margin: 0;
+  text-align: center;
+  justify-content: space-between;
+  font-size: 1.375rem;
+}
 
 .rangeCalendar__title {
     color: var(--bg-dark);
@@ -129,6 +136,9 @@
     outline: none;
 }
   
+
+.rangeCalendar__grid {
+}
 
 .calendarCell {
     width: 2.286rem;

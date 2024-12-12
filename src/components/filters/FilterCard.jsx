@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import styles from './FilterCard.module.css';
 import { CheckIcon, ChevronDownIcon, PlusIcon } from 'lucide-react';
-import CustomDateRangePicker from '@/components/DateRangePicker';
+import CustomDateRangePicker from '@/components/filters/DateRangePicker';
 
 
-function FilterCard({ filter, filterState, onCategorySelect, categories }) {
+function FilterCard({ filter, filterState, onCategorySelect, categories, handleDateRangeChange }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
    // Check if any categories are selected for this filter
@@ -43,7 +43,7 @@ function FilterCard({ filter, filterState, onCategorySelect, categories }) {
         }
 
         {filter.type === "dateRange" && (
-          <CustomDateRangePicker />
+          <CustomDateRangePicker handleDateRangeChange={handleDateRangeChange} />
         )}
       </div>
     </div>

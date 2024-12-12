@@ -453,7 +453,12 @@ h4, .h4 {
    Date Range Picker
    ========================================================================== */
    .dateRangePicker {
-    
+
+   }
+
+   div[data-testid="underlay"] {
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(1.5px);
    }
 
 
