@@ -7,16 +7,28 @@ import styles from './EventForm.module.css'
 import { createEvent } from '@/actions/actions'
 import { createClient } from '@/utils/supabase/component'
 import classNames from 'classnames';
-import { Image, Link } from 'lucide-react';
+import { Image, Link, Upload } from 'lucide-react';
+
 
 
 function EventForm({ onSuccess }) {
   const supabase = createClient()
   const [ response, action, isPending ] = useActionState(createEvent, null);
   const [categories, setCategories] = useState([])
-
   //Store ticket type
   const [ticketType, setTicketType] = useState('')
+  const [file, setFile] = useState(null)
+
+  const handleSubmit = async (formData) => {
+    // Add the file to formData if it exists
+    if (file) {
+        formData.append('event_image', file)
+    }
+
+    const result = await createEvent(null, formData)
+    // Handle result (show success/error message)
+}
+
 
     // Add effect to watch response
     useEffect(() => {
@@ -42,9 +54,10 @@ function EventForm({ onSuccess }) {
     fetchCategories()
   }, [])
 
+
   return (
     <>
-    	<Form.Root action={action} className="form">
+    	<Form.Root action={handleSubmit} className="form">
       <Form.Field name="title" className={styles.formField} >
 				<Form.Label className={styles.formField__label}>Title</Form.Label>
 				<Form.Control type="text" placeholder='Name of your event' required className={styles.formField__input} />
@@ -109,12 +122,19 @@ function EventForm({ onSuccess }) {
           <h3>Upload your image</h3>
         </div>
         <p>This will be one of the first things the user sees when browsing events so choose wisely!</p>
-        <Form.Field name="images_urls" className={classNames(styles.formField, styles.formField__file)} >
+        <Form.Field name="event_images" className={classNames(styles.formField, styles.formField__file)} >
           <Form.Label className={styles.formField__label}>
             Drag & drop your file here or click to upload
+            <Upload size={24} />
           </Form.Label>
             <Form.Control asChild/>
-              <input type="file" accept="image/jpeg, image/jpg, image/png" name="image_urls" id="image_urls" className={styles.formField__input}/>
+              <input 
+              type="file" 
+              accept="image/*" 
+              name="event_image" 
+              id="event_image" 
+              className={styles.formField__input}
+              />
         </Form.Field>
       </div>
 

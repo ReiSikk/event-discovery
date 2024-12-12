@@ -479,9 +479,14 @@ h4, .h4 {
     display: flex;
     flex-direction: column;
     gap: 32px;
-
+    padding: 24px;
+    background: var(--bg-dark);
+    border-radius: var(--bradius);
+    box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.2);
+    
     @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
-        gap: 2.2222vw;
+      gap: 2.2222vw;
+      padding: 2.222vw;
     }
 }
 
