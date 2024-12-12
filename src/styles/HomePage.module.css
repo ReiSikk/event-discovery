@@ -120,6 +120,31 @@
   .sidebar__filters {
 
   }
+  .sidebar__header {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
+    @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+      margin-bottom: 1.666vw;
+    }
+  }
+  .sidebar__header h3 {
+    margin-bottom: 0;
+  }
+  .clear {
+    width: fit-content;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.2s ease;
+  }
+  .clear:hover {
+    color: var(--primary);
+    text-decoration: none;
+  }
   .sidebarList {
     list-style-type: none;
     display: flex;
@@ -138,6 +163,8 @@
     border: 1px solid var(--primary);
     color: var(--white);
     min-width: fit-content;
+    justify-content: space-between;
+    padding-inline: 18px;
 
     &:hover {
       background: var(--primary);
@@ -157,6 +184,7 @@
   }
   .eventsList {
     display: grid;
+    list-style-type: none;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 16px;
     
@@ -164,6 +192,18 @@
       gap: 1.666vw;
     }
 
+  }
+
+  .eventsList__error {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+      padding-inline: 1.666vw;
+      padding-block: 4.444vw;
+    }
   }
 
   @keyframes fadeIn {

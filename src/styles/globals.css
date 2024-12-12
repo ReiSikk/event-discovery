@@ -100,8 +100,9 @@ h4, .h4 {
   line-height: 1.35;
 }
 .txt-medium {
-  font-size: 1.8rem;
+  font-size: 1.4rem;
   line-height: 1.5;
+  font-weight: 500;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -395,6 +396,71 @@ h4, .h4 {
     color: var(--white);
 }
 }
+
+
+/*
+   Search bar
+   ========================================================================== */
+.searchBar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 325px;
+  @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+      max-width: 25vw;
+  }
+}
+.searchBar__input {
+  background: var(--bg-dark);
+  padding-block: 10px;
+  padding-inline: 20px 32px;
+  border: 1px solid var(--primary);
+  border-radius: 200px;
+  width: 100%;
+  
+  &::placeholder {
+    color: var(--white);
+  }
+
+  @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+    min-width: 200px;
+  }
+
+}
+.searchBar__btn {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  bottom: 10px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: none;
+  transition: background 0.2s ease;
+
+}
+.searchBar__icon {
+
+
+}
+
+
+/*
+   Date Range Picker
+   ========================================================================== */
+   .dateRangePicker {
+
+   }
+
+   div[data-testid="underlay"] {
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(1.5px);
+   }
+
 
 
 

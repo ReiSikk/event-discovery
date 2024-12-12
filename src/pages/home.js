@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import styles from "@/styles/HomePage.module.css";
-import CategoriesList from '@/components/CategoriesList';
 import FilterCard from '@/components/filters/FilterCard';
 import classNames from 'classnames';
 import Link from 'next/link';
@@ -8,8 +7,12 @@ import { createClient } from '@/utils/supabase/component'
 import { FILTER_TYPES } from '@/utils/constants/constants';
 import { useFilters } from '@/components/filters/useFilters';
 import EventCard from '@/components/EventCard';
+import SearchBar from '@/components/SearchBar';
+import { X } from 'lucide-react';
+import CustomDateRangePicker from '@/components/filters/DateRangePicker';
 
 export async function getServerSideProps() {
+  // Fetch user location and data from DB
   const supabase = createClient()
   const userLocation = await fetch(`https://api.ipregistry.co/?key=${process.env.NEXT_PUBLIC_IPREGISTRY_API_KEY}`)
   .then((res) => {
@@ -30,8 +33,7 @@ let { data: categories, categoriesError } = await supabase
 .select('*')
 
 
-
-
+  // Fetch data from CMS
   const url = process.env.NEXT_PUBLIC_CMS_URL + 'home?populate=*'
   try {
     const res = await fetch(url);
@@ -59,17 +61,53 @@ let { data: categories, categoriesError } = await supabase
   }
 }
 
-
 const HomePage = ({ pageData, events, categories, location }) => {
 
   const { filterState, updateFilter, getFilteredEvents } = useFilters(events);
   
-  const handleCategorySelect = (categoryName) => {
+  const handleCategorySelect = (categoryId) => {
     const current = filterState.categories;
-    const updated = current.includes(categoryName)
-      ? current.filter(id => id !== categoryName)
-      : [...current, categoryName];
+    const updated = current.includes(categoryId)
+      ? current.filter(id => id !== categoryId)
+      : [...current, categoryId];
     updateFilter(FILTER_TYPES.CATEGORY, updated);
+  };
+
+  const handleCategoryClick = (categoryId) => {
+    handleCategorySelect(categoryId);
+  };
+
+ 
+  // Search Events
+  const [query, setQuery] = useState('');
+  // Handle Search bar input change
+  const handleSearchQuery = (e) => {
+      setQuery(e.target.value?.trimEnd());
+    updateFilter(FILTER_TYPES.QUERY, query?.toLowerCase());
+    }
+
+
+  const getCategoryNameById = (id) => {
+    const category = categories.find(cat => cat.id === id);
+    return category ? category.name : '';
+  };
+
+  // Date Range Filter
+  const handleDateRangeChange = (newValue) => {
+    updateFilter(FILTER_TYPES.DATE, {
+      start: newValue.start ? new Date(newValue.start.year, newValue.start.month - 1, newValue.start.day).toISOString() : null,
+      end: newValue.end ? new Date(newValue.end.year, newValue.end.month - 1, newValue.end.day).toISOString() : null
+    });
+  };
+
+  // Clear all filters
+  const isAnyFilterActive = filterState.categories.length > 0 || filterState.dateRange.start && filterState.dateRange.end  || filterState.location || filterState.query;
+
+  const clearFilters = () => {
+    updateFilter(FILTER_TYPES.CATEGORY, []);
+    updateFilter(FILTER_TYPES.DATE, { start: null, end: null });
+    updateFilter(FILTER_TYPES.LOCATION, null);
+    updateFilter(FILTER_TYPES.QUERY, '');
   };
 
   const filters = [
@@ -80,15 +118,11 @@ const HomePage = ({ pageData, events, categories, location }) => {
     },
     { 
       id: 2, 
-      text: "Filter by date",
-      type: FILTER_TYPES.DATE 
-    },
-    { 
-      id: 3, 
       text: "View on the map",
       type: FILTER_TYPES.LOCATION 
     }
   ];
+
 
   return (
     <>
@@ -100,16 +134,19 @@ const HomePage = ({ pageData, events, categories, location }) => {
         {pageData.lead}
       </p>
       <ul className={styles.filterCards}>
-      {filters.map((filter) => (
-        <FilterCard
-          key={filter.id}
-          filter={filter}
-          filterState={filterState}
-          onCategorySelect={handleCategorySelect}
-          categories={filter.type === FILTER_TYPES.CATEGORY ? categories : null}
-        />
-      ))}
+        <CustomDateRangePicker handleDateRangeChange={handleDateRangeChange} filterState={filterState} />
+        {filters.map((filter) => (
+          <FilterCard
+            key={filter.id}
+            filter={filter}
+            filterState={filterState}
+            onCategorySelect={handleCategorySelect}
+            handleDateRangeChange={handleDateRangeChange}
+            categories={filter.type === FILTER_TYPES.CATEGORY ? categories : null}
+          />
+        ))}
       </ul>
+      {events && <SearchBar handleSearchQuery={handleSearchQuery} /> }
     </header>
     <main className={classNames(styles.mainContainer, styles.container)}>
         <div className={styles.mainContainer__header}>
@@ -121,16 +158,33 @@ const HomePage = ({ pageData, events, categories, location }) => {
       <section className={styles.content}>
         <div className={styles.content_sidebar}>
           <div className={styles.sidebar__filters}>
-            <h3>Selected filters</h3>
+            <div className={styles.sidebar__header}>
+              <h4>Selected filters</h4>
+              {isAnyFilterActive  && (
+                <div className={`${styles.clear} txt-small`} onClick={clearFilters}>Clear filters<X size={12} /></div>
+              )}
+            </div>
             <ul className={styles.sidebarList}>
+              {filterState.dateRange.start && filterState.dateRange.end && (
+                <li
+                  className={classNames(styles.btn__primary, styles.sidebar__filter)}
+                  onClick={() => updateFilter(FILTER_TYPES.DATE, { start: null, end: null })}
+                >
+                  {new Date(filterState.dateRange.start).toLocaleDateString()} - {new Date(filterState.dateRange.end).toLocaleDateString()}
+                  <X size={16} />
+                </li>
+              )
+              }
               {filterState.categories.length > 0 && (
                 <>
-                  {filterState.categories.map((category) => (
+                  {filterState.categories.map((categoryId) => (
                      <li 
                      className={classNames(styles.btn__primary, styles.sidebar__filter)}
-                      key={category.id}
+                      key={categoryId}
+                      onClick={() => handleCategoryClick(categoryId)}
                      >
-                        {category}
+                        {getCategoryNameById(categoryId)}
+                        <X size={16} />
                     </li>
                   ))}
                 </>
@@ -139,11 +193,18 @@ const HomePage = ({ pageData, events, categories, location }) => {
           </div>
         </div>{/* content_sidebar */}
         <div className={styles.content_main}>
+        {getFilteredEvents().length > 0 ? (
           <ul className={styles.eventsList}>
-          {events && events.map((event) => (
-            <EventCard key={event.id} event={event} />
-          ))}
+            {getFilteredEvents().map((event) => (
+              <EventCard key={event.id} event={event} getCategoryNameById={getCategoryNameById} />
+            ))}
           </ul>
+        ) : (
+          <div className={`${styles.eventsList__error} h2`}>
+            <p className='h3'>No results found</p>
+            <p className='txt-medium'>Try adjusting your search or filters to find what you are looking for.</p>
+          </div>
+        )}
         </div>
       </section>
     </main>
