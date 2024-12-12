@@ -10,7 +10,22 @@ import EventSwiper from '@/components/swipers/EventSwiper';
 import EventCard from '@/components/EventCard';
 import DialogModal from '@/components/DialogModal';
 
-function ProfilePage() {
+export async function getServerSideProps() {
+    const supabase = createClient();
+    
+    let { data: categories, categoriesError } = await supabase
+    .from('categories')
+    .select('*')
+    return {
+        props: {
+            categories: categories || [],
+        },
+    };
+}
+
+
+
+function ProfilePage({ categories }) {
     const [session, setSession] = useState(null);
     const [user, setUser] = useState(null); 
     const [userEvents, setUserEvents] = useState([]);
@@ -18,7 +33,7 @@ function ProfilePage() {
 
     const supabase = createClient();
     const router = useRouter(); 
-    console.log(session, "session");
+    
 
     const toggleModal = () => {
         setModalOpen(!modalOpen);
@@ -48,6 +63,13 @@ function ProfilePage() {
         }
     }
 
+
+
+    const getCategoryNameById = (id) => {
+        const category = categories.find(cat => cat.id === id);
+        return category ? category.name : '';
+      };
+
     
   
   useEffect(() => {
@@ -68,6 +90,7 @@ function ProfilePage() {
     }
     getSession();
   }, [router, supabase]);
+
   return (
     <>
     {session?.user ? (
@@ -129,7 +152,7 @@ function ProfilePage() {
             {userEvents && userEvents.length > 0 ? (
                 <ul className={styles.eventsList}>
                 {userEvents.map((event) => (
-                    <EventCard key={event.id} event={event} />
+                    <EventCard key={event.id} event={event} getCategoryNameById={getCategoryNameById} />
                 ))}
                 </ul>
             ) : (
