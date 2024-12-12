@@ -4,16 +4,23 @@ import { createClient } from '@/utils/supabase/component'
 import LoginForm from '@/components/forms/LoginForm'
 import * as Tabs from "@radix-ui/react-tabs";
 import SignUpForm from '@/components/forms/SignupForm';
+import { useAuth } from '@/pages/api/auth/authprovider'
 
 export default function LoginPage() {
   const router = useRouter()
   const supabase = createClient()
-  const [activeTab, setActiveTab] = useState("tab1")
+  const { isLoggedIn } = useAuth()
+  const { id } = router.query
+  const [activeTab, setActiveTab] = useState(id === 'signup' ? 'tab2' : 'tab1')
+
 
   //TODO: Check for user session
   // if user is logged in redirect to home page
-  
-  
+  useEffect(() => {
+    if (isLoggedIn) {
+      router.push('/home')
+    }
+  }, [isLoggedIn])
 
 
   async function logIn() {
