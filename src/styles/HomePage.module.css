@@ -184,6 +184,7 @@
   }
   .eventsList {
     display: grid;
+    list-style-type: none;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 16px;
     
@@ -191,6 +192,18 @@
       gap: 1.666vw;
     }
 
+  }
+
+  .eventsList__error {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+      padding-inline: 1.666vw;
+      padding-block: 4.444vw;
+    }
   }
 
   @keyframes fadeIn {

@@ -101,7 +101,7 @@ const HomePage = ({ pageData, events, categories, location }) => {
   };
 
   // Clear all filters
-  const isAnyFilterActive = filterState.categories.length > 0 || filterState.date || filterState.location || filterState.query;
+  const isAnyFilterActive = filterState.categories.length > 0 || filterState.dateRange.start && filterState.dateRange.end  || filterState.location || filterState.query;
 
   const clearFilters = () => {
     updateFilter(FILTER_TYPES.CATEGORY, []);
@@ -165,6 +165,16 @@ const HomePage = ({ pageData, events, categories, location }) => {
               )}
             </div>
             <ul className={styles.sidebarList}>
+              {filterState.dateRange.start && filterState.dateRange.end && (
+                <li
+                  className={classNames(styles.btn__primary, styles.sidebar__filter)}
+                  onClick={() => updateFilter(FILTER_TYPES.DATE, { start: null, end: null })}
+                >
+                  {new Date(filterState.dateRange.start).toLocaleDateString()} - {new Date(filterState.dateRange.end).toLocaleDateString()}
+                  <X size={16} />
+                </li>
+              )
+              }
               {filterState.categories.length > 0 && (
                 <>
                   {filterState.categories.map((categoryId) => (
@@ -183,11 +193,18 @@ const HomePage = ({ pageData, events, categories, location }) => {
           </div>
         </div>{/* content_sidebar */}
         <div className={styles.content_main}>
+        {getFilteredEvents().length > 0 ? (
           <ul className={styles.eventsList}>
-          {getFilteredEvents().map((event) => (
-            <EventCard key={event.id} event={event} getCategoryNameById={getCategoryNameById} />
-          ))}
+            {getFilteredEvents().map((event) => (
+              <EventCard key={event.id} event={event} getCategoryNameById={getCategoryNameById} />
+            ))}
           </ul>
+        ) : (
+          <div className={`${styles.eventsList__error} h2`}>
+            <p className='h3'>No results found</p>
+            <p className='txt-medium'>Try adjusting your search or filters to find what you are looking for.</p>
+          </div>
+        )}
         </div>
       </section>
     </main>
