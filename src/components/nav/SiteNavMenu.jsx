@@ -73,9 +73,9 @@ const SiteNavMenu = () => {
 				<NavigationMenu.Item>
 					<NavigationMenu.Link
 						className={styles.Link}
-						href="/profile"
+						href="/organiser"
 					>
-						My Profile
+						For Organisers
 					</NavigationMenu.Link>
 				</NavigationMenu.Item>
 

@@ -11,7 +11,6 @@ import { useRouter } from "next/router";
 
 export async function getServerSideProps() {
   const url = process.env.NEXT_PUBLIC_CMS_URL + 'landing?populate=*'
-  console.log(url, "url");
 
   try {
     const res = await fetch(url);
@@ -65,11 +64,6 @@ export default function Home({ pageData, error, user}) {
       <div
       >
         <main className={styles.main}>
-          {/* {session ? (
-            <h1>Welcome {session.user.email}</h1>
-          ) : (
-            <h1>Not logged in</h1>
-          )} */}
           <section className={`${styles.heroSection} ${styles.container}`}>
             <div className={styles.heroSection__main}>
               <h1 className={styles.heroSection__title}>
