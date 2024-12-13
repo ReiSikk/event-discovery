@@ -5,6 +5,7 @@ import Link from 'next/link';
 import classNames from 'classnames';
 
 function EventCard({ event, getCategoryNameById }) {
+  const eventCategory = getCategoryNameById(event.category_id)
   return (
     <li 
     key={event.id}
@@ -30,6 +31,7 @@ function EventCard({ event, getCategoryNameById }) {
         <Link 
          href={`/event/${event.id}`}
         className={classNames(styles.eventsCard__link, styles.btn__primary)}
+        eventCategory={eventCategory}
         >
           Read more
         </Link>

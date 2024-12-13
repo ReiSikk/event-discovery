@@ -10,14 +10,13 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 
 function EventSwiper({ relatedEvents }) {
-    console.log(relatedEvents, "Related events in swiper")
   return (
     <Swiper
         spaceBetween={24}
         slidesPerView={3}
         onSlideChange={() => console.log('slide change')}
         onSwiper={(swiper) => console.log(swiper)}
-        className={styles.eventSwiper}
+        className="eventSwiper"
         modules={[Navigation]}
         navigation
         >

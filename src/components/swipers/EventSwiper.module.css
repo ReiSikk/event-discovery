@@ -22,24 +22,22 @@
         color: var(--bg);
     }
 }
-
-.eventSwiper >  .swiper-button-prev, .swiper-button-next  {
-    color: var(--bg-dark)!important;
-  } 
   
   .eventSlide {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     background: var(--bg-dark);
     border-radius: var(--bradius);
     padding: 16px;
     height: 52.3168vh;
     @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
         padding: 1.6666vw;
-        height: 61.9444vh;
     }
   }
   .eventSlide__img {
     width: 100%;
-    height: auto;
+    height: 50%;
     object-fit: cover;
     border-radius: var(--bradius);
   }

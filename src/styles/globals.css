@@ -15,7 +15,8 @@
   --secondary: #02F559;
   --pink: #EF92B8;
   --black: #1A1A1A;
-  --white: #f4e0d9;
+  /* --white: #f4e0d9; */
+  --white: #f4f4f4;
 
   /*  Grid  */
   --container-width: 100%;
@@ -258,6 +259,14 @@ h4, .h4 {
   .col-d-12 {
     width: 100%;
   }
+}
+
+
+.fp {
+  display: flex;
+  flex-direction: row;
+  max-width: 100%;
+  flex-wrap: wrap;
 }
 
 
@@ -695,6 +704,20 @@ h4, .h4 {
      }
 
 
+
+
+
+/*
+  Swiper
+  ========================================================================== */
+
+  .eventSwiper {
+    border-radius: var(--bradius);
+  }
+  .eventSwiper > .swiper-button-prev, .eventSwiper > .swiper-button-next {
+    color: var(--primary);
+  }
+     
 
 
   /*
