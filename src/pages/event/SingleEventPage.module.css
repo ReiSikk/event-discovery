@@ -114,15 +114,10 @@
     font-weight: 600;
 
     @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
-      margin-bottom: 8px;
     }
-}
-.eventHeader_time {
 }
 .eventHeader__location {
     margin-top: 4px;
-    font-size: 1.2rem;
-    line-height: 1.35;
 }
 
 .eventHeader__gradient {
@@ -271,22 +266,15 @@
 .contentRight__subtitle {
   margin-left: 32px;
 }
-.contentRight__text {
-  font-size: 1.2rem;
-  line-height: 1.35;
-  margin-left: 32px;
-  
 
-}
 .contentRight__link {
   font-size: 1.2rem;
   line-height: 1.35;
   margin-left: 32px;
   text-decoration: underline;
   text-underline-offset: 4px;
-
 }
-.contentStats {
+.contentMain {
   background: var(--bg);
   padding-inline: 16px;
   padding-block: 24px;
@@ -303,42 +291,14 @@
   }
 
 }
-.contentStats__top,.contentStats__bottom {
+.contentMain__top {
   padding-left: 16px;
-  border-left: 1px solid var(--primary);
   @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
     padding-left: 2.222vw;
   }
 
 }
-.contentStats__title, .contentStats__number {
-  font-size: clamp(2.6rem, 2.4305vw, 3.5rem);
-  font-weight: 600;
-  margin-bottom: 0px;
-
-}
-.contentStats__date {
-  font-size: 1.8rem;
-  line-height: 1.5;
-
-}
-.contentStats__bottom {
-
-}
-.contentStats__number {
-
-}
-.contentStats__lead {
-  font-size: 1.8rem;
-  line-height: 1.5;
-  margin-bottom: 10px;
-  @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
-    margin-bottom: 0.833vw;
-  }
-}
-.contentStats__text {
-  font-size: 1.2rem;
-  line-height: 1.35;
+.contentMain__text {
 }
   
 
