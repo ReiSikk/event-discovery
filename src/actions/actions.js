@@ -3,8 +3,9 @@
 import { createClient } from '@/utils/supabase/component'
 import { revalidatePath } from 'next/cache'
 
-export async function createEvent(previousState, formData) {
+export async function createEvent(session, formData) {
     const supabase = createClient()
+    const userId = session.user.id
 
     try {
         const eventData = {
@@ -19,6 +20,7 @@ export async function createEvent(previousState, formData) {
         }
         console.log(eventData, "eventData before inserting")
 
+
         const { data: eventInsertData, error: insertError } = await supabase
             .from('events')
             .insert(eventData)
@@ -31,37 +33,41 @@ export async function createEvent(previousState, formData) {
         }
 
         // Handle image upload
-       /*  const file = formData.get('event_image')
+        const file = formData.get('event_image')
         
         if (file && file.size > 0) {
             // Generate unique filename
             const fileExt = file.name.split('.').pop()
             const fileName = `${eventInsertData.id}_${Date.now()}.${fileExt}`
-            const filePath = `events/${eventInsertData.id}/${fileName}`
+            const filePath = `${userId}/${fileName}`
+            console.log(filePath, "filePath")
 
             // Upload to Supabase storage
-            const { error: uploadError } = await supabase.storage
+            const { data, error: uploadError } = await supabase.storage
                 .from('event-images')
                 .upload(filePath, file)
+            
+                if(data) {
+                    console.log("data", data)
+                } else {
+                    console.log("upload error in line 52", uploadError)
+                }
 
-            if (uploadError) throw uploadError
-
-            // Insert image record
+            // Insert image record in event_images table
             const { error: imageError } = await supabase
-                .from('event_images')
-                .insert({
-                    event_id: eventInsertData.id,
-                    user_id: previousState.user.id,
-                    image_path: filePath,
-                    is_primary: true,
-                    caption: formData.get('image_caption') || null
-                })
+            .from('event_images')
+            .insert({
+                event_id: eventInsertData.id,
+                user_id: userId,
+                image_path: filePath,
+                is_primary: true,
+            })
 
-            if (imageError) throw imageError
+        if (imageError) {
+            console.error('Image record insert error:', imageError)
+            throw imageError
         }
-
-        // Revalidate the current path to refresh server-side rendered content
-        revalidatePath('/events') */
+        }
 
         return {
             success: true,

@@ -33,8 +33,15 @@
 .eventsCard_media {
   height: 200px;
   border: 1px solid var(--primary);
-  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
 }
+.eventsCard_media > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .eventsCard__label {
   right: 10px;
   top: 10px;

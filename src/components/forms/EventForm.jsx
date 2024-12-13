@@ -10,23 +10,27 @@ import classNames from 'classnames';
 import { Image, Link, Upload } from 'lucide-react';
 
 
-
-function EventForm({ onSuccess }) {
+function EventForm({ onSuccess, session }) {
   const supabase = createClient()
   const [ response, action, isPending ] = useActionState(createEvent, null);
   const [categories, setCategories] = useState([])
+  const [eventCreated, setEventCreated] = useState(false)
   //Store ticket type
   const [ticketType, setTicketType] = useState('')
   const [file, setFile] = useState(null)
+
 
   const handleSubmit = async (formData) => {
     // Add the file to formData if it exists
     if (file) {
         formData.append('event_image', file)
+        console.log('file in handleSubmit', file)
     }
 
-    const result = await createEvent(null, formData)
-    // Handle result (show success/error message)
+    const result = await createEvent(session, formData)
+    if (result.success) {
+      setEventCreated(true)
+    }
 }
 
 
@@ -60,7 +64,7 @@ function EventForm({ onSuccess }) {
     	<Form.Root action={handleSubmit} className="form">
       <Form.Field name="title" className={styles.formField} >
 				<Form.Label className={styles.formField__label}>Title</Form.Label>
-				<Form.Control type="text" placeholder='Name of your event' required className={styles.formField__input} />
+				<Form.Control type="text" placeholder='Name of your event'  className={styles.formField__input} />
 				<Form.Message match="valueMissing" className="input__message">
 					Please enter a title for the event/activity.
 				</Form.Message>
@@ -68,7 +72,7 @@ function EventForm({ onSuccess }) {
 
       <Form.Field name="description" className={styles.formField} >
 				<Form.Label className={styles.formField__label}>Description</Form.Label>
-				<Form.Control type="textarea" placeholder='Provide a description of your event' required className={styles.formField__input} />
+				<Form.Control type="textarea" placeholder='Provide a description of your event'  className={styles.formField__input} />
 				<Form.Message match="valueMissing" className="input__message">
 					Please enter a description for your listing.
 				</Form.Message>
@@ -76,7 +80,7 @@ function EventForm({ onSuccess }) {
 
       <Form.Field name="location" className={styles.formField} >
 				<Form.Label className={styles.formField__label}>Location</Form.Label>
-				<Form.Control type="text" placeholder='Where your event is happening' required className={styles.formField__input} />
+				<Form.Control type="text" placeholder='Where your event is happening'  className={styles.formField__input} />
 				<Form.Message match="valueMissing" className="input__message">
 					Please enter a location for your listing.
 				</Form.Message>
@@ -84,14 +88,14 @@ function EventForm({ onSuccess }) {
 
       <Form.Field name="start_time" className={styles.formField} >
 				<Form.Label className={styles.formField__label}>Start time and date</Form.Label>
-				<Form.Control type="datetime-local" required className={styles.formField__input} />
+				<Form.Control type="datetime-local"  className={styles.formField__input} />
 				<Form.Message match="valueMissing" className="input__message">
 					Please enter a start time for your listing.
 				</Form.Message>
 			</Form.Field>
       <Form.Field name="end_time" className={styles.formField} >
 				<Form.Label className={styles.formField__label}>End time and date</Form.Label>
-				<Form.Control type="datetime-local" required className={styles.formField__input} />
+				<Form.Control type="datetime-local"  className={styles.formField__input} />
 				<Form.Message match="valueMissing" className="input__message">
 					Please enter a end time for your listing.
 				</Form.Message>
@@ -233,27 +237,11 @@ function EventForm({ onSuccess }) {
     </Form.Field>
 
 
-      <Form.Submit className={classNames(styles.form__submit, styles.btn__primary)}>Submit</Form.Submit>
+      <Form.Submit 
+      className={classNames(styles.form__submit, styles.btn__primary)}
+      disabled={isPending}
+      >{isPending ? 'Creating event...' : 'Submit'}</Form.Submit>
     </Form.Root>
-      {/* // <form action={action} className="form">
-      //   <input type="text" name="title" placeholder="Event title" required />
-      //   <textarea name="description" placeholder="Event description" required />
-      //   <input type="text" name="location" placeholder="Location" required />
-      //   <input type="datetime-local" name="start_time" required />
-      //   <input type="datetime-local" name="end_time" required />
-      //   <select name="category" required>
-      //     <option value="">Select category</option>
-      //     {categories.map((category) => (
-      //       <option key={category.id} value={category.id}>
-      //         {category.name}
-      //       </option>
-      //     ))}
-      //   </select>
-      //   <button type="submit" disabled={isPending}>
-      //     {isPending ? 'Creating...' : 'Create Event'}
-      //   </button>
-      //   {response && <p className={styles.response}>{response.message}</p>}
-      // </form> */}
     </>
   )
 }

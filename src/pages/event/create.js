@@ -30,7 +30,7 @@ export default function CreateEventPage({ events: initialEvents }) {
   const [submitted, setSubmitted] = useState(false)
   const supabase = createClient()
   const router = useRouter();
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn, session } = useAuth()
 
   const refreshEvents = async () => {
     const { data: updatedEvents } = await supabase
@@ -55,7 +55,7 @@ export default function CreateEventPage({ events: initialEvents }) {
              <h3>Side content here</h3>
            </div>
            <div className={styles.formSection__main}>
-             <EventForm onSuccess={refreshEvents} />
+             <EventForm onSuccess={refreshEvents} session={session}/>
            </div>
          {submitted && <div className={styles.feedbackToast}>Event created successfully. Redirecting to home...</div>}
          </section>
