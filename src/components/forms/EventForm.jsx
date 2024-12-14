@@ -2,22 +2,29 @@
 
 import React from 'react'
 import * as Form from "@radix-ui/react-form";
-import { useActionState, useState, useEffect } from 'react'
+import { useActionState, useState, useEffect, useRef } from 'react'
 import styles from './EventForm.module.css'
 import { createEvent } from '@/actions/actions'
 import { createClient } from '@/utils/supabase/component'
 import classNames from 'classnames';
 import { Image, Link, Upload } from 'lucide-react';
+import { useRouter } from 'next/router'
+import ToastNotification from '@/components/ToastNotification';
 
 
 function EventForm({ onSuccess, session }) {
   const supabase = createClient()
+  const router = useRouter()
   const [ response, action, isPending ] = useActionState(createEvent, null);
   const [categories, setCategories] = useState([])
   const [eventCreated, setEventCreated] = useState(false)
   //Store ticket type
   const [ticketType, setTicketType] = useState('')
   const [file, setFile] = useState(null)
+
+  // Feedback toast
+  const toastRef = useRef(null)
+  const [error, setError] = useState(null)
 
 
   const handleSubmit = async (formData) => {
@@ -30,16 +37,16 @@ function EventForm({ onSuccess, session }) {
     const result = await createEvent(session, formData)
     if (result.success) {
       setEventCreated(true)
+      toastRef.current.triggerToast()
+      setTimeout(() => {
+        router.push('/home')
+        setEventCreated(false)
+      }, 2000)
+    } else {
+      setError(result.error.message)
     }
 }
 
-
-    // Add effect to watch response
-    useEffect(() => {
-      if (response?.success) {
-        onSuccess()
-      }
-    }, [response, onSuccess])
 
   useEffect(() => {
     async function fetchCategories() {
@@ -242,6 +249,8 @@ function EventForm({ onSuccess, session }) {
       disabled={isPending}
       >{isPending ? 'Creating event...' : 'Submit'}</Form.Submit>
     </Form.Root>
+    {error && <p className="error">{error}</p>}
+    <ToastNotification ref={toastRef} />
     </>
   )
 }

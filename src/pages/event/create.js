@@ -40,9 +40,6 @@ export default function CreateEventPage({ events: initialEvents }) {
     
     setEvents(updatedEvents)
     setSubmitted(true)
-    setTimeout(() => {
-      router.push('/home')
-    }, 2000)
   }
   
   return (
