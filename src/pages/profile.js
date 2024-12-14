@@ -46,22 +46,48 @@ function ProfilePage({ categories }) {
     //Fetch user events from DB
     async function getEventsByUserId(userId) {
         try {
-            const { data, error } = await supabase
-                .from('events')
-                .select('*') // Select all columns
-                .eq('publisher_id', userId); // Filter by publisher
-
-            if (error) {
-                console.error('Error fetching events:', error.message);
-                return [];
-            }
-
-            return data; // Return the list of events associated with the user ID
-        } catch (error) {
-            console.error('Unexpected error:', error);
+          const { data: events, error: eventsError } = await supabase
+            .from('events')
+            .select('*') // Select all columns
+            .eq('publisher_id', userId); // Filter by publisher
+      
+          if (eventsError) {
+            console.error('Error fetching events:', eventsError.message);
             return [];
+          }
+      
+          const eventsWithImages = await Promise.all(
+            events.map(async (event) => {
+              const { data: images, error: imagesError } = await supabase
+                .from('event_images')
+                .select('*')
+                .eq('event_id', event.id)
+                .order('is_primary', { ascending: false });
+      
+              if (imagesError) {
+                console.error('Error fetching event images:', imagesError);
+                return { ...event, images: [] };
+              }
+      
+              const imagesWithUrls = await Promise.all(
+                images.map(async (image) => ({
+                  ...image,
+                  public_url: supabase.storage
+                    .from('event-images')
+                    .getPublicUrl(image.image_path).data.publicUrl,
+                }))
+              );
+      
+              return { ...event, images: imagesWithUrls };
+            })
+          );
+      
+          return eventsWithImages; // Return the list of events with images
+        } catch (error) {
+          console.error('Unexpected error:', error);
+          return [];
         }
-    }
+      }
 
 
 
@@ -152,7 +178,7 @@ function ProfilePage({ categories }) {
             {userEvents && userEvents.length > 0 ? (
                 <ul className={styles.eventsList}>
                 {userEvents.map((event) => (
-                    <EventCard key={event.id} event={event} getCategoryNameById={getCategoryNameById} />
+                    <EventCard key={event.id} event={event} getCategoryNameById={getCategoryNameById} isProfilePage/>
                 ))}
                 </ul>
             ) : (

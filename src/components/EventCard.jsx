@@ -4,7 +4,16 @@ import { LocateIcon } from 'lucide-react';
 import Link from 'next/link';
 import classNames from 'classnames';
 
-function EventCard({ event, getCategoryNameById }) {
+function EventCard({ event, getCategoryNameById, isProfilePage }) {
+
+  const handleEdit = () => {
+    console.log('Edit event')
+  }
+
+  const handleDelete = () => {
+    console.log('Delete event')
+  }
+
   return (
     <li 
     key={event.id}
@@ -33,15 +42,26 @@ function EventCard({ event, getCategoryNameById }) {
           <LocateIcon size={16} />
           {event.location}
         </p>
-        <Link 
-         href={`/event/${event.id}`}
-        className={classNames(styles.eventsCard__link, styles.btn__primary)}
-        >
-          Read more
-        </Link>
-        <Link href={event.ticket_link ? event.ticket_link : "#"} className={classNames(styles.eventsCard__link, styles.btn__primary)}>
-          Get tickets
-        </Link>
+        {
+          !isProfilePage &&
+          <>
+            <Link 
+            href={`/event/${event.id}`}
+            className={classNames(styles.eventsCard__link, styles.btn__primary)}
+            >
+              Read more
+            </Link>
+            <Link href={event.ticket_link ? event.ticket_link : "#"} className={classNames(styles.eventsCard__link, styles.btn__primary)}>
+              Get tickets
+            </Link>
+          </>
+        }
+          {isProfilePage && (
+            <div className={styles.eventCard__actions}>
+              <button onClick={handleEdit} className={`${styles.btn__edit} btn__primary`}>Edit</button>
+              <button onClick={handleDelete} className={`${styles.btn__delete} btn__primary`}>Delete</button>
+            </div>
+      )}
       </div>
     </li>
   )
