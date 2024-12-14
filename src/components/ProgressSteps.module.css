@@ -1,0 +1,59 @@
+.formProgress {
+    width: 33.33%;
+    height: fit-content;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    padding: 24px;
+    background-color: var(--bg-dark);
+    border-radius: var(--bradius);
+    display: flex;
+    flex-direction: column;
+  }
+
+
+
+   .progressStep {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: var(--bg-dark);
+    border-radius: 4px;
+  }
+  
+  .progressStep .stepNumber {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: var(--bg-dark);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+  }
+  
+  .progressStep.currentStep {
+    background-color: var(--bg);
+    border: 1px solid var(--white);
+  }
+  
+  .progressStep.completedStep {
+    border: 1px solid var(--primary);
+  }
+  
+  .progressStep .checkIcon {
+    color: var(--primary);
+    margin-right: 10px;
+  }
+  
+  .progressStep__title {
+    margin: 0;
+    font-size: 14px;
+  }
+  
+  .progressStep__text {
+    margin: 5px 0 0;
+    opacity: 0.7;
+  }

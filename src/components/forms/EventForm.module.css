@@ -1,4 +1,8 @@
-
+.formFields {
+    background: var(--bg);
+    border-radius: var(--bradius);
+    padding: 24px;
+}
 .formField {
     display: flex;
     flex-direction: column;
@@ -74,7 +78,7 @@
     position: relative;
     align-items: center;
     justify-content: center;
-    background: var(--bg);
+    background: var(--bg-dark);
     border-radius: var(--bradius);
     border: 1px solid transparent;
     width: 100%;
@@ -88,7 +92,6 @@
     }
 
     @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
-        max-width: 50vw;
         height: 37.0370svh;
     }
 }

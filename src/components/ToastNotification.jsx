@@ -2,6 +2,7 @@ import React from "react";
 import * as Toast from "@radix-ui/react-toast";
 import styles from "./ToastNotification.module.css";
 import { useEffect, useRef, useState, forwardRef } from "react";
+import { XCircle } from "lucide-react";
 
 const ToastNotification = forwardRef((props, ref) => {
     const [open, setOpen] = useState(false);
@@ -30,8 +31,11 @@ const ToastNotification = forwardRef((props, ref) => {
             <Toast.Root className={styles.Root} open={open} onOpenChange={setOpen} duration={2000}>
                 <Toast.Title className={styles.Title}>Event Created</Toast.Title>
                 <Toast.Description asChild>
-                    <span className={styles.Description}>Your event has been successfully created.</span>
+                    <span className={`${styles.Description} txt-medium`}>Your event has been successfully created!</span>
                 </Toast.Description>
+				<Toast.Close className={styles.Close}>
+					<XCircle size={32} />
+				</Toast.Close>
             </Toast.Root>
             <Toast.Viewport className={styles.Viewport} />
         </Toast.Provider>

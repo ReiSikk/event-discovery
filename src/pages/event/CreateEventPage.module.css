@@ -41,26 +41,86 @@
       margin-bottom: 1.666vw;
     }
   }
-   .formSection {
+  .formSection {
     display: flex;
+    position: relative;
     width: 100%;
-
-   }
-   .formProgress {
-    width: 33.33%;
-    display: none;
+    margin-block: 32px 64px;
     @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
-        display: block;
+      margin-block: 4.4444vw 6.9444vw;
     }
+  }
+  
+  .wizardContainer {
+    display: flex;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .wizardNavigation {
+    width: 250px;
+    padding-right: 20px;
+    border-right: 1px solid #e0e0e0;
+  }
+  
+  .wizardStep {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+  }
+  
+  .wizardStep .stepNumber {
+    margin-right: 10px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: #ccc;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .wizardStep.currentStep {
+    background-color: #e6f2ff;
+  }
+  
+  .wizardStep.completedStep {
+    background-color: #e6f7e6;
+  }
+  
+  .wizardStep.completedStep .checkIcon {
+    color: green;
+    margin-right: 10px;
+  }
+  
+  .wizardActions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .prevButton, .nextButton {
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .nextButton {
+    background-color: #007bff;
+    color: white;
+  }
 
-   }
    .formSection__main {
-       margin-block: 0 64px;
        max-width: 100%;
        @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
         width: 66.66%;
-        margin-block: 0 6.9444vw;
-        padding-right: 5vw;
+        padding-inline: 2.222vw 0;
     }
    }
 
