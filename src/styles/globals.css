@@ -406,6 +406,12 @@ h4, .h4 {
 }
 }
 
+.buttons__flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
 
 /*
    Search bar
@@ -482,9 +488,14 @@ h4, .h4 {
     display: flex;
     flex-direction: column;
     gap: 32px;
-
+    padding: 16px;
+    background: var(--bg-dark);
+    border-radius: var(--bradius);
+    box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.2);
+    
     @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
-        gap: 2.2222vw;
+      gap: 2.2222vw;
+      padding: 1.666vw;
     }
 }
 
@@ -696,12 +707,23 @@ h4, .h4 {
   margin-top: 8px;
 }
 
-     /* Override Google sign in button styles */
+/* Override Google sign in button styles */
 
-     #googleBtn {
-      width: fit-content;
-      margin-inline: auto;
-     }
+#googleBtn {
+width: fit-content;
+margin-inline: auto;
+}
+
+
+
+/*
+   Other styles
+   ========================================================================== */
+   .sticky_top {
+    position: sticky;
+    top: 0; /* Adjust the top value as needed */
+    z-index: 10; /* Ensure the sticky element is above other content */
+  }
 
 
 

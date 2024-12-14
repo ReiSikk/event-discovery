@@ -1,21 +1,27 @@
 "use server"
 
 import { createClient } from '@/utils/supabase/component'
+import { revalidatePath } from 'next/cache'
 
-export async function createEvent(previousState, formData) {
+export async function createEvent(session, formData) {
     const supabase = createClient()
+    const userId = session.user.id
 
     try {
         const eventData = {
             title: formData.get('title'),
             description: formData.get('description'),
-            location: formData.get('location'),
             start_time: formData.get('start_time'),
             end_time: formData.get('end_time'),
-            category: formData.get('category'),
+            cost: formData.get('cost') === '' ? null : parseFloat(formData.get('cost')),
+            location: formData.get('location'),
+            category_id: formData.get('category'),
+            ticket_link: formData.get('ticket_link'),
         }
+        console.log(eventData, "eventData before inserting")
 
-        const { data, error: insertError } = await supabase
+
+        const { data: eventInsertData, error: insertError } = await supabase
             .from('events')
             .insert(eventData)
             .select()
@@ -26,10 +32,47 @@ export async function createEvent(previousState, formData) {
             throw new Error('Failed to create event. Please try again.')
         }
 
+        // Handle image upload
+        const file = formData.get('event_image')
+        
+        if (file && file.size > 0) {
+            // Generate unique filename
+            const fileExt = file.name.split('.').pop()
+            const fileName = `${eventInsertData.id}_${Date.now()}.${fileExt}`
+            const filePath = `${userId}/${fileName}`
+            console.log(filePath, "filePath")
+
+            // Upload to Supabase storage
+            const { data, error: uploadError } = await supabase.storage
+                .from('event-images')
+                .upload(filePath, file)
+            
+                if(data) {
+                    console.log("data", data)
+                } else {
+                    console.log("upload error in line 52", uploadError)
+                }
+
+            // Insert image record in event_images table
+            const { error: imageError } = await supabase
+            .from('event_images')
+            .insert({
+                event_id: eventInsertData.id,
+                user_id: userId,
+                image_path: filePath,
+                is_primary: true,
+            })
+
+        if (imageError) {
+            console.error('Image record insert error:', imageError)
+            throw imageError
+        }
+        }
+
         return {
             success: true,
             message: 'Event created successfully',
-            data: data
+            data: eventInsertData
         }
 
     } catch (error) {

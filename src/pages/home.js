@@ -32,6 +32,34 @@ let { data: categories, categoriesError } = await supabase
 .from('categories')
 .select('*')
 
+ // Fetch event images
+ const eventImages = await Promise.all(
+  events?.map(async (event) => {
+    const { data: images, error: imagesError } = await supabase
+      .from('event_images')
+      .select('*')
+      .eq('event_id', event.id)
+      .order('is_primary', { ascending: false });
+
+    if (imagesError) {
+      console.error('Error fetching event images:', imagesError);
+      return { ...event, images: [] };
+    }
+
+    const imagesWithUrls = await Promise.all(
+      images.map(async (image) => ({
+        ...image,
+        public_url: supabase.storage
+          .from('event-images')
+          .getPublicUrl(image.image_path).data.publicUrl,
+      }))
+    );
+
+    return { ...event, images: imagesWithUrls };
+  }) || []
+);
+
+
 
   // Fetch data from CMS
   const url = process.env.NEXT_PUBLIC_CMS_URL + 'home?populate=*'
@@ -45,7 +73,7 @@ let { data: categories, categoriesError } = await supabase
     return {
       props: {
         pageData: json.data || null,
-        events: events || [],
+        events: eventImages,
         categories: categories || [],
         location: userLocation.location || null,
       },

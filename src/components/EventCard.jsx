@@ -12,7 +12,13 @@ function EventCard({ event, getCategoryNameById }) {
     className={styles.eventsCard}
     >
       <div className={styles.eventsCard_media}>
-        <img src="/images/event.jpg" alt="Event" width={300} height={200} />
+      {event.images.map((image) => (
+              <img
+                key={image.id}
+                src={image.public_url}
+                alt={`Event ${event.title} image`}
+              />
+            ))}
       </div>
       <div className={styles.eventsCard__inner}>
         <h4 className={styles.eventsCard__title}>
