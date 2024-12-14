@@ -20,6 +20,27 @@ export async function getServerSideProps({ params }) {
     .eq('id', eventId)
     .single()
 
+    // Fetch event images
+    const { data: images, error: imagesError } = await supabase
+    .from('event_images')
+    .select('*')
+    .eq('event_id', eventId)
+    .order('is_primary', { ascending: false });
+    //get public url
+    if (imagesError) {
+      console.error('Error fetching event images:', imagesError)
+    }
+    const imagesWithUrls = await Promise.all(
+      images.map(async (image) => ({
+        ...image,
+        public_url: supabase.storage
+          .from('event-images')
+          .getPublicUrl(image.image_path).data.publicUrl,
+      }))
+    );
+    const eventImgUrls = imagesWithUrls.map(image => image.public_url)
+    console.log(eventImgUrls, "eventImgUrls");
+
     // Related events
     const { data: relatedEvents, error: relatedError } = await supabase
     .from('events')
@@ -50,6 +71,7 @@ export async function getServerSideProps({ params }) {
             event,
             relatedEvents: relatedEvents || [],
             category: eventCategory || null,
+            eventImgUrls: eventImgUrls || [],
         },
       };
     } 
@@ -59,8 +81,7 @@ const formatTime = (timeString) => {
       return format(new Date(timeString), 'HH:mm');
     };
 
-function EventPage ({ event, relatedEvents, category }) {
-  console.log(event)
+function EventPage ({ event, relatedEvents, category, eventImgUrls }) {
 if (!event) return <div>Loading...</div>
 
   return (
@@ -68,7 +89,11 @@ if (!event) return <div>Loading...</div>
         <header className={styles.eventHeader}>
           <div className={classNames(styles.eventHeader__wrap, styles.container)}>
             <div className={styles.eventHeader__media}>
-              <Image src={"https://placehold.co/1200x600/EEE/31343C"} width={1200} height={600} alt={event.title} className={styles.eventHeader__img} />
+              {eventImgUrls ?
+                <Image src={eventImgUrls[0]} width={1200} height={600} alt={event.title} className={styles.eventHeader__img} />
+                : 
+                <Image src={"https://placehold.co/1200x600/EEE/31343C"} width={1200} height={600} alt={event.title} className={styles.eventHeader__img} />
+              }
               <div className={styles.eventHeader__meta}>
                 <p className={styles.eventHeader__date}>{format(event.start_time,'eeee, MMMM d ')} {formatTime(event.start_time)} - {formatTime(event.end_time)}</p>
                 <p className={`${styles.eventHeader__location} h4`}>{event.location}</p>

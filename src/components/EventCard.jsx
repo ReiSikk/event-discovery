@@ -5,23 +5,19 @@ import Link from 'next/link';
 import classNames from 'classnames';
 
 function EventCard({ event, getCategoryNameById }) {
-  console.log('event', event)
-  const eventCategory = getCategoryNameById(event.category_id)
   return (
     <li 
     key={event.id}
     className={styles.eventsCard}
     >
       <div className={styles.eventsCard_media}>
-      {event.event_images && event.event_images.length > 0 ? (
+      {event?.images && event.images.map((image) => (
               <img
                 key={image.id}
                 src={image.public_url}
                 alt={`Event ${event.title} image`}
               />
-            ) : (
-              'No image'
-        )}
+            ))}
       </div>
       <div className={styles.eventsCard__inner}>
         <h4 className={styles.eventsCard__title}>
@@ -40,7 +36,6 @@ function EventCard({ event, getCategoryNameById }) {
         <Link 
          href={`/event/${event.id}`}
         className={classNames(styles.eventsCard__link, styles.btn__primary)}
-        eventCategory={eventCategory}
         >
           Read more
         </Link>
