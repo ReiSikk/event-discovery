@@ -48,9 +48,13 @@ function EventForm({ onSuccess, session }) {
       setTimeout(() => {
         router.push('/home')
         setEventCreated(false)
+      }, 2000)
+
+      setTimeout(() => {
         setToastMessage('')
         setToastTitle('')
-      }, 2000)
+      }, 3000)
+      
     } else {
       setError(result.error.message)
     }

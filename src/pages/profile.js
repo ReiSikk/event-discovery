@@ -113,7 +113,7 @@ function ProfilePage({ categories }) {
     setTimeout(() => {
         setToastMessage('')
         setToastTitle('')
-    }, 2000)
+    }, 3000)
     
     }
 
