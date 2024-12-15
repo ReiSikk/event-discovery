@@ -90,11 +90,16 @@ function ProfilePage({ categories }) {
       }
 
 
-
     const getCategoryNameById = (id) => {
         const category = categories.find(cat => cat.id === id);
         return category ? category.name : '';
       };
+
+
+    // Delete event from user events
+    const handleDeleteEvent = (eventId) => {
+    setUserEvents(prevEvents => prevEvents.filter(event => event.id !== eventId))
+    }
 
     
   
@@ -173,12 +178,12 @@ function ProfilePage({ categories }) {
                 </ul>
             </div>
         </div>
-        <main className={classNames(styles.container, styles.block)}>
+        <main className={classNames(styles.container, styles.block, styles.eventsSection)}>
             <h2 className={styles.eventsSection__title}>My Events</h2>
             {userEvents && userEvents.length > 0 ? (
                 <ul className={styles.eventsList}>
                 {userEvents.map((event) => (
-                    <EventCard key={event.id} event={event} getCategoryNameById={getCategoryNameById} isProfilePage/>
+                    <EventCard key={event.id} event={event} getCategoryNameById={getCategoryNameById} onDelete={handleDeleteEvent} isProfilePage/>
                 ))}
                 </ul>
             ) : (

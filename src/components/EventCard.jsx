@@ -3,15 +3,37 @@ import styles from './EventCard.module.css'
 import { LocateIcon } from 'lucide-react';
 import Link from 'next/link';
 import classNames from 'classnames';
+import AlertDialog from './AlertDialog';
+import AlertModal from './AlertDialog';
+import { createClient } from '@/utils/supabase/component';
 
-function EventCard({ event, getCategoryNameById, isProfilePage }) {
+function EventCard({ event, getCategoryNameById, isProfilePage, onDelete }) {
+  const supabase = createClient();  
 
   const handleEdit = () => {
     console.log('Edit event')
   }
 
-  const handleDelete = () => {
-    console.log('Delete event')
+  const handleDelete = async () => {
+    console.log('Delete event called')
+    try {
+      const { error } = await supabase
+      .from('events')
+      .delete()
+      .eq('id', event.id);
+
+      if (error) {
+        console.error('Error deleting event:', error.message);
+        alert('Error deleting event: ' + error.message);
+        return;
+      }
+
+      alert('Event deleted successfully');
+      onDelete(event.id);
+    } catch(error) {
+      console.error('Unexpected error:', error);
+      alert('Unexpected error: ' + error.message);
+    }
   }
 
   return (
@@ -59,7 +81,9 @@ function EventCard({ event, getCategoryNameById, isProfilePage }) {
           {isProfilePage && (
             <div className={styles.eventCard__actions}>
               <button onClick={handleEdit} className={`${styles.btn__edit} btn__primary`}>Edit</button>
-              <button onClick={handleDelete} className={`${styles.btn__delete} btn__primary`}>Delete</button>
+              {/* <button onClick={handleDelete} className={`${styles.btn__delete} btn__primary`}>Delete</button>
+               */}
+               <AlertModal handleDelete={handleDelete} eventId={event.id}/>
             </div>
       )}
       </div>

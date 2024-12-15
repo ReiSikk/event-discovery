@@ -25,9 +25,9 @@
 .eventCard__actions {
   display: flex;
   gap: 8px;
-  margin-top: 16px;
+  margin-top: 24px;
   @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
-    margin-top: 0.833vw;
+    margin-top: 2.22222vw;
   }
 }
 
@@ -58,7 +58,7 @@
 }
 .eventsCard_media {
   height: 200px;
-  border: 1px solid var(--primary);
+  border-radius: var(--bradius-inner);
   max-width: 100%;
   overflow: hidden;
 }
