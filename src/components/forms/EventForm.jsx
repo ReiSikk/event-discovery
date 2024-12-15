@@ -13,7 +13,7 @@ import ToastNotification from '@/components/ToastNotification';
 import { set } from 'date-fns';
 
 
-function EventForm({ onSuccess, session }) {
+function EventForm({ onSuccess, session, event, isEditForm }) {
   const supabase = createClient()
   const router = useRouter()
   const toastRef = useRef(null)
@@ -29,10 +29,47 @@ function EventForm({ onSuccess, session }) {
   const [file, setFile] = useState(null);
   const [toastMessage, setToastMessage] = useState('')
   const [toastTitle, setToastTitle] = useState('')
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    location: '',
+    category: '',
+    cost: '',
+    start_time: '',
+    end_time: '',
+    ticket_type: '',
+    ticket_link: '',
+  })
+
+  console.log(formData, "formData");
+
+  const handleFieldChange = (field, value) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }))
+  }
+
+  useEffect(() => {
+    if (isEditForm && event) {
+      setFormData({
+        title: event.title,
+        description: event.description,
+        location: event.location,
+        category: event.category,
+        cost: event.cost,
+        start_time: event.start_time,
+        end_time: event.end_time,
+        ticket_type: event.ticket_type,
+        ticket_link: event.ticket_link,
+      })
+    }
+  }, [isEditForm, event])
   
   
 
-  const handleSubmit = async (formData) => {
+  const handleSubmit = async (e, formData) => {
+    e.preventDefault() // Prevent default form submission
     // Add the file to formData if it exists
     if (file) {
         formData.append('event_image', file)
@@ -54,13 +91,14 @@ function EventForm({ onSuccess, session }) {
         setToastMessage('')
         setToastTitle('')
       }, 3000)
-      
+
     } else {
       setError(result.error.message)
     }
 }
 
 
+// Fetch categories
   useEffect(() => {
     async function fetchCategories() {
       try {
@@ -78,6 +116,8 @@ function EventForm({ onSuccess, session }) {
     fetchCategories()
   }, [])
 
+  
+
 
   return (
     <>
@@ -86,7 +126,8 @@ function EventForm({ onSuccess, session }) {
       <div className={styles.formFields} id='basicDetails'>
         <Form.Field name="title" className={styles.formField} >
             <Form.Label className={styles.formField__label}>Title</Form.Label>
-            <Form.Control type="text" placeholder='Name of your event'  className={styles.formField__input} />
+            <Form.Control type="text" placeholder='Name of your event'  className={styles.formField__input}
+             />
             <Form.Message match="valueMissing" className="input__message">
               Please enter a title for the event/activity.
             </Form.Message>
@@ -265,7 +306,6 @@ function EventForm({ onSuccess, session }) {
       )}
     </Form.Field>
     </div>
-
 
       <Form.Submit 
       className={classNames(styles.form__submit, styles.btn__primary)}

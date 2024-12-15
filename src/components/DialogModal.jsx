@@ -3,10 +3,11 @@ import * as Form from "@radix-ui/react-form";
 import { XCircle } from 'lucide-react';
 import React, { useState, useActionState } from 'react';
 import { editProfile } from '@/actions/actions';
+import EventForm from "./forms/EventForm";
 // Toggle function to open/close the modal
 
 // Modal component
-function DialogModal({ modalOpen, toggleModal }) {
+function DialogModal({ modalOpen, toggleModal, modalType, selectedEvent }) {
     const [response, action, isPending] = useActionState(editProfile, null)
 
     const handleSubmit = async (event) => {
@@ -28,7 +29,7 @@ function DialogModal({ modalOpen, toggleModal }) {
     <dialog className={`modal ${modalOpen ? 'open' : 'close'}`}>
       <div className="modal__content">
         <div className="modal__header">
-            <h2 className='modal__title'>Edit your profile</h2>
+            <h2 className='modal__title'>{modalType === "editProfile" ? "Edit your profile" : 'Edit event'}</h2>
                 <XCircle 
                 size={36}
                 className="modal__close"
@@ -36,6 +37,7 @@ function DialogModal({ modalOpen, toggleModal }) {
                  />
         </div>
         <div className="modal__body">
+          {modalType === "editProfile" ?
         <Form.Root onSubmit={handleSubmit} className="editForm form">
             <Form.Field name="email" className="form__row">
                 <Form.Label className="form__label">Email</Form.Label>
@@ -82,7 +84,10 @@ function DialogModal({ modalOpen, toggleModal }) {
                 {isPending ? 'Updating...' : 'Update Profile'}
             </Form.Submit>
             {response && <p>{response.message}</p>}
-            </Form.Root>
+        </Form.Root>
+        : 
+          <EventForm  isEditForm event={selectedEvent}/>
+          }
         </div>
         <div className="modal__footer">
           <button className="btn__primary btn__cancel" onClick={toggleModal}>

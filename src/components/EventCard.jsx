@@ -8,11 +8,11 @@ import AlertModal from './AlertDialog';
 import { createClient } from '@/utils/supabase/component';
 import Image from 'next/image';
 
-function EventCard({ event, getCategoryNameById, isProfilePage, onDelete }) {
+function EventCard({ event, getCategoryNameById, isProfilePage, onDelete, onEdit }) {
   const supabase = createClient();  
 
   const handleEdit = () => {
-    console.log('Edit event')
+    onEdit(event.id);
   }
 
   const handleDelete = async () => {
