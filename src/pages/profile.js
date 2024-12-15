@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { createClient } from '@/utils/supabase/component'
 import { useRouter } from 'next/router'
 import styles from '../styles/ProfilePage.module.css'
@@ -6,12 +6,14 @@ import { CalendarCheck, Edit2, EditIcon, Settings, UserCircle2 } from 'lucide-re
 import { format } from 'date-fns';
 import classNames from 'classnames';
 import Link from 'next/link';
-import EventSwiper from '@/components/swipers/EventSwiper';
 import EventCard from '@/components/EventCard';
 import DialogModal from '@/components/DialogModal';
+import ToastNotification from '@/components/ToastNotification';
+
 
 export async function getServerSideProps() {
     const supabase = createClient();
+
     
     let { data: categories, categoriesError } = await supabase
     .from('categories')
@@ -26,13 +28,18 @@ export async function getServerSideProps() {
 
 
 function ProfilePage({ categories }) {
+    const supabase = createClient();
+    const toastRef = useRef(null);
+    const router = useRouter(); 
     const [session, setSession] = useState(null);
+    
+    const [modalOpen, setModalOpen] = useState(false);
     const [user, setUser] = useState(null); 
     const [userEvents, setUserEvents] = useState([]);
-    const [modalOpen, setModalOpen] = useState(false);
-
-    const supabase = createClient();
-    const router = useRouter(); 
+    const [toastMessage, setToastMessage] = useState('')
+    const [toastTitle, setToastTitle] = useState('')
+    
+        
     
 
     const toggleModal = () => {
@@ -99,6 +106,15 @@ function ProfilePage({ categories }) {
     // Delete event from user events
     const handleDeleteEvent = (eventId) => {
     setUserEvents(prevEvents => prevEvents.filter(event => event.id !== eventId))
+    setToastMessage('Your event has been deleted successfully')
+    setToastTitle('Event deleted')
+    toastRef.current.triggerToast()
+
+    setTimeout(() => {
+        setToastMessage('')
+        setToastTitle('')
+    }, 2000)
+    
     }
 
     
@@ -179,6 +195,7 @@ function ProfilePage({ categories }) {
             </div>
         </div>
         <main className={classNames(styles.container, styles.block, styles.eventsSection)}>
+            <ToastNotification ref={toastRef} title={toastTitle} message={toastMessage}/>
             <h2 className={styles.eventsSection__title}>My Events</h2>
             {userEvents && userEvents.length > 0 ? (
                 <ul className={styles.eventsList}>

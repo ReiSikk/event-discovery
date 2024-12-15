@@ -4,6 +4,7 @@ import * as AlertDialog from "@radix-ui/react-alert-dialog";
 function AlertModal({ handleDelete, eventId }) {
 
 
+
     return (
         <AlertDialog.Root>
             <AlertDialog.Trigger asChild>

@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import AlertDialog from './AlertDialog';
 import AlertModal from './AlertDialog';
 import { createClient } from '@/utils/supabase/component';
+import Image from 'next/image';
 
 function EventCard({ event, getCategoryNameById, isProfilePage, onDelete }) {
   const supabase = createClient();  
@@ -28,7 +29,6 @@ function EventCard({ event, getCategoryNameById, isProfilePage, onDelete }) {
         return;
       }
 
-      alert('Event deleted successfully');
       onDelete(event.id);
     } catch(error) {
       console.error('Unexpected error:', error);
@@ -42,13 +42,26 @@ function EventCard({ event, getCategoryNameById, isProfilePage, onDelete }) {
     className={styles.eventsCard}
     >
       <div className={styles.eventsCard_media}>
-      {event?.images && event.images.map((image) => (
-              <img
+      {event?.images.length ?
+       event.images.map((image) => (
+              <Image
                 key={image.id}
+                width={1200}
+                height={600}
                 src={image.public_url}
                 alt={`Event ${event.title} image`}
               />
-            ))}
+      ))
+      :
+      <Image 
+      key={event.id}
+      width={1200}
+      height={600}
+      src={"https://placehold.co/1200x600/EEE/31343C"} 
+      alt={`Event ${event.title} image`} 
+      />
+
+    }
       </div>
       <div className={styles.eventsCard__inner}>
         <h4 className={styles.eventsCard__title}>
@@ -81,8 +94,6 @@ function EventCard({ event, getCategoryNameById, isProfilePage, onDelete }) {
           {isProfilePage && (
             <div className={styles.eventCard__actions}>
               <button onClick={handleEdit} className={`${styles.btn__edit} btn__primary`}>Edit</button>
-              {/* <button onClick={handleDelete} className={`${styles.btn__delete} btn__primary`}>Delete</button>
-               */}
                <AlertModal handleDelete={handleDelete} eventId={event.id}/>
             </div>
       )}

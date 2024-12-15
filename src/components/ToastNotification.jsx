@@ -29,9 +29,9 @@ const ToastNotification = forwardRef((props, ref) => {
     return (
         <Toast.Provider swipeDirection="right">
             <Toast.Root className={styles.Root} open={open} onOpenChange={setOpen} duration={2000}>
-                <Toast.Title className={styles.Title}>Event Created</Toast.Title>
+                <Toast.Title className={styles.Title}>{props.title}</Toast.Title>
                 <Toast.Description asChild>
-                    <span className={`${styles.Description} txt-medium`}>Your event has been successfully created!</span>
+                    <span className={`${styles.Description} txt-medium`}>{props.message}</span>
                 </Toast.Description>
 				<Toast.Close className={styles.Close}>
 					<XCircle size={32} />
