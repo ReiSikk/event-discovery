@@ -14,6 +14,7 @@
   --primary: #7DFFAF;
   --secondary: #02F559;
   --pink: #EF92B8;
+  --red: #FF5745;
   --black: #1A1A1A;
   /* --white: #f4e0d9; */
   --white: #f4f4f4;
@@ -27,7 +28,8 @@
 
 
     /* Other */
-    --bradius: 10px;
+    --bradius: 24px;
+    --bradius-inner: 8px;
 }
 
 html {
@@ -284,7 +286,7 @@ h4, .h4 {
     height: 100%;
     overflow: auto;
     background-color: rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(3px);
+    backdrop-filter: blur(1.5px);
     border: none;
     opacity: 0;
   }
@@ -361,6 +363,82 @@ h4, .h4 {
 
   .updateProfile__btn {
     align-self: flex-end;
+  }
+
+
+
+  /* ** Alert modal ** */
+  .AlertDialogOverlay {
+    background-color: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(1.5px);
+    position: fixed;
+    inset: 0;
+    animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  .AlertDialogContent {
+    background-color: var(--bg-dark);
+    border-radius: var(--bradius);
+    box-shadow:
+      hsl(206 22% 7% / 35%) 0px 10px 38px -10px,
+      hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90vw;
+    max-width: 500px;
+    max-height: 85vh;
+    padding: 25px;
+    animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+    color: var(--white);
+  }
+  .AlertDialogContent:focus {
+    outline: none;
+  }
+  
+  .AlertDialogTitle {
+    margin: 0;
+  }
+  
+  .AlertDialogDescription {
+    margin-bottom: 20px;
+    margin-top: 16px;
+    @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+        margin-top: 1.111vw;
+    }
+  }
+.AlertDialog__buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+    gap: 0.5555vw;
+  }
+}
+
+  .AlertDialog__cancel {
+    background: var(--red);
+  }
+  
+  @keyframes overlayShow {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes contentShow {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -48%) scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
   }
 
 

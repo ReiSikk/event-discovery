@@ -10,6 +10,7 @@ import classNames from 'classnames';
 import { Image, Link, Upload } from 'lucide-react';
 import { useRouter } from 'next/router'
 import ToastNotification from '@/components/ToastNotification';
+import { set } from 'date-fns';
 
 
 function EventForm({ onSuccess, session }) {
@@ -26,6 +27,8 @@ function EventForm({ onSuccess, session }) {
   // State for form fields
   const [ticketType, setTicketType] = useState('');
   const [file, setFile] = useState(null);
+  const [toastMessage, setToastMessage] = useState('')
+  const [toastTitle, setToastTitle] = useState('')
   
   
 
@@ -40,9 +43,13 @@ function EventForm({ onSuccess, session }) {
     if (result.success) {
       setEventCreated(true)
       toastRef.current.triggerToast()
+      setToastMessage('Your event has been created successfully')
+      setToastTitle('Event Published!')
       setTimeout(() => {
         router.push('/home')
         setEventCreated(false)
+        setToastMessage('')
+        setToastTitle('')
       }, 2000)
     } else {
       setError(result.error.message)
@@ -262,7 +269,7 @@ function EventForm({ onSuccess, session }) {
       >{isPending ? 'Creating event...' : 'Submit'}</Form.Submit>
     </Form.Root>
     {error && <p className="error">{error}</p>}
-    <ToastNotification ref={toastRef} />
+    <ToastNotification ref={toastRef} title={toastTitle} message={toastMessage}  />
     </>
   )
 }

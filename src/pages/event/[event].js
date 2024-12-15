@@ -89,7 +89,7 @@ if (!event) return <div>Loading...</div>
         <header className={styles.eventHeader}>
           <div className={classNames(styles.eventHeader__wrap, styles.container)}>
             <div className={styles.eventHeader__media}>
-              {eventImgUrls ?
+              {eventImgUrls && eventImgUrls[0] ?
                 <Image src={eventImgUrls[0]} width={1200} height={600} alt={event.title} className={styles.eventHeader__img} />
                 : 
                 <Image src={"https://placehold.co/1200x600/EEE/31343C"} width={1200} height={600} alt={event.title} className={styles.eventHeader__img} />

@@ -24,7 +24,7 @@
 
 .formField__input, .formField > select {
     background: var(--bg-dark);
-    border-radius: var(--bradius);
+    border-radius: var(--bradius-inner);
     border: 1px solid var(--primary);
     padding-block: 10px;
     padding-inline: 6px;
@@ -79,7 +79,7 @@
     align-items: center;
     justify-content: center;
     background: var(--bg-dark);
-    border-radius: var(--bradius);
+    border-radius: var(--bradius-inner);
     border: 1px solid transparent;
     width: 100%;
     height: 44.843vh;

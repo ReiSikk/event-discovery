@@ -58,12 +58,12 @@
     position: relative;
     background: var(--bg-dark);
     border-radius: var(--bradius);
-    padding: 24px;
+    padding: 16px;
     width: 100%;
     overflow: hidden;
 
     @media only screen and (min-width: 1025px) {
-        padding: 1.666vw;
+        padding: 1.1111vw;
     }
 }
 .profileCard__edit {
@@ -148,8 +148,8 @@
     flex: 1;
     background: var(--bg);
     padding-block: 16px 12px;
-    padding-inline: 24px;
-    border-radius: var(--bradius);
+    padding-inline: 16px;
+    border-radius: var(--bradius-inner);
 }
 .profileCardList__item > div {
     display: flex;
@@ -171,6 +171,12 @@
 /*
    Events grid
    ========================================================================== */
+   .eventsSection {
+    margin-bottom: 64px;
+    @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+        margin-bottom: 6.9444vw;
+    }
+   }
 .eventsSection__title {
     margin-block: 24px;
 
