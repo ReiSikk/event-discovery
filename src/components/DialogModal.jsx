@@ -3,6 +3,7 @@ import * as Form from "@radix-ui/react-form";
 import { XCircle } from 'lucide-react';
 import React, { useState, useActionState } from 'react';
 import { editProfile } from '@/actions/actions';
+import EventForm from "./forms/EventForm";
 // Toggle function to open/close the modal
 
 // Modal component
@@ -78,19 +79,11 @@ function DialogModal({ modalOpen, toggleModal }) {
                 </Form.Message>
             </Form.Field>
 
+            {response && <p className="">{response.message}</p>}
             <Form.Submit className="btn btn__primary updateProfile__btn">
-                {isPending ? 'Updating...' : 'Update Profile'}
+                  {isPending ? 'Updating...' : 'Update Profile'}
             </Form.Submit>
-            {response && <p>{response.message}</p>}
-            </Form.Root>
-        </div>
-        <div className="modal__footer">
-          <button className="btn__primary btn__cancel" onClick={toggleModal}>
-            Cancel
-          </button>
-          <button className="btn__primary btn__confirm" onClick={toggleModal}>
-            Confirm
-          </button>
+        </Form.Root> 
         </div>
       </div>
     </dialog>

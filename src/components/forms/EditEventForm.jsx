@@ -4,7 +4,7 @@ import React from 'react'
 import * as Form from "@radix-ui/react-form";
 import { useActionState, useState, useEffect, useRef } from 'react'
 import styles from './EventForm.module.css'
-import { createEvent } from '@/actions/actions'
+import { updateEvent } from '@/actions/actions'
 import { createClient } from '@/utils/supabase/component'
 import classNames from 'classnames';
 import { Image, Link, Upload } from 'lucide-react';
@@ -13,16 +13,17 @@ import ToastNotification from '@/components/ToastNotification';
 import { set } from 'date-fns';
 
 
-function EventForm({ session }) {
+function EditEventForm({ session, eventToEdit }) {
   const supabase = createClient()
   const router = useRouter()
   const toastRef = useRef(null)
+  console.log(eventToEdit, "eventToEdit in editEventForm")
+  console.log(session, "session in editEventForm")
 
   
   // State for form data and navigation
-  const [response, action, isPending] = useActionState(createEvent, null)
+  const [response, action, isPending] = useActionState(updateEvent, null)
   const [categories, setCategories] = useState([]);
-  const [eventCreated, setEventCreated] = useState(false);
   const [error, setError] = useState(null);
   // State for form fields
   const [ticketType, setTicketType] = useState('');
@@ -42,6 +43,32 @@ function EventForm({ session }) {
   })
   
 
+
+  useEffect(() => {
+    if (eventToEdit) {
+      setFormData({
+        title: eventToEdit.title,
+        description: eventToEdit.description,
+        location: eventToEdit.location,
+        category: eventToEdit.category_id,
+        cost: eventToEdit.cost,
+        start_time: eventToEdit.start_time ? new Date(eventToEdit.start_time).toISOString().slice(0, 16) : '',
+        end_time: eventToEdit.end_time ? new Date(eventToEdit.end_time).toISOString().slice(0, 16) : '',
+        ticket_type: eventToEdit.ticket_type,
+        ticket_link: eventToEdit.ticket_link,
+      })
+      setTicketType(eventToEdit.ticket_type)
+    }
+  }, [eventToEdit])
+
+
+  const handleFieldChange = (field, value) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }))
+  }
+
   const handleSubmit = async (formData) => {
     // Add the file to formData if it exists
     if (file) {
@@ -49,21 +76,20 @@ function EventForm({ session }) {
         console.log('file in handleSubmit', file)
     }
 
-    const result = await createEvent(session, formData)
+    const result = await updateEvent(session, formData, eventToEdit.id)
     if (result.success) {
-      setEventCreated(true)
+      setToastTitle('Edit successful!')
+      setToastMessage('Event updated successfully, redirecting back to your profile...')
       toastRef.current.triggerToast()
-      setToastMessage('Your event has been created successfully')
-      setToastTitle('Event Published!')
+
       setTimeout(() => {
-        router.push('/home')
-        setEventCreated(false)
-      }, 2000)
+        router.push('/profile')
+      }, 1500)
 
       setTimeout(() => {
         setToastMessage('')
         setToastTitle('')
-      }, 3000)
+      }, 2500)
 
     } else {
       setError(result.error.message)
@@ -89,17 +115,20 @@ function EventForm({ session }) {
     fetchCategories()
   }, [])
 
-  
 
 
   return (
     <>
-    <h1>Create your event here</h1>
-    	<Form.Root action={handleSubmit} className="form">
+    <Form.Root action={handleSubmit} className="form editEventForm">
       <div className={styles.formFields} id='basicDetails'>
         <Form.Field name="title" className={styles.formField} >
             <Form.Label className={styles.formField__label}>Title</Form.Label>
-            <Form.Control type="text" placeholder='Name of your event'  className={styles.formField__input}
+            <Form.Control 
+            type="text" 
+            placeholder='Name of your event'  
+            className={styles.formField__input} 
+            value={formData.title}
+            onChange={(e) => handleFieldChange('title', e.target.value)}
              />
             <Form.Message match="valueMissing" className="input__message">
               Please enter a title for the event/activity.
@@ -108,7 +137,14 @@ function EventForm({ session }) {
 
           <Form.Field name="description" className={styles.formField} >
             <Form.Label className={styles.formField__label}>Description</Form.Label>
-            <Form.Control type="textarea" placeholder='Provide a description of your event'  className={styles.formField__input} />
+            <Form.Control 
+              type="textarea" 
+              placeholder='Provide a description of your event'  
+              className={styles.formField__input} 
+              value={formData.description}
+              onChange={(e) => handleFieldChange('description', e.target.value)}
+              required
+            />
             <Form.Message match="valueMissing" className="input__message">
               Please enter a description for your listing.
             </Form.Message>
@@ -116,7 +152,14 @@ function EventForm({ session }) {
 
           <Form.Field name="location" className={styles.formField} >
             <Form.Label className={styles.formField__label}>Location</Form.Label>
-            <Form.Control type="text" placeholder='Where your event is happening'  className={styles.formField__input} />
+            <Form.Control 
+              type="text" 
+              placeholder='Where your event is happening'  
+              className={styles.formField__input} 
+              value={formData.location}
+              onChange={(e) => handleFieldChange('location', e.target.value)}
+              required
+            />
             <Form.Message match="valueMissing" className="input__message">
               Please enter a location for your listing.
             </Form.Message>
@@ -126,14 +169,26 @@ function EventForm({ session }) {
       <div className={styles.formFields} id='dateTime'>
         <Form.Field name="start_time" className={styles.formField} >
           <Form.Label className={styles.formField__label}>Start time and date</Form.Label>
-          <Form.Control type="datetime-local"  className={styles.formField__input} />
+          <Form.Control 
+              type="datetime-local"  
+              className={styles.formField__input} 
+              value={formData.start_time}
+              onChange={(e) => handleFieldChange('start_time', e.target.value)}
+              required
+            />
           <Form.Message match="valueMissing" className="input__message">
             Please enter a start time for your listing.
           </Form.Message>
         </Form.Field>
         <Form.Field name="end_time" className={styles.formField} >
           <Form.Label className={styles.formField__label}>End time and date</Form.Label>
-          <Form.Control type="datetime-local"  className={styles.formField__input} />
+          <Form.Control 
+              type="datetime-local"  
+              className={styles.formField__input} 
+              value={formData.end_time}
+              onChange={(e) => handleFieldChange('end_time', e.target.value)}
+              required
+            />
           <Form.Message match="valueMissing" className="input__message">
             Please enter a end time for your listing.
           </Form.Message>
@@ -143,7 +198,11 @@ function EventForm({ session }) {
         <Form.Field name="category" className={styles.formField} >
           <Form.Label className={styles.formField__label}>Category</Form.Label>
           <Form.Control asChild>
-            <select>
+          <select
+                value={formData.category}
+                onChange={(e) => handleFieldChange('category', e.target.value)}
+                required
+              >
             <option value="">Select category</option>
               {categories.map((category) => (
                 <option key={category.id} value={category.id}>
@@ -156,7 +215,13 @@ function EventForm({ session }) {
 
         <Form.Field name="cost" className={styles.formField} >
           <Form.Label className={styles.formField__label}>Cost of the event</Form.Label>
-          <Form.Control type="numeric" placeholder='Leave empty if the event is free of charge' className={styles.formField__input} />
+          <Form.Control 
+              type="number" 
+              placeholder='Leave empty if the event is free of charge' 
+              className={styles.formField__input} 
+              value={formData.cost}
+              onChange={(e) => handleFieldChange('cost', e.target.value)}
+            />
         </Form.Field>
       </div>
 
@@ -179,6 +244,7 @@ function EventForm({ session }) {
                 name="event_image" 
                 id="event_image" 
                 className={styles.formField__input}
+                onChange={(e) => setFile(e.target.files[0])}
                 />
           </Form.Field>
         </div>
@@ -270,6 +336,7 @@ function EventForm({ session }) {
               placeholder="Enter ticket URL"
               required
               className={styles.formField__input}
+              onChange={(e) => handleFieldChange('ticket_link', e.target.value)}
             />
             <Form.Message match="valueMissing">
               Please enter a ticket link
@@ -291,4 +358,4 @@ function EventForm({ session }) {
   )
 }
 
-export default EventForm
+export default EditEventForm

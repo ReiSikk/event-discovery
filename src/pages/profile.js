@@ -31,15 +31,17 @@ function ProfilePage({ categories }) {
     const supabase = createClient();
     const toastRef = useRef(null);
     const router = useRouter(); 
+    // User State
     const [session, setSession] = useState(null);
-    
-    const [modalOpen, setModalOpen] = useState(false);
     const [user, setUser] = useState(null); 
     const [userEvents, setUserEvents] = useState([]);
+
+    // Modal State
+    const [modalOpen, setModalOpen] = useState(false);
+
+    // Toast State
     const [toastMessage, setToastMessage] = useState('')
     const [toastTitle, setToastTitle] = useState('')
-    
-        
     
 
     const toggleModal = () => {
@@ -114,7 +116,14 @@ function ProfilePage({ categories }) {
         setToastMessage('')
         setToastTitle('')
     }, 3000)
-    
+    }
+
+    // Edit user event
+    const handleEditEvent = (eventId) => {
+        const event = userEvents.find(event => event.id === eventId)
+        console.log('Edit event called', eventId)
+        router.push(`/event/${eventId}/edit`)
+
     }
 
     
@@ -144,10 +153,7 @@ function ProfilePage({ categories }) {
     <>
         <div className={classNames(styles.profileHeader, styles.container)}>
             <div className={styles.profileCard}>
-                <div 
-                className={classNames(styles.profileCard__edit, styles.btn__primary)}
-                onClick={toggleModal}
-                >
+                <div className={classNames(styles.profileCard__edit, styles.btn__primary)} onClick={toggleModal} >
                     <Edit2 size={16} />
                     Edit Profile
                 </div>
@@ -200,7 +206,7 @@ function ProfilePage({ categories }) {
             {userEvents && userEvents.length > 0 ? (
                 <ul className={styles.eventsList}>
                 {userEvents.map((event) => (
-                    <EventCard key={event.id} event={event} getCategoryNameById={getCategoryNameById} onDelete={handleDeleteEvent} isProfilePage/>
+                    <EventCard key={event.id} event={event} getCategoryNameById={getCategoryNameById} onDelete={handleDeleteEvent} onEdit={handleEditEvent} isProfilePage/>
                 ))}
                 </ul>
             ) : (
@@ -209,7 +215,7 @@ function ProfilePage({ categories }) {
                 <div>Create your first event <Link href="/event/create" className='link__underline'>here</Link></div>
                 </div>
             )}
-                <DialogModal toggleModal={toggleModal} modalOpen={modalOpen} />
+                <DialogModal toggleModal={toggleModal} modalOpen={modalOpen}/>
         </main>
     </>
     ) : ( 

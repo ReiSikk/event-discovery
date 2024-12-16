@@ -300,7 +300,8 @@ h4, .h4 {
   }
 
   .modal__body {
-    width: fit-content;
+    height: 100%;
+
   }
 
   .modal__content {
@@ -363,6 +364,7 @@ h4, .h4 {
 
   .updateProfile__btn {
     align-self: flex-end;
+    margin-top: auto;
   }
 
 
@@ -575,6 +577,15 @@ h4, .h4 {
       gap: 2.2222vw;
       padding: 1.666vw;
     }
+}
+.editForm {
+  height: 100%;
+  box-shadow: none;
+}
+.editEventForm {
+  width: 100%;
+  max-width: 71.1111vw;
+  margin-inline: auto;
 }
 
    .loginForm__section,.signupForm__section {
@@ -791,6 +802,24 @@ h4, .h4 {
 width: fit-content;
 margin-inline: auto;
 }
+
+
+
+/*
+   Edit Event Page
+   ========================================================================== */
+  .editEvent__header {
+    margin-block: 32px 64px;
+    @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+        margin-block: 4.444vw;
+    }
+
+    }
+   .editEvent__header > h1 {
+    margin-inline: auto;
+    text-align: center;
+   }
+
 
 
 
