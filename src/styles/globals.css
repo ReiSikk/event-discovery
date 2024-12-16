@@ -743,8 +743,7 @@ h4, .h4 {
     color: var(--white);
     width: 100%;
     @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
-      width: 25vw;
-      max-width: 320px;
+      max-width: 350px;
     }
   }
   .form__input::placeholder {
@@ -780,14 +779,15 @@ h4, .h4 {
   flex-direction: column;
   align-items: center;
   padding-block:  12px;
-  padding-inline: 8px;
+  padding-inline: 24px;
   text-align: center;
   border-radius: var(--bradius);
   background: var(--bg-dark);
   margin-bottom: 8px;
 
   @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
-    padding: 1.111vw;
+    padding-block: 1.111vw;
+    padding-inline: 1.6666vw;
     margin-bottom: 1.111vw;
   }
 }

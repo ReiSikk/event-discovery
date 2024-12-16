@@ -12,8 +12,18 @@
   @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
     padding: 3.333vw;
   }
-
   }
+
+  .loginForm__header {
+    margin-bottom: 16px;
+    @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+        margin-bottom: 1.6666vw;
+    }
+  }
+  .loginForm__header > p {
+    text-align: center;
+  }
+
   .loginForm__title {
     text-align: center;
     margin-bottom: 8px;
@@ -28,7 +38,7 @@
     border-radius: 200px;
     align-items: center;
     justify-content: center;
-    max-width: 320px;
+    max-width: 350px;
     gap: 6px;
     border: 1px solid var(--primary);
     background: var(--bg);

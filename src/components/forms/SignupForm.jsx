@@ -20,29 +20,52 @@ export default function SignUpForm() {
     //User creation logic
     const signUpNewUser = async (e) => {
       e.preventDefault();  
-      console.log('signing up');
-      try {
-          const userData = {
-              email: email?.trim(),
-              password: password?.trim(),
-          };
 
+      try {
+         
           // Check if passwords match
           if (password !== confirmPassword) {
             console.log('passwords dont match');
-            serError('Passwords do not match');
+            setError('Passwords do not match');
             return;
           }
           
-          const { data, error } = await supabase.auth.signUp({email: email, password: password});
+          console.log('passwords match');
+          console.log(email, password, name, "user data before signUp call");
+          const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+            email: email?.trim(),
+            password: password?.trim(),
+            data: {
+              full_name: name
+            }
+          });
 
-          if (data?.session?.access_token) (
+
+          if (signUpError) {
+            setError(signUpError.message);
+            return;
+          }
+
+          if (signUpData.user) {
+            const { error: profileError } = await supabase
+              .from('profiles')
+              .update({ full_name: name })
+              .eq('id', signUpData.user.id)
+              .single()
+    
+            if (profileError) {
+              console.error('Profile insert error:', profileError)
+              setError(profileError.message)
+              return
+            }
+
             setUserCreated(true),
             setTimeout(() => {
               router.push('/home')
               setUserCreated(false)
             }, 2000)
-          )
+
+          }
   
       } catch (error) {
           console.error('Form submission error:', error);
@@ -53,7 +76,9 @@ export default function SignUpForm() {
 
   return (
     <div className={styles.loginForm__wrap}>
-      <h1 className={styles.loginForm__title}>Register an account</h1>
+      <div className={styles.loginForm__header}>
+        <h1 className={styles.loginForm__title}>Register an account</h1>
+      </div>
       {userCreated &&
       <div className="signup__success">
         <p>
