@@ -11,8 +11,7 @@ export default function LoginForm() {
   const supabase = createClient()
 
   const [data, setData] = useState({
-    email: '',
-    password: ''
+    email: ''
   })
   const [error, setError] = useState(null)
   const [success, setSuccess] = useState(false )
@@ -25,7 +24,8 @@ export default function LoginForm() {
       .signInWithOtp({
          email: data.email,
          options: {
-          shouldCreateUser: true
+          shouldCreateUser: false,
+          emailRedirectTo: 'http://localhost:3000/home'
          }
         })
 
@@ -73,7 +73,12 @@ export default function LoginForm() {
     <>
     <Script src="https://accounts.google.com/gsi/client" async/>
     <div className={styles.loginForm__wrap}>
-      <h1 className={styles.loginForm__title}>Log in to your account</h1>
+      <div className={styles.loginForm__header}>
+        <h1 className={styles.loginForm__title}>Log in with Magic Link</h1>
+        <p>
+          Enter your email and we'll send you a link to sign in with.
+        </p>
+      </div>
       {success && <p className="login__success">An email has been sent to {data.email} to login</p>}
       <form onSubmit={handleSubmit} className={styles.loginForm}>
         <div className="form__row">
@@ -88,18 +93,6 @@ export default function LoginForm() {
             onChange={(e) => setData({...data, email: e.target.value})} 
           />
         </div>
-        {/* <div className="form__row">
-          <label className="form__label" htmlFor="password">Password:</label>
-          <input
-            className="form__input"
-            id="password"
-            type="password"
-            value={password}
-            autoComplete='current-password'
-            placeholder='Your password'
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div> */}
         {error && <p className="input__error">{`${error}!`}</p>}
         <button type="submit" className={styles.loginBtn}>
           Log in

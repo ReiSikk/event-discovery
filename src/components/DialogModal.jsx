@@ -38,7 +38,7 @@ function DialogModal({ modalOpen, toggleModal }) {
         </div>
         <div className="modal__body">
         <Form.Root onSubmit={handleSubmit} className="editForm form">
-            <Form.Field name="email" className="form__row">
+           {/*  <Form.Field name="email" className="form__row">
                 <Form.Label className="form__label">Email</Form.Label>
                 <Form.Control
                 className="form__input"
@@ -50,7 +50,7 @@ function DialogModal({ modalOpen, toggleModal }) {
                 <Form.Message match="valueMissing" className="input__message">
                 Please enter an email
                 </Form.Message>
-            </Form.Field>
+            </Form.Field> */}
 
             <Form.Field name="password" className="form__row">
                 <Form.Label className="form__label">Password</Form.Label>
@@ -58,27 +58,13 @@ function DialogModal({ modalOpen, toggleModal }) {
                 className="form__input"
                 id="password"
                 type="password"
-                placeholder="Your password"
-                autoComplete="current-password"
+                placeholder="New password"
+                autoComplete="new-password"
                 />
                 <Form.Message match="valueMissing" className="input__message">
                 Please enter a password
                 </Form.Message>
             </Form.Field>
-
-            <Form.Field name="phone_nr" className="form__row">
-                <Form.Label className="form__label">Phone Number</Form.Label>
-                <Form.Control
-                className="form__input"
-                id="phone_nr"
-                type="tel"
-                placeholder="Your phone number"
-                />
-                <Form.Message match="valueMissing" className="input__message">
-                Please enter a phone number
-                </Form.Message>
-            </Form.Field>
-
             {response && <p className="">{response.message}</p>}
             <Form.Submit className="btn btn__primary updateProfile__btn">
                   {isPending ? 'Updating...' : 'Update Profile'}

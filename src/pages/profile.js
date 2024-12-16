@@ -34,6 +34,7 @@ function ProfilePage({ categories }) {
     // User State
     const [session, setSession] = useState(null);
     const [user, setUser] = useState(null); 
+    const [profile, setProfile] = useState(null);
     const [userEvents, setUserEvents] = useState([]);
 
     // Modal State
@@ -140,6 +141,19 @@ function ProfilePage({ categories }) {
       setSession(data.session);
       setUser(data.session.user);
 
+      const {data: profileData, error: profileError} = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', data.session.user.id)
+      .single();
+
+      if (profileError) {
+        console.error('Error fetching profile info:', profileError.message);
+        return;
+      }
+
+      setProfile(profileData)
+
       const events = await getEventsByUserId(data.session.user.id);
       setUserEvents(events);
 
@@ -160,14 +174,15 @@ function ProfilePage({ categories }) {
                 <div className={styles.profileCard__top}>
                         {session.user.user_metadata.avatar_url ? (
                             <img className={styles.image} src={user.user_metadata.avatar_url} alt="avatar" />
-                        ) : null }
+                        ) : 
+                        <UserCircle2 size={64} />
+                         }
                     <div>
-                        <h3 className={styles.name}>{user.user_metadata.full_name}</h3>
+                        {!profile && session.user && (
+                           <h3 className={styles.name}>{user.user_metadata.full_name}</h3>
+                        )}
+                        {profile && <h3 className={styles.name}>{profile.full_name}</h3>}
                         <ul className={styles.personalInfoList}>
-                            <li className={styles.personalInfo__card}>
-                                <span>Email</span>
-                                <p>{session.user.email}</p>
-                            </li>
                             <li className={styles.personalInfo__card}>
                                 <span>Email</span>
                                 <p>{session.user.email}</p>
@@ -202,7 +217,7 @@ function ProfilePage({ categories }) {
         </div>
         <main className={classNames(styles.container, styles.block, styles.eventsSection)}>
             <ToastNotification ref={toastRef} title={toastTitle} message={toastMessage}/>
-            <h2 className={styles.eventsSection__title}>My Events</h2>
+            <h3 className={styles.eventsSection__title}>My Events</h3>
             {userEvents && userEvents.length > 0 ? (
                 <ul className={styles.eventsList}>
                 {userEvents.map((event) => (
@@ -211,7 +226,7 @@ function ProfilePage({ categories }) {
                 </ul>
             ) : (
                 <div className={styles.noEventsFound}>
-                <p>We couldn't find any events for you</p>
+                <h4>We couldn't find any events for you</h4>
                 <div>Create your first event <Link href="/event/create" className='link__underline'>here</Link></div>
                 </div>
             )}
