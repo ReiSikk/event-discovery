@@ -43,16 +43,17 @@ function EditEventForm({ session, eventToEdit }) {
   })
   
 
+
   useEffect(() => {
     if (eventToEdit) {
       setFormData({
         title: eventToEdit.title,
         description: eventToEdit.description,
         location: eventToEdit.location,
-        category: eventToEdit.category,
+        category: eventToEdit.category_id,
         cost: eventToEdit.cost,
-        start_time: eventToEdit.start_time,
-        end_time: eventToEdit.end_time,
+        start_time: eventToEdit.start_time ? new Date(eventToEdit.start_time).toISOString().slice(0, 16) : '',
+        end_time: eventToEdit.end_time ? new Date(eventToEdit.end_time).toISOString().slice(0, 16) : '',
         ticket_type: eventToEdit.ticket_type,
         ticket_link: eventToEdit.ticket_link,
       })
@@ -78,7 +79,7 @@ function EditEventForm({ session, eventToEdit }) {
     const result = await updateEvent(session, formData, eventToEdit.id)
     if (result.success) {
       setToastTitle('Edit successful!')
-      setToastMessage('Event updatedd successfully, redirecting to the homepage...')
+      setToastMessage('Event updated successfully, redirecting back to your profile...')
       toastRef.current.triggerToast()
 
       setTimeout(() => {
@@ -114,7 +115,6 @@ function EditEventForm({ session, eventToEdit }) {
     fetchCategories()
   }, [])
 
-  
 
 
   return (
