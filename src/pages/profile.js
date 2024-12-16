@@ -38,16 +38,10 @@ function ProfilePage({ categories }) {
 
     // Modal State
     const [modalOpen, setModalOpen] = useState(false);
-    const [modalType, setModalType] = useState(null);
 
     // Toast State
     const [toastMessage, setToastMessage] = useState('')
     const [toastTitle, setToastTitle] = useState('')
-
-    //  Event to edit
-    const [selectedEvent, setSelectedEvent] = useState(null)
-    
-        
     
 
     const toggleModal = () => {
@@ -127,10 +121,8 @@ function ProfilePage({ categories }) {
     // Edit user event
     const handleEditEvent = (eventId) => {
         const event = userEvents.find(event => event.id === eventId)
-        setSelectedEvent(event)
-        setModalOpen(!modalOpen);
-        setModalType('editEvent')
         console.log('Edit event called', eventId)
+        router.push(`/event/${eventId}/edit`)
 
     }
 
@@ -161,13 +153,7 @@ function ProfilePage({ categories }) {
     <>
         <div className={classNames(styles.profileHeader, styles.container)}>
             <div className={styles.profileCard}>
-                <div 
-                className={classNames(styles.profileCard__edit, styles.btn__primary)}
-                onClick={() => {
-                    setModalType('editProfile')
-                    toggleModal()
-                }}
-                >
+                <div className={classNames(styles.profileCard__edit, styles.btn__primary)} onClick={toggleModal} >
                     <Edit2 size={16} />
                     Edit Profile
                 </div>
@@ -229,7 +215,7 @@ function ProfilePage({ categories }) {
                 <div>Create your first event <Link href="/event/create" className='link__underline'>here</Link></div>
                 </div>
             )}
-                <DialogModal toggleModal={toggleModal} modalOpen={modalOpen} modalType={modalType} selectedEvent={selectedEvent} />
+                <DialogModal toggleModal={toggleModal} modalOpen={modalOpen}/>
         </main>
     </>
     ) : ( 

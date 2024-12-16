@@ -7,7 +7,7 @@ import EventForm from "./forms/EventForm";
 // Toggle function to open/close the modal
 
 // Modal component
-function DialogModal({ modalOpen, toggleModal, modalType, selectedEvent }) {
+function DialogModal({ modalOpen, toggleModal }) {
     const [response, action, isPending] = useActionState(editProfile, null)
 
     const handleSubmit = async (event) => {
@@ -29,7 +29,7 @@ function DialogModal({ modalOpen, toggleModal, modalType, selectedEvent }) {
     <dialog className={`modal ${modalOpen ? 'open' : 'close'}`}>
       <div className="modal__content">
         <div className="modal__header">
-            <h2 className='modal__title'>{modalType === "editProfile" ? "Edit your profile" : 'Edit event'}</h2>
+            <h2 className='modal__title'>Edit your profile</h2>
                 <XCircle 
                 size={36}
                 className="modal__close"
@@ -37,7 +37,6 @@ function DialogModal({ modalOpen, toggleModal, modalType, selectedEvent }) {
                  />
         </div>
         <div className="modal__body">
-          {modalType === "editProfile" ?
         <Form.Root onSubmit={handleSubmit} className="editForm form">
             <Form.Field name="email" className="form__row">
                 <Form.Label className="form__label">Email</Form.Label>
@@ -80,22 +79,11 @@ function DialogModal({ modalOpen, toggleModal, modalType, selectedEvent }) {
                 </Form.Message>
             </Form.Field>
 
+            {response && <p className="">{response.message}</p>}
             <Form.Submit className="btn btn__primary updateProfile__btn">
-                {isPending ? 'Updating...' : 'Update Profile'}
+                  {isPending ? 'Updating...' : 'Update Profile'}
             </Form.Submit>
-            {response && <p>{response.message}</p>}
-        </Form.Root>
-        : 
-          <EventForm  isEditForm event={selectedEvent}/>
-          }
-        </div>
-        <div className="modal__footer">
-          <button className="btn__primary btn__cancel" onClick={toggleModal}>
-            Cancel
-          </button>
-          <button className="btn__primary btn__confirm" onClick={toggleModal}>
-            Confirm
-          </button>
+        </Form.Root> 
         </div>
       </div>
     </dialog>

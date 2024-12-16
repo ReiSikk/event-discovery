@@ -40,19 +40,7 @@ export default function CreateEventPage({ events: initialEvents }) {
     ]
   })
 
-  const refreshEvents = async () => {
-    const { data: updatedEvents } = await supabase
-      .from('events')
-      .select('*')
-      .order('created_at', { ascending: false })
-    
-    setEvents(updatedEvents)
-    setSubmitted(true)
-    setTimeout(() => {
-      router.push('/home')
-    }, 2000)
-  }
-
+ 
 /*   const formRef = useRef(null)
 
   useEffect(() => {
@@ -84,7 +72,6 @@ export default function CreateEventPage({ events: initialEvents }) {
             <ProgressSteps eventProgress={eventProgress} />
             <div className={styles.formSection__main}>
               <EventForm 
-              onSuccess={refreshEvents} 
               session={session} 
               />
             </div>
