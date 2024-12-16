@@ -69,6 +69,10 @@ a {
   text-decoration: none;
 }
 
+.visible {
+  display: block !important;
+}
+
 h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
 	margin-top: 0;
 	margin-bottom: 1rem;
@@ -486,6 +490,11 @@ h4, .h4 {
 }
 }
 
+.btn__disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .buttons__flex {
   display: flex;
   flex-wrap: wrap;
@@ -586,6 +595,15 @@ h4, .h4 {
   width: 100%;
   max-width: 71.1111vw;
   margin-inline: auto;
+}
+
+.formNav {
+  display: flex;
+  justify-content: space-between;
+
+}
+.formNav__btn {
+
 }
 
    .loginForm__section,.signupForm__section {
