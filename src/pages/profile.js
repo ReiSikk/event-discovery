@@ -145,7 +145,6 @@ function ProfilePage({ categories }) {
       .from('profiles')
       .select('*')
       .eq('id', data.session.user.id)
-      .single();
 
       if (profileError) {
         console.error('Error fetching profile info:', profileError.message);

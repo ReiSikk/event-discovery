@@ -770,8 +770,13 @@ h4, .h4 {
     color: red;
     font-size: 1.2rem;
     line-height: 1.35;
-    margin-top: 4px;
+    margin-top: 8px;
     max-width: 42ch;
+    margin-left: 8px;
+    @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+      margin-top: 0.5555vw;
+      margin-left: 0.5555vw;
+    }
 }
 
 .login__success,.signup__success {

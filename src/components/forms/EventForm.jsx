@@ -40,6 +40,16 @@ function EventForm({ session }) {
     ticket_type: '',
     ticket_link: '',
   })
+  const [formErrors, setFormErrors] = useState({
+    title: '',
+    description: '',
+    location: '',
+    start_time: '',
+    end_time: '',
+    category: '',
+    ticket_type: '',
+    ticket_link: ''
+  });
   
 
   const handleSubmit = async (formData) => {
@@ -70,6 +80,60 @@ function EventForm({ session }) {
     }
 }
 
+// Validate form fields
+const validateField = (name, value) => {
+  switch (name) {
+    case 'title':
+      return value.length < 4 ? 'Title must be at least 4 characters long.' : '';
+    case 'description':
+      return value.length < 10 ? 'Please enter a description that is at least 10 characters long.' : '';
+    case 'location':
+      return !value ? 'Please enter a location for your listing.' : '';
+    case 'start_time':
+      return !value ? 'Please enter a start time for your listing.' : '';
+    case 'end_time':
+      return !value ? 'Please enter an end time for your listing.' : '';
+    case 'category':
+      return !value ? 'Please select a category for your event.' : '';
+    case 'ticket_type':
+      return !value ? 'Please select a ticket type.' : '';
+    case 'ticket_link':
+      if (ticketType && ticketType !== 'free' && !value) {
+        return 'Please enter a ticket link';
+      }
+      return '';
+    default:
+      return '';
+  }
+};
+
+
+// Display file name when file is selected
+const handleFileChange = (e) => {
+  setFile(e.target.files[0])
+}
+
+
+ // Handle input changes with validation
+ const handleInputChange = (e) => {
+  const { name, value } = e.target;
+  
+  // Update form data
+  setFormData(prev => ({
+    ...prev,
+    [name]: value
+  }));
+
+  // Validate the field
+  const errorMessage = validateField(name, value);
+  
+  // Update errors
+  setFormErrors(prev => ({
+    ...prev,
+    [name]: errorMessage
+  }));
+};
+
 
 // Fetch categories
   useEffect(() => {
@@ -99,24 +163,43 @@ function EventForm({ session }) {
       <div className={styles.formFields} id='basicDetails'>
         <Form.Field name="title" className={styles.formField} >
             <Form.Label className={styles.formField__label}>Title</Form.Label>
-            <Form.Control type="text" placeholder='Name of your event'  className={styles.formField__input}
+            <Form.Control 
+            type="text" 
+            placeholder='Name of your event'  
+            className={styles.formField__input}
+            required
+            onChange={handleInputChange}
              />
-            <Form.Message match="valueMissing" className="input__message">
-              Please enter a title for the event/activity.
+            <Form.Message 
+            match="valueMissing"
+             className="input__message">
+              Title must be at least 4 characters long.
             </Form.Message>
           </Form.Field>
 
           <Form.Field name="description" className={styles.formField} >
             <Form.Label className={styles.formField__label}>Description</Form.Label>
-            <Form.Control type="textarea" placeholder='Provide a description of your event'  className={styles.formField__input} />
+            <Form.Control 
+            type="textarea"
+            placeholder='Provide a description of your event'  
+            className={styles.formField__input} 
+            required
+            onChange={handleInputChange}
+            />
             <Form.Message match="valueMissing" className="input__message">
-              Please enter a description for your listing.
+              Please enter a description that is at least 10 characters long.
             </Form.Message>
           </Form.Field>
 
           <Form.Field name="location" className={styles.formField} >
             <Form.Label className={styles.formField__label}>Location</Form.Label>
-            <Form.Control type="text" placeholder='Where your event is happening'  className={styles.formField__input} />
+            <Form.Control 
+            type="text" 
+            placeholder='Where your event is happening'  
+            className={styles.formField__input} 
+            required
+            onChange={handleInputChange}
+            />
             <Form.Message match="valueMissing" className="input__message">
               Please enter a location for your listing.
             </Form.Message>
@@ -126,24 +209,43 @@ function EventForm({ session }) {
       <div className={styles.formFields} id='dateTime'>
         <Form.Field name="start_time" className={styles.formField} >
           <Form.Label className={styles.formField__label}>Start time and date</Form.Label>
-          <Form.Control type="datetime-local"  className={styles.formField__input} />
+          <Form.Control 
+          type="datetime-local"
+          className={styles.formField__input} 
+          required
+          onChange={handleInputChange}
+          />
           <Form.Message match="valueMissing" className="input__message">
             Please enter a start time for your listing.
           </Form.Message>
         </Form.Field>
         <Form.Field name="end_time" className={styles.formField} >
           <Form.Label className={styles.formField__label}>End time and date</Form.Label>
-          <Form.Control type="datetime-local"  className={styles.formField__input} />
+          <Form.Control 
+          type="datetime-local"  
+          className={styles.formField__input} 
+          required
+          onChange={handleInputChange}
+          />
           <Form.Message match="valueMissing" className="input__message">
             Please enter a end time for your listing.
           </Form.Message>
         </Form.Field>
       </div>
       <div className={styles.formFields} id='eventDetails'>
-        <Form.Field name="category" className={styles.formField} >
+        <Form.Field 
+        name="category" 
+        className={styles.formField} 
+        required
+        onChange={handleInputChange}
+        >
           <Form.Label className={styles.formField__label}>Category</Form.Label>
           <Form.Control asChild>
-            <select>
+            <select
+            className={styles.formField__select}
+            required
+            onChange={handleInputChange}
+            >
             <option value="">Select category</option>
               {categories.map((category) => (
                 <option key={category.id} value={category.id}>
@@ -152,11 +254,15 @@ function EventForm({ session }) {
               ))}
             </select>
           </Form.Control>
+          <Form.Message match="valueMissing" className="input__message">
+            Please select a category for your event.
+          </Form.Message>
         </Form.Field>
 
         <Form.Field name="cost" className={styles.formField} >
           <Form.Label className={styles.formField__label}>Cost of the event</Form.Label>
-          <Form.Control type="numeric" placeholder='Leave empty if the event is free of charge' className={styles.formField__input} />
+          <Form.Control 
+          type="numeric" placeholder='Leave empty if the event is free of charge' className={styles.formField__input} />
         </Form.Field>
       </div>
 
@@ -169,7 +275,7 @@ function EventForm({ session }) {
           <p>This will be one of the first things the user sees when browsing events so choose wisely!</p>
           <Form.Field name="event_images" className={classNames(styles.formField, styles.formField__file)} >
             <Form.Label className={styles.formField__label}>
-              Drag & drop your file here or click to upload
+              {file ? file.name : ' Drag & drop your file here or click to upload'}
               <Upload size={24} />
             </Form.Label>
               <Form.Control asChild/>
@@ -179,6 +285,7 @@ function EventForm({ session }) {
                 name="event_image" 
                 id="event_image" 
                 className={styles.formField__input}
+                onChange={handleFileChange}
                 />
           </Form.Field>
         </div>
@@ -201,6 +308,7 @@ function EventForm({ session }) {
             onChange={() => setTicketType('free')}
             checked={ticketType === 'free'}
             className={styles.radio__input}
+            required
           />
           <label htmlFor="free" className={styles.radio__label}>
             Free
@@ -216,6 +324,7 @@ function EventForm({ session }) {
             onChange={() => setTicketType('tickets')}
             checked={ticketType === 'tickets'}
             className={styles.radio__input}
+            required
           />
           <label htmlFor="tickets" className={styles.radio__label}>
             Tickets
