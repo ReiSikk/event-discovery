@@ -10,7 +10,7 @@
   padding: 24px;
   
   @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
-    padding: 3.333vw;
+    min-width: 420px;
   }
   }
 
@@ -34,6 +34,7 @@
     min-width: 125px;
     padding-block: 10px 9px;
     padding-inline: 18px;
+    min-width: 200px;
     flex-shrink: 0;
     border-radius: 200px;
     align-items: center;
@@ -45,6 +46,10 @@
     color: var(--primary);
     transition: background 0.3s ease-in-out;
     cursor: pointer;
+
+    @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+      max-width: 100%;
+    }
 
     &:hover {
         background: var(--primary);
@@ -62,4 +67,5 @@
     text-underline-offset: 3px;
     color: var(--primary);
     font-family: var(--font-headings);
+    margin-inline: auto;
   }

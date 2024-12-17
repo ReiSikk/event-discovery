@@ -1,12 +1,12 @@
 import { useRouter } from 'next/router'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { createClient } from '@/utils/supabase/component'
 import styles from './LoginForm.module.css'
 import Link from 'next/link'
 import Script from 'next/script'
 import GoogleSignInButton from '../GoogleSignInButton'
 
-export default function LoginForm() {
+export default function LoginForm({ updateLoginOption }) {
   const router = useRouter()
   const supabase = createClient()
 
@@ -93,10 +93,13 @@ export default function LoginForm() {
             onChange={(e) => setData({...data, email: e.target.value})} 
           />
         </div>
-        {error && <p className="input__error">{`${error}!`}</p>}
+        {error && <p className="input__error">{`${error} !`}</p>}
         <button type="submit" className={styles.loginBtn}>
           Log in
         </button>
+        <div className={`${styles.login__link} txt-medium`} onClick={() => updateLoginOption('userAndPass')}>
+            Log in with password instead
+        </div>
         <p className={styles.login__text}>Don't have an account? <Link href="/signup" className={styles.login__link}>Sign Up</Link> </p>
         <GoogleSignInButton onClick={handleSignInWithGoogle} className="googleBtn"/>
       </form>

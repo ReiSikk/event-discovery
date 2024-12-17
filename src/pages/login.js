@@ -1,10 +1,11 @@
 import { useRouter } from 'next/router'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { createClient } from '@/utils/supabase/component'
 import LoginForm from '@/components/forms/LoginForm'
 import * as Tabs from "@radix-ui/react-tabs";
 import SignUpForm from '@/components/forms/SignupForm';
 import { useAuth } from '@/pages/api/auth/authprovider'
+import LoginWithUsername from '@/components/forms/LoginWithUsername';
 
 export default function LoginPage() {
   const router = useRouter()
@@ -12,6 +13,12 @@ export default function LoginPage() {
   const { isLoggedIn } = useAuth()
   const { id } = router.query
   const [activeTab, setActiveTab] = useState(id === 'signup' ? 'tab2' : 'tab1')
+
+  const [loginOption, setLoginOption] = useState('userAndPass')
+
+  const updateLoginOption = (option) => {
+    setLoginOption(option)
+  }
 
 
   //TODO: Check for user session
@@ -21,15 +28,6 @@ export default function LoginPage() {
       router.push('/home')
     }
   }, [isLoggedIn])
-
-
-  async function logIn() {
-    const { error } = await supabase.auth.signInWithPassword({ email, password })
-    if (error) {
-      console.error(error)
-    }
-    router.push('/')
-  }
 
   return (
     <section className='loginForm__section container'>
@@ -44,7 +42,9 @@ export default function LoginPage() {
           </Tabs.Trigger>
         </Tabs.List>
         <Tabs.Content className="tabs__content" value="tab1">
-          <LoginForm login={logIn}/>
+        {loginOption === 'email' && <LoginForm updateLoginOption={updateLoginOption}/>}
+        {loginOption === 'userAndPass' && <LoginWithUsername updateLoginOption={updateLoginOption}/>}
+        {/* <LoginForm login={logIn}/> */}
         </Tabs.Content>
         <Tabs.Content className="tabs__content" value="tab2">
           <SignUpForm />
