@@ -68,4 +68,9 @@
     color: var(--primary);
     font-family: var(--font-headings);
     margin-inline: auto;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    &:hover {
+      color: var(--white);
+    }
   }

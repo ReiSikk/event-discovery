@@ -62,7 +62,7 @@ export default function LoginWithUsername({ logIn, updateLoginOption}) {
     <div className={styles.loginForm__wrap}>
         <ToastNotification ref={toastRef} title={toastTitle} message={toastMessage}/>
       <div className={styles.loginForm__header}>
-        <h1 className={styles.loginForm__title}>Log In</h1>
+        <h1 className={styles.loginForm__title}>Sign in to your account</h1>
       </div>
       <form onSubmit={handleSubmit} className={styles.loginForm}>
         <div className="form__row">
@@ -90,13 +90,13 @@ export default function LoginWithUsername({ logIn, updateLoginOption}) {
         </div>
         {error && <p className="input__error">{`${error} !`}</p>}
         <button type="submit" className={styles.loginBtn}>
-          Log in
+          Sign in
         </button>
         <div className={`${styles.login__link} txt-medium`} onClick={() => updateLoginOption('email')}>
-            Log in with login link instead
+            Sign in with login link instead
         </div>
       </form>
-      <p className={styles.login__text}>Don't have an account? <Link href="/signup" className={styles.login__link}>Sign Up</Link> </p>
+      <p className={styles.login__text}>Don't have an account? <Link href="/login?id=signup" className={styles.login__link}>Sign Up</Link> </p>
     </div>
   )
 }

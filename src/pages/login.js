@@ -35,7 +35,7 @@ export default function LoginPage() {
       onValueChange={setActiveTab}>
        <Tabs.List className={`tabs__list ${activeTab === "tab1" ? 'slide-left' : 'slide-right'}`} aria-label="Manage your account">
           <Tabs.Trigger className="tabs__trigger" value="tab1">
-            Log In
+            Sign In
           </Tabs.Trigger>
           <Tabs.Trigger className="tabs__trigger" value="tab2">
             Sign Up

@@ -20,6 +20,7 @@ export async function getServerSideProps({ params }) {
     .eq('id', eventId)
     .single()
 
+
     // Fetch event images
     const { data: images, error: imagesError } = await supabase
     .from('event_images')
@@ -82,6 +83,7 @@ const formatTime = (timeString) => {
     };
 
 function EventPage ({ event, relatedEvents, category, eventImgUrls }) {
+  console.log(event, "event");
 if (!event) return <div>Loading...</div>
 
   return (
@@ -94,9 +96,9 @@ if (!event) return <div>Loading...</div>
                 : 
                 <Image src={"https://placehold.co/1200x600/EEE/31343C"} width={1200} height={600} alt={event.title} className={styles.eventHeader__img} />
               }
-              <div className={styles.eventHeader__meta}>
-                <p className={styles.eventHeader__date}>{format(event.start_time,'eeee, MMMM d ')} {formatTime(event.start_time)} - {formatTime(event.end_time)}</p>
-                <p className={`${styles.eventHeader__location} h4`}>{event.location}</p>
+              <div className={`${styles.eventHeader__meta} col-m-none`}>
+                <p className={`${styles.eventHeader__date} h3`}>{format(event.start_time,'eee, MMMM d ')} {formatTime(event.start_time)} - {formatTime(event.end_time)}</p>
+                <p className={`${styles.eventHeader__location} txt-medium`}>{event.location}</p>
                 <div className={styles.eventHeader__gradient}>
 
                 </div>
@@ -114,25 +116,18 @@ if (!event) return <div>Loading...</div>
                       <span key={category.id} className={`${styles.contentLeft__label} txt-medium`}>
                         {category.name}
                       </span>
-                      <div className={`${styles.contentLeft__cost} txt-medium`}>
-                          <TicketIcon size={24} />
-                          <p>
-                          {event.cost ? `Cost: ${event.cost} €` : "Free" }    
-                          </p>
-                      </div>
                   </div>
                 }
                 </div>
                 <div className={styles.contentLeft__main}>
+                    <h3 className={styles.contentMain__title}>About the event</h3>
                   <p className={styles.contentLeft__location}></p>
-                  <p className={styles.contentLeft__text}>{event.description}</p>
+                    <p className={styles.contentMain__text}>{event.description}</p>
                 </div>
-              </div>
-              <div className={styles.contentRight}>
-                <div className={styles.contentRight__top}>
+                <div className={styles.contentLeft__items}>
                   <div className={styles.contentRight__item}>
                     <h4 className={styles.contentRight__title}><CalendarClock />Date & Time</h4>
-                    <p className={styles.contentRight__subtitle}>{format(event.start_time,'eeee, MMMM d ')} {formatTime(event.start_time)} - {formatTime(event.end_time)}</p>
+                    <p className={styles.contentRight__subtitle}>{format(event.start_time,'eee, MMMM d ')} {formatTime(event.start_time)} - {formatTime(event.end_time)}</p>
                     <a href="#" className={styles.contentRight__link} >Mark in my calendar</a>
                   </div>
                   <div className={styles.contentRight__item}>
@@ -141,11 +136,22 @@ if (!event) return <div>Loading...</div>
                     <a href="#" className={styles.contentRight__link} >Show on the map</a>
                   </div>
                 </div>
-                <div className={styles.contentMain}>
-                  <div className={styles.contentMain__top}>
-                    <h3 className={styles.contentMain__title}>About the event</h3>
-                    <p className={styles.contentMain__text}>{event.description}</p>
+              </div>
+              <div className={styles.contentRight}>
+                <div className={`${styles.contentRight__cost} txt-medium`}>
+                  <div className={styles.contentRight__cost_top}>
+                    <h4>Ticket Price</h4>
                   </div>
+                  <div className={styles.contentRight__cost_main}>
+                    <TicketIcon size={24} />
+                    <p>
+                    {event.cost ? `Cost: ${event.cost} €` : "Free" }    
+                    </p>
+                  </div>
+                </div>
+                <div className={`${styles.contentRight__organiser} txt-medium`}>
+                  <h4>Event organiser</h4>
+                  <p>{event.organiser}</p>
                 </div>
               </div>
             </section>

@@ -74,7 +74,7 @@ export default function LoginForm({ updateLoginOption }) {
     <Script src="https://accounts.google.com/gsi/client" async/>
     <div className={styles.loginForm__wrap}>
       <div className={styles.loginForm__header}>
-        <h1 className={styles.loginForm__title}>Log in with Magic Link</h1>
+        <h1 className={styles.loginForm__title}>Sign in with Magic Link</h1>
         <p>
           Enter your email and we'll send you a link to sign in with.
         </p>
@@ -95,12 +95,12 @@ export default function LoginForm({ updateLoginOption }) {
         </div>
         {error && <p className="input__error">{`${error} !`}</p>}
         <button type="submit" className={styles.loginBtn}>
-          Log in
+          Sign in
         </button>
         <div className={`${styles.login__link} txt-medium`} onClick={() => updateLoginOption('userAndPass')}>
-            Log in with password instead
+            Sign in with password instead
         </div>
-        <p className={styles.login__text}>Don't have an account? <Link href="/signup" className={styles.login__link}>Sign Up</Link> </p>
+        <p className={styles.login__text}>Don't have an account? <Link href="/login?id=signup" className={styles.login__link}>Sign up</Link> </p>
         <GoogleSignInButton onClick={handleSignInWithGoogle} className="googleBtn"/>
       </form>
     </div>

@@ -236,7 +236,7 @@ function ProfilePage({ categories }) {
     </>
     ) : ( 
     <main className={classNames(styles.container, styles.block)}>
-        <p className={styles.sessionStatus}>No profile found... Please <Link href="/login" className={styles.login__link}>log in</Link></p> 
+        <p className={styles.sessionStatus}>No profile found... Please <Link href="/login" className={styles.login__link}>Sign in</Link></p> 
     </main>
 )}
     </>

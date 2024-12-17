@@ -96,7 +96,7 @@ function MobileMenu() {
                     </Link>
                     : 
                     <Link 
-                    href="/login" 
+                    href="/login?id=signup" 
                     className="btn btn__primary btn__secondary"
                     onClick={toggleMenu}
                     >
