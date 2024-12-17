@@ -347,7 +347,7 @@ const handleFileChange = (e) => {
               <Image size={16} />
               <h3>Upload your image</h3>
             </div>
-            <p>This will be one of the first things the user sees when browsing events so choose wisely!</p>
+            <p className="txt-medium">This will be one of the first things the user sees when browsing events so choose wisely!</p>
             <Form.Field name="event_images" className={classNames(styles.formField, styles.formField__file)} >
               <Form.Label className={styles.formField__label}>
                 {file ? file.name : ' Drag & drop your file here or click to upload'}
@@ -468,30 +468,44 @@ const handleFileChange = (e) => {
             </div>
           )}
         </Form.Field>
-        <Form.Submit 
-      className={classNames(styles.form__submit, styles.btn__primary)}
-      disabled={isPending}
-      >
-        {isPending ? 'Creating event...' : 'Submit'}
-      </Form.Submit>
+        {
+          !formStep === 4 && 
+          <Form.Submit 
+          className={classNames(styles.form__submit, styles.btn__primary)}
+          disabled={isPending}
+          >
+            {isPending ? 'Creating event...' : 'Submit'}
+          </Form.Submit>
+        }
         </div>
 
      <div className='formNav'>
-          <div 
-          className={`btn__primary formNav__btn ${formStep === 0 ? 'btn__disabled' : ''}`}
-          onClick={handlePrevious}
-          >
-            <ArrowLeft size={16} />
-            Previous step
-            </div>
-          <div 
-          className={`btn__primary formNav__btn ${formStep === 4 ? 'btn__disabled' : ''}`}
-          onClick={handleNextStep}
-          >
-            Next step
-            <ArrowRight size={16}
-              />
-            </div>
+            {
+              formStep !== 0 &&
+                <div className={`btn__primary formNav__btn ${formStep === 0 ? 'btn__disabled' : ''}`}
+                onClick={handlePrevious}>
+                  <ArrowLeft size={16} />
+                  Previous step
+                </div>
+            }
+            {
+              formStep !== 4 &&
+              <div  className={`btn__primary formNav__btn formNav__btn--next ${formStep === 4 ? 'btn__disabled' : ''}`}
+              onClick={handleNextStep}>
+                Next step
+                <ArrowRight size={16}
+                  />
+              </div>
+            }
+            {
+              formStep === 4 &&
+                <Form.Submit 
+                className={classNames(styles.form__submit, styles.btn__primary)}
+                disabled={isPending}
+                >
+                  {isPending ? 'Creating event...' : 'Submit'}
+                </Form.Submit>
+            }
     </div>
     </Form.Root>
     {error && <p className="error">{error}</p>}

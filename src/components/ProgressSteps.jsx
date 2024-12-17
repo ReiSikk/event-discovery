@@ -6,7 +6,8 @@ import classNames from 'classnames'
 function ProgressSteps({ eventProgress, formStep }) {
   return (
          <div className={styles.formProgress}>
-              <h3>Event creation steps</h3>
+              <h4 className='col-m-none'>Event creation steps</h4>
+              <h4 className='col-t-none col-d-none'>{`Step ${formStep + 1} of 5`}</h4>
               {eventProgress.steps.map((step, index) => (
                 <div 
                   className={classNames(

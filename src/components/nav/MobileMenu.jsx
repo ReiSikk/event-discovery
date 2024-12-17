@@ -52,11 +52,20 @@ function MobileMenu() {
                 </li>
                 <li className={styles.mobileMenu__item}>
                     <Link 
-                    href="/faq" 
+                    href="/organiser" 
                     className={`${styles.mobileMenu__link} h3`}
                     onClick={toggleMenu}
                     >
-                        FAQ
+                        For Organisers
+                    </Link>
+                </li>
+                <li className={styles.mobileMenu__item}>
+                    <Link 
+                    href="/event/create" 
+                    className={`${styles.mobileMenu__link} h3`}
+                    onClick={toggleMenu}
+                    >
+                        Create Event
                     </Link>
                 </li>
                 <li className={styles.mobileMenu__item}>

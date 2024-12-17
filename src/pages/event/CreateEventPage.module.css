@@ -1,165 +1,102 @@
 /* ==========================================================================
     Create event page
    ========================================================================== */
-   .container {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    margin-inline: auto;
-    max-width: var(--container-width);
-    width: 100%;
-    position: relative;
-    padding-inline: 16px;
-  
-    @media only screen and (max-width: 767px) {
-      padding-inline: 4.1025vw;
-    }
-  
-    @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
-      padding-inline: 1.6666vw;
-    }
-  
-    &.block {
-      display: block;
-    }
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  margin-inline: auto;
+  max-width: var(--container-width);
+  width: 100%;
+  position: relative;
+  padding-inline: 16px;
+
+  @media only screen and (max-width: 767px) {
+    padding-inline: 4.1025vw;
+  }
+
+  @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+    padding-inline: 1.6666vw;
+  }
+
+  &.block {
+    display: block;
+  }
 }
 
+.main > h1 {
+  margin-block: 2.222vw 6.9444vw;
+}
+.mainError {
+  height: 100vh;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.mainError > p {
+  margin-bottom: 24px;
+  @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+    margin-bottom: 1.666vw;
+  }
+}
+.formSection {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  width: 100%;
+  margin-block: 32px 64px;
+  @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+    margin-block: 4.4444vw 6.9444vw;
+    flex-direction: row;
+  }
+}
+.formSection__main {
+  max-width: 100%;
+  margin-top: 24px;
+  @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+    width: 66.66%;
+    padding-inline: 2.222vw 0;
+    margin-top: 0;
+  }
+}
 
-   .main > h1 {
-    margin-block: 2.222vw 6.9444vw;
-  }
-  .mainError {
-    height: 100vh;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-  .mainError > p {
-    margin-bottom: 24px;
-    @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
-      margin-bottom: 1.666vw;
-    }
-  }
-  .formSection {
-    display: flex;
-    position: relative;
-    width: 100%;
-    margin-block: 32px 64px;
-    @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
-      margin-block: 4.4444vw 6.9444vw;
-    }
-  }
-  
-  .wizardContainer {
-    display: flex;
-    max-width: 800px;
-    margin: 0 auto;
-  }
-  
-  .wizardNavigation {
-    width: 250px;
-    padding-right: 20px;
-    border-right: 1px solid #e0e0e0;
-  }
-  
-  .wizardStep {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    margin-bottom: 10px;
-    cursor: pointer;
-    background-color: #f5f5f5;
-    border-radius: 4px;
-  }
-  
-  .wizardStep .stepNumber {
-    margin-right: 10px;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background-color: #ccc;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .wizardStep.currentStep {
-    background-color: #e6f2ff;
-  }
-  
-  .wizardStep.completedStep {
-    background-color: #e6f7e6;
-  }
-  
-  .wizardStep.completedStep .checkIcon {
-    color: green;
-    margin-right: 10px;
-  }
-  
-  .wizardActions {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-  }
-  
-  .prevButton, .nextButton {
-    padding: 10px 20px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .nextButton {
-    background-color: #007bff;
-    color: white;
-  }
+.feedbackToast {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  max-width: 300px;
+  padding: 16px 24px;
+  background: var(--bg-dark);
+  color: var(--white);
+  border-radius: var(--bradius);
+  border: 1px solid var(--primary);
+  text-align: center;
+  z-index: 1000;
+  transform: translateX(200%);
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  animation: slideIn 0.3s ease forwards, fadeOut 0.3s ease 1.5s forwards;
+}
 
-   .formSection__main {
-       max-width: 100%;
-       @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
-        width: 66.66%;
-        padding-inline: 2.222vw 0;
-    }
-   }
-
-   .feedbackToast {
-    position: fixed;
-    bottom: 32px;
-    right: 32px;
-    max-width: 300px;
-    padding: 16px 24px;
-    background: var(--bg-dark);
-    color: var(--white);
-    border-radius: var(--bradius);
-    border: 1px solid var(--primary);   
-    text-align: center;
-    z-index: 1000;
+@keyframes slideIn {
+  from {
     transform: translateX(200%);
     opacity: 0;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-    animation: slideIn 0.3s ease forwards, fadeOut 0.3s ease 1.5s forwards;
   }
-  
-  @keyframes slideIn {
-    from {
-      transform: translateX(200%);
-      opacity: 0;
-    }
-    to {
-      transform: translateX(0);
-      opacity: 1;
-    }
+  to {
+    transform: translateX(0);
+    opacity: 1;
   }
-  
-  @keyframes fadeOut {
-    from {
-      transform: translateX(0);
-      opacity: 1;
-    }
-    to {
-      transform: translateX(20px);
-      opacity: 0;
-    }
+}
+
+@keyframes fadeOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
   }
+  to {
+    transform: translateX(20px);
+    opacity: 0;
+  }
+}
