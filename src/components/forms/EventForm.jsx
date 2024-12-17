@@ -13,7 +13,7 @@ import ToastNotification from '@/components/ToastNotification';
 import { set } from 'date-fns';
 
 
-function EventForm({ session }) {
+function EventForm({ session, formStep, handlePrevious, handleNext }) {
   const supabase = createClient()
   const router = useRouter()
   const toastRef = useRef(null)
@@ -24,7 +24,6 @@ function EventForm({ session }) {
   const [categories, setCategories] = useState([]);
   const [eventCreated, setEventCreated] = useState(false);
   const [error, setError] = useState(null);
-  const [formStep, setFormStep] = useState(0);
   // State for form fields
   const [ticketType, setTicketType] = useState('');
   const [file, setFile] = useState(null);
@@ -48,6 +47,7 @@ function EventForm({ session }) {
     start_time: '',
     end_time: '',
     category: '',
+    event_image: '',
     ticket_type: '',
     ticket_link: ''
   });
@@ -70,6 +70,8 @@ const validateField = (name, value) => {
       return !value ? 'Please select a category for your event.' : '';
     case 'ticket_type':
       return !value ? 'Please select a ticket type.' : '';
+    case 'event_image':
+      return !value ? 'Please upload an image for your event.' : '';
     case 'ticket_link':
       if (ticketType && ticketType !== 'free' && !value) {
         return 'Please enter a ticket link';
@@ -80,10 +82,65 @@ const validateField = (name, value) => {
   }
 };
 
+const handleNextStep = () => {
+  // map form step to required fields
+  const requiredFields = {
+    0: ['title', 'description', 'location'],
+    1: ['start_time', 'end_time'],
+    2: ['category'],
+    4: ['ticket_type', 'ticket_link']
+  }
+
+  // Get required fields for current step
+  const currentStepFields = requiredFields[formStep] || []
+
+  // Validate fields and collect errors
+  const newErrors = currentStepFields.reduce((errors, field) => {
+    const errorMessage = validateField(field, formData[field])
+    if (errorMessage) {
+      errors[field] = errorMessage
+    }
+    return errors
+  }, {})
+
+    // Separate check for file input (event_image)
+    if (formStep === 3) { // Assuming step 3 is the image upload step
+      if (!file) {
+        newErrors['event_image'] = 'Please upload an image for your event.'
+      } else {
+        // Optional: Add more file validations (e.g., file type, size)
+        const validTypes = ['image/jpeg', 'image/png', 'image/webp' ]
+        if (!validTypes.includes(file.type)) {
+          newErrors['event_image'] = 'Unsupported file type. Please upload a JPEG, PNG, or WebP image.'
+        }
+        const maxSize = 5 * 1024 * 1024 // 5MB
+        if (file.size > maxSize) {
+          newErrors['event_image'] = 'File size exceeds 5MB. Please upload a smaller image.'
+        }
+      }
+    }
+
+  // update the form errors
+  if (Object.keys(newErrors).length > 0) {
+    setFormErrors(prev => ({ ...prev, ...newErrors }))
+    return
+  }
+
+  handleNext()
+}
+console.log('handleNextStep formErrors', formErrors)
+
 
 // Display file name when file is selected
 const handleFileChange = (e) => {
-  setFile(e.target.files[0])
+  const selectedFile = e.target.files[0]
+  if (selectedFile) {
+    setFile(selectedFile)
+    // Optionally, clear any existing errors related to the file
+    setFormErrors(prev => ({ ...prev, event_image: '' }))
+  } else {
+    setFile(null)
+  }
 }
 
 
@@ -126,20 +183,6 @@ const handleFileChange = (e) => {
     fetchCategories()
   }, [])
 
-
-  // Handle form navigation
-  const handleNext = () => {
-    console.log('next formStep', formStep)
-    if (formStep < 4) {
-      setFormStep(prev => prev + 1)
-    } 
-  }
-  const handlePrevious = () => {
-    console.log('previous formStep', formStep)
-    if (formStep > 0) {
-      setFormStep(prev => prev - 1)
-    }
-  }
 
 
   const handleSubmit = async (formData) => {
@@ -190,11 +233,11 @@ const handleFileChange = (e) => {
               required
               onChange={handleInputChange}
                 />
-              <Form.Message 
-              match="valueMissing"
-                className="input__message">
-                Title must be at least 4 characters long.
-              </Form.Message>
+             {
+              formErrors.title && <p match="valueMissing" className="input__message">
+                {formErrors.title}
+              </p>
+             }
             </Form.Field>
 
             <Form.Field name="description" className={styles.formField} >
@@ -203,12 +246,15 @@ const handleFileChange = (e) => {
               type="textarea"
               placeholder='Provide a description of your event'  
               className={styles.formField__input} 
+              minLength={10}
               required
               onChange={handleInputChange}
               />
-              <Form.Message match="valueMissing" className="input__message">
-                Please enter a description that is at least 10 characters long.
-              </Form.Message>
+              {
+              formErrors.description && <p match="valueMissing" className="input__message">
+                {formErrors.description}
+              </p>
+              }
             </Form.Field>
 
             <Form.Field name="location" className={styles.formField} >
@@ -220,9 +266,11 @@ const handleFileChange = (e) => {
               required
               onChange={handleInputChange}
               />
-              <Form.Message match="valueMissing" className="input__message">
-                Please enter a location for your listing.
-              </Form.Message>
+              {
+              formErrors.location && <p match="valueMissing" className="input__message">
+                {formErrors.location}
+              </p>
+              }
             </Form.Field>
         </div>
     
@@ -235,9 +283,11 @@ const handleFileChange = (e) => {
             required
             onChange={handleInputChange}
             />
-            <Form.Message match="valueMissing" className="input__message">
-              Please enter a start time for your listing.
-            </Form.Message>
+            {
+              formErrors.start_time && <p match="valueMissing" className="input__message">
+                {formErrors.start_time}
+              </p>
+            }
           </Form.Field>
           <Form.Field name="end_time" className={styles.formField} >
             <Form.Label className={styles.formField__label}>End time and date</Form.Label>
@@ -247,9 +297,11 @@ const handleFileChange = (e) => {
             required
             onChange={handleInputChange}
             />
-            <Form.Message match="valueMissing" className="input__message">
-              Please enter a end time for your listing.
-            </Form.Message>
+            {
+              formErrors.end_time && <p match="valueMissing" className="input__message">
+                {formErrors.end_time}
+              </p>
+            }
           </Form.Field>
         </div>
         <div className={classNames(styles.formFields, { 'visible': formStep === 2 })} id='eventDetails'>
@@ -274,9 +326,11 @@ const handleFileChange = (e) => {
                 ))}
               </select>
             </Form.Control>
-            <Form.Message match="valueMissing" className="input__message">
-              Please select a category for your event.
-            </Form.Message>
+            {
+              formErrors.category && <p match="valueMissing" className="input__message">
+                {formErrors.category}
+              </p>
+            }
           </Form.Field>
 
           <Form.Field name="cost" className={styles.formField} >
@@ -298,6 +352,7 @@ const handleFileChange = (e) => {
               <Form.Label className={styles.formField__label}>
                 {file ? file.name : ' Drag & drop your file here or click to upload'}
                 <Upload size={24} />
+                <span className='txt-small'>Max file size 5MB</span>
               </Form.Label>
                 <Form.Control asChild/>
                   <input 
@@ -307,7 +362,13 @@ const handleFileChange = (e) => {
                   id="event_image" 
                   className={styles.formField__input}
                   onChange={handleFileChange}
+                  required
                   />
+                   {
+              formErrors.event_image && <p match="valueMissing" className="input__message">
+                {formErrors.event_image}
+              </p>
+            }
             </Form.Field>
           </div>
         </div>
@@ -425,7 +486,7 @@ const handleFileChange = (e) => {
             </div>
           <div 
           className={`btn__primary formNav__btn ${formStep === 4 ? 'btn__disabled' : ''}`}
-          onClick={handleNext}
+          onClick={handleNextStep}
           >
             Next step
             <ArrowRight size={16}

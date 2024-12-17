@@ -3,16 +3,15 @@ import { Check } from 'lucide-react'
 import styles from './ProgressSteps.module.css'
 import classNames from 'classnames'
 
-function ProgressSteps({ eventProgress }) {
+function ProgressSteps({ eventProgress, formStep }) {
   return (
          <div className={styles.formProgress}>
               <h3>Event creation steps</h3>
               {eventProgress.steps.map((step, index) => (
                 <div 
-                  key={step.id}
                   className={classNames(
                     styles.progressStep,
-                    eventProgress.currentStep === index && styles.currentStep,
+                    formStep === index && styles.currentStep,
                     eventProgress.completedSteps.includes(step.id) && styles.completedStep
                   )}
                 >

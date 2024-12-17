@@ -29,7 +29,6 @@ export default function CreateEventPage({ events: initialEvents }) {
   const router = useRouter()
   const { isLoggedIn, session } = useAuth()
   const [eventProgress, setEventProgress] = useState({
-    currentStep: 0,
     completedSteps: [],
     steps: [
       { id: 'basicDetails', title: 'Basic Details', description: 'Provide event name, description, and location' },
@@ -40,39 +39,51 @@ export default function CreateEventPage({ events: initialEvents }) {
     ]
   })
 
- 
-/*   const formRef = useRef(null)
 
-  useEffect(() => {
-    const sections = formRef.current.querySelectorAll('section')
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const stepIndex = eventProgress.steps.findIndex(step => step.id === entry.target.id)
-            setEventProgress(prev => ({ ...prev, currentStep: stepIndex }))
+
+    // Handle form navigation
+    const [formStep, setFormStep] = useState(0);
+
+    const handleNext = () => {
+      console.log('next formStep', formStep)
+      if (formStep < 4) {
+        setFormStep(prev => prev + 1)
+        setEventProgress(prev => {
+          return {
+            ...prev,
+            completedSteps: [...prev.completedSteps, prev.steps[formStep].id]
           }
-        })
-      },
-      { threshold: 0.5 }
-    )
-
-    sections.forEach(section => observer.observe(section))
-
-    return () => {
-      sections.forEach(section => observer.unobserve(section))
+        }
+        )
+      } 
     }
-  }, [eventProgress.steps]) */
+    const handlePrevious = () => {
+      console.log('previous formStep', formStep)
+      if (formStep > 0) {
+        setFormStep(prev => prev - 1)
+        setEventProgress(prev => {
+          return {
+            ...prev,
+            completedSteps: prev.completedSteps.filter(step => step !== prev.steps[formStep].id)
+          }
+        }
+        )
+      }
+    }
+
 
   return (
     <>
       {isLoggedIn ? (
         <main className={classNames(styles.main, styles.container)}>
           <section className={styles.formSection}>
-            <ProgressSteps eventProgress={eventProgress} />
+            <ProgressSteps formStep={formStep} eventProgress={eventProgress} />
             <div className={styles.formSection__main}>
               <EventForm 
               session={session} 
+              formStep={formStep}
+              handleNext={handleNext}
+              handlePrevious={handlePrevious}
               />
             </div>
             {submitted && <div className={styles.feedbackToast}>Event created successfully. Redirecting to home...</div>}
