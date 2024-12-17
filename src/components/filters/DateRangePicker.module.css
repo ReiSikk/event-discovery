@@ -1,113 +1,119 @@
 .dateRangePicker__title {
-    font-weight: 600;
-    display: none;
+  font-weight: 600;
+  display: none;
 }
 .dateRangePicker .group {
-    display: flex;
-    align-items: center;
-    width: fit-content;
-    min-width: 220px;
-    max-width: 100%;
-    box-sizing: border-box;
-    overflow: auto;
-    position: relative;
-    padding: 4px 4px 4px 8px;
-    border: 1px solid var(--primary);
-    border-radius: 6px;
-    background: var(--bg);
-    white-space: nowrap;
-    /* margin-top: 16px; */
-    width: 100%;
-    
-    &[data-pressed] {
-        box-shadow: none;
-        background: var(--primary);
-    }
-    
-    &[data-focus-within] {
-        outline: 2px solid var(--primary);
-        outline-offset: -1px;
-    }
-    @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
-        /* margin-top: 1.111vw; */
-        padding-inline: 0.6944vw;
-        padding-block: 0.8333vw;
-    }
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  min-width: 220px;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: auto;
+  position: relative;
+  padding: 8px 16px;
+  border: 1px solid var(--primary);
+  background: var(--bg-dark);
+  color: var(--white);
+  border-radius: 6px;
+  white-space: nowrap;
+  /* margin-top: 16px; */
+  width: 100%;
+
+  &[data-pressed] {
+    box-shadow: none;
+    background: var(--primary);
   }
+
+  &[data-focus-within] {
+    outline: 2px solid var(--primary);
+    outline-offset: -1px;
+  }
+  @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+    padding-inline: 0.6944vw;
+    padding-block: 0.8333vw;
+  }
+}
 
 .button {
-    background: none;
-    color: var(--white);
-    border: 2px solid var(--primary);
-    forced-color-adjust: none;
-    border-radius: 4px;
-    border: none;
-    margin-left: auto;
-    width: 1.429rem;
-    height: 1.429rem;
-    padding: 0;
-    font-size: 0.857rem;
-    box-sizing: content-box;
-    flex-shrink: 0;
-    position: sticky;
-    right: 0;
-    cursor: pointer;
-    transition: transform 0.3s ease-out;
-    
-    &[aria-expanded="true"] {
-      transform: rotate(180deg);
-    }
+  background: none;
+  color: var(--white);
+  border: 2px solid var(--primary);
+  forced-color-adjust: none;
+  border-radius: 4px;
+  border: none;
+  margin-left: auto;
+  width: 1.429rem;
+  height: 1.429rem;
+  padding: 0;
+  font-size: 0.857rem;
+  box-sizing: content-box;
+  flex-shrink: 0;
+  position: sticky;
+  right: 0;
+  cursor: pointer;
+  transition: transform 0.3s ease-out;
 
-    &[data-focus-visible] {
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
+  &[aria-expanded="true"] {
+    transform: rotate(180deg);
   }
 
-  .input {
-    display: flex;
-    width: unset;
-    min-width: unset;
-    padding: unset;
-    border: unset;
-    outline: unset;
+  &[data-focus-visible] {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
   }
+}
 
-  .popover[data-trigger=DateRangePicker] {
-    max-width: unset;
+.input {
+  display: flex;
+  width: unset;
+  min-width: unset;
+  padding: unset;
+  border: unset;
+  outline: unset;
+}
+
+.popover[data-trigger="DateRangePicker"] {
+  max-width: unset;
+  width: 90%;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  @media only screen and (min-width: 1025px) {
     width: 33vw;
+    left: 20px;
+    transform: translateX(0);
+  }
+}
+
+.rangeCalendar {
+  width: 100%;
+  background: var(--white);
+  max-width: 100%;
+  color: var(--bg--dark);
+  border-radius: var(--bradius);
+  padding: 24px;
+
+  & header {
+    display: flex;
+    align-items: center;
+    padding-bottom: 8px;
+    margin-bottom: 6px;
+    border-bottom: 1px solid var(--bg-dark);
+    @media only screen and (min-width: 768px) and (max-width: 1024px) {
+      padding-bottom: 0.6944vw;
+      margin-bottom: 0.5555vw;
+    }
   }
 
-  .rangeCalendar {
-    width: 100%;
-    background: var(--white);
-    max-width: 100%;
-    color: var(--bg--dark);
-    border-radius: var(--bradius);
-    padding: 24px;
-  
-    & header {
-      display: flex;
-      align-items: center;
-      padding-bottom: 8px;
-      margin-bottom: 6px;
-      border-bottom: 1px solid var(--bg-dark);
-      @media only screen and (min-width: 768px) and (max-width: 1024px) {
-          padding-bottom: 0.6944vw;
-          margin-bottom: 0.5555vw;
+  & table {
+    border-collapse: collapse;
+    color: var(--bg-dark);
+    margin-inline: auto;
 
-      }
+    & td {
+      padding: 2px 0;
     }
-
-    & table {
-        border-collapse: collapse;
-        color: var(--bg-dark);
-        margin-inline: auto;
-    
-        & td {
-          padding: 2px 0;
-        }
-    }
+  }
 }
 
 .rangeCalendar__header {
@@ -119,67 +125,66 @@
 }
 
 .rangeCalendar__title {
-    color: var(--bg-dark);
-    padding-inline: 10px;
-    font-weight: 600;
-    margin-bottom: 0;
+  color: var(--bg-dark);
+  padding-inline: 10px;
+  font-weight: 600;
+  margin-bottom: 0;
 }
 
 .calendarBtn {
-    width: 2rem;
-    height: 2rem;
-    padding: 0;
-    background: none;
-    color: var(--bg-dark);
-    border-radius: 4px;
-    border: none;
-    outline: none;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  background: none;
+  color: var(--bg-dark);
+  border-radius: 4px;
+  border: none;
+  outline: none;
 }
-  
 
 .rangeCalendar__grid {
 }
 
 .calendarCell {
-    width: 2.286rem;
-    line-height: 2.286rem;
-    text-align: center;
-    border-radius: 6px;
-    cursor: pointer;
-    outline: none;
-    forced-color-adjust: none;
+  width: 2.286rem;
+  line-height: 2.286rem;
+  text-align: center;
+  border-radius: 6px;
+  cursor: pointer;
+  outline: none;
+  forced-color-adjust: none;
 
-    &[data-outside-month] {
-      display: none;
-    }
+  &[data-outside-month] {
+    display: none;
+  }
 
-    &[data-pressed] {
-      background: var(--bg-dark);
-    }
+  &[data-pressed] {
+    background: var(--bg-dark);
+  }
+
+  &[data-focus-visible] {
+    outline: 2px solid var(--primary);
+    outline-offset: -2px;
+  }
+
+  &[data-selected] {
+    background: var(--primary);
+    color: var(--bg-dark);
+    border-radius: 0;
 
     &[data-focus-visible] {
-      outline: 2px solid var(--primary);
-      outline-offset: -2px;
-    }
-
-    &[data-selected] {
-      background: var(--primary);
-      color: var(--bg-dark);
-      border-radius: 0;
-
-      &[data-focus-visible] {
-        outline-color: var(--bg-dark);
-        outline-offset: -3px;
-      }
-    }
-
-    &[data-selection-start] {
-      border-start-start-radius: 6px;
-      border-end-start-radius: 6px;
-    }
-
-    &[data-selection-end] {
-      border-start-end-radius: 6px;
-      border-end-end-radius: 6px;
+      outline-color: var(--bg-dark);
+      outline-offset: -3px;
     }
   }
+
+  &[data-selection-start] {
+    border-start-start-radius: 6px;
+    border-end-start-radius: 6px;
+  }
+
+  &[data-selection-end] {
+    border-start-end-radius: 6px;
+    border-end-end-radius: 6px;
+  }
+}

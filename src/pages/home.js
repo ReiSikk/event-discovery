@@ -178,7 +178,7 @@ const HomePage = ({ pageData, events, categories, location }) => {
     </header>
     <main className={classNames(styles.mainContainer, styles.container)}>
         <div className={styles.mainContainer__header}>
-        <h2 className={styles.sidebar__title}>
+        <h2 className={`${styles.sidebar__title} h4`}>
           Browsing events in {location ? `${location.city}, ${location.country.code}` : 'your area'}
         </h2>
             <button className={classNames(styles.btn__primary, styles.mapBtn)}>View on the map</button>
@@ -187,12 +187,16 @@ const HomePage = ({ pageData, events, categories, location }) => {
         <div className={styles.content_sidebar}>
           <div className={styles.sidebar__filters}>
             <div className={styles.sidebar__header}>
-              <h4>Selected filters</h4>
+              <h4>
+                {isAnyFilterActive ? 'Active filters' : 'No active filters'}
+              </h4>
               {isAnyFilterActive  && (
                 <div className={`${styles.clear} txt-small`} onClick={clearFilters}>Clear filters<X size={12} /></div>
               )}
             </div>
-            <ul className={styles.sidebarList}>
+            {
+              isAnyFilterActive &&
+              <ul className={styles.sidebarList}>
               {filterState.dateRange.start && filterState.dateRange.end && (
                 <li
                   className={classNames(styles.btn__primary, styles.sidebar__filter)}
@@ -218,6 +222,7 @@ const HomePage = ({ pageData, events, categories, location }) => {
                 </>
               )}
             </ul>
+            }
           </div>
         </div>{/* content_sidebar */}
         <div className={styles.content_main}>
