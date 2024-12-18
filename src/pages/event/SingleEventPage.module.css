@@ -102,6 +102,8 @@
   }
 }
 
+
+
 /*
      Main Content section
      ========================================================================== */
@@ -140,6 +142,7 @@
   top: 10px;
   background: var(--bg-dark);
   border: 2.5px solid var(--primary);
+  height: fit-content;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
   padding-block: 5px;
   padding-inline: 10px;
@@ -167,6 +170,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  align-items: center;
 }
 .contentLeft__label {
 }

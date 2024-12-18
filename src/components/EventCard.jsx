@@ -1,16 +1,18 @@
 import React from 'react'
 import styles from './EventCard.module.css'
-import { ArrowUpCircleIcon } from 'lucide-react';
+import { ArrowUpCircleIcon, CalendarClock } from 'lucide-react';
 import Link from 'next/link';
 import AlertModal from './AlertDialog';
 import { createClient } from '@/utils/supabase/component';
 import Image from 'next/image';
 import { format } from 'date-fns';
 import { useCategories } from '@/pages/api/context/categoriesProvider';
+import { useEventLike } from '@/utils/eventLikeService';
 
 
 function EventCard({ event, isProfilePage, onDelete, onEdit }) {
   const supabase = createClient();  
+  const { likeCount, isLiked, toggleLike, isLoading } = useEventLike(event.id)
   const { categories } = useCategories();
   const category = categories.find((cat) => cat.id === event.category_id);
   const eventCategory = category ? category.name : 'No category';
@@ -94,7 +96,7 @@ function EventCard({ event, isProfilePage, onDelete, onEdit }) {
           :
             <div className={styles.eventCard__actions}>
                <h4 className='txt-medium'>{event.title}</h4>
-               <p className={`${styles.eventCard__date} txt-small`}>{format(event.start_time,'eee, MMMM d ')} {formatTime(event.start_time)} - {formatTime(event.end_time)}</p>
+               <div className={`${styles.eventCard__date} txt-small`}><CalendarClock size={16}/>{format(event.start_time,'eee, MMMM d ')} {formatTime(event.start_time)} - {formatTime(event.end_time)}</div>
                <div className={styles.buttons}>
                 <button onClick={handleEdit} className={`${styles.btn__edit} btn__primary`}>Edit</button>
                 <AlertModal handleDelete={handleDelete} eventId={event.id}/>

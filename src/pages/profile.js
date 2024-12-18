@@ -11,24 +11,7 @@ import DialogModal from '@/components/DialogModal';
 import ToastNotification from '@/components/ToastNotification';
 
 
-export async function getServerSideProps() {
-    const supabase = createClient();
-
-    let { data: categories, categoriesError } = await supabase
-    .from('categories')
-    .select('*')
-
-    return {
-        props: {
-            categories: categories || [],
-        },
-    };
-
-}
-
-
-
-function ProfilePage({ }) {
+function ProfilePage() {
     const supabase = createClient();
     const toastRef = useRef(null);
     const router = useRouter(); 
@@ -37,6 +20,7 @@ function ProfilePage({ }) {
     const [user, setUser] = useState(null); 
     const [profile, setProfile] = useState(null);
     const [userEvents, setUserEvents] = useState([]);
+    const [likedEvents, setLikedEvents] = useState([]);
 
     // Modal State
     const [modalOpen, setModalOpen] = useState(false);
@@ -44,7 +28,6 @@ function ProfilePage({ }) {
     // Toast State
     const [toastMessage, setToastMessage] = useState('')
     const [toastTitle, setToastTitle] = useState('')
-    
 
     const toggleModal = () => {
         setModalOpen(!modalOpen);
@@ -54,7 +37,22 @@ function ProfilePage({ }) {
         return format(new Date(timeString), 'dd.MM.yyyy');
       };
 
-    //Fetch user events from DB
+    // Fetch liked events
+    async function fetchLikedEvents(userId) {
+      const { data, error } = await supabase
+          .from('event_likes')
+          .select('event_id')
+          .eq('user_id', userId);
+
+      if (error) {
+          console.error('Error fetching liked events:', error);
+          return [];
+      }
+
+      return data.map(like => like.event_id);
+  };
+
+    //Fetch user created events from DB
     async function getEventsByUserId(userId) {
         try {
           const { data: events, error: eventsError } = await supabase
@@ -97,6 +95,7 @@ function ProfilePage({ }) {
           return [];
         }
       }
+
 
 
     // Delete event from user events
@@ -147,6 +146,10 @@ function ProfilePage({ }) {
       setProfile(profileData)
 
       const events = await getEventsByUserId(data.session.user.id);
+      // TODO: Fetch liked events from the id's stored in the likedEvents array
+      const likedEvents = await fetchLikedEvents(data.session.user.id);
+      console.log('Liked events:', likedEvents);
+      // setLikedEvents(likedEvents);
       setUserEvents(events);
 
     }
@@ -209,7 +212,25 @@ function ProfilePage({ }) {
                 </ul>
             </div>
         </div>
-        <main className={classNames(styles.container, styles.block, styles.eventsSection)}>
+        <main className='container block'>
+        <section className={classNames(styles.block, styles.eventsSection)}>
+            <ToastNotification ref={toastRef} title={toastTitle} message={toastMessage}/>
+            <h3 className={styles.eventsSection__title}>Liked events</h3>
+            {likedEvents && likedEvents.length > 0 ? (
+                <ul className={styles.eventsList}>
+                {likedEvents.map((event) => (
+                    <EventCard key={event.id} event={event} onDelete={handleDeleteEvent} onEdit={handleEditEvent} isProfilePage/>
+                ))}
+                </ul>
+            ) : (
+                <div className={styles.noEventsFound}>
+                <h4>You haven't liked any events...</h4>
+                <div>Browse events <Link href="/home" className='link__underline'>here</Link></div>
+                </div>
+            )}
+                <DialogModal toggleModal={toggleModal} modalOpen={modalOpen}/>
+        </section>
+        <section className={classNames(styles.block, styles.eventsSection)}>
             <ToastNotification ref={toastRef} title={toastTitle} message={toastMessage}/>
             <h3 className={styles.eventsSection__title}>My Events</h3>
             {userEvents && userEvents.length > 0 ? (
@@ -225,6 +246,7 @@ function ProfilePage({ }) {
                 </div>
             )}
                 <DialogModal toggleModal={toggleModal} modalOpen={modalOpen}/>
+        </section>
         </main>
     </>
     ) : ( 
