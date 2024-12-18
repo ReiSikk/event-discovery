@@ -30,7 +30,7 @@ function EventSwiper({ relatedEvents }) {
                       </div>
                       <Link 
                           href={`/event/${event.id}`}
-                          className={classNames(styles.eventsCard__link, styles.btn__primary)}
+                          className={classNames(styles.eventCard__link, styles.btn__primary)}
                           >
                           Read more
                       </Link>
