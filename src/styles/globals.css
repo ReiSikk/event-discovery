@@ -121,11 +121,11 @@ h4,
 .txt-small {
   font-size: 1.2rem;
   line-height: 1.35;
+  font-weight: 400;
 }
 .txt-medium {
   font-size: 1.4rem;
   line-height: 1.5;
-  font-weight: 500;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -289,6 +289,87 @@ h4,
   max-width: 100%;
   flex-wrap: wrap;
 }
+
+
+/*
+   Site Footer
+   ========================================================================== */
+.siteFooter {
+  background: var(--bg-dark);
+  padding-block: 32px;
+  color: var(--white);
+  display: flex;
+  gap: 16px;
+  margin-top: 32px;
+  @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+    margin-top: 6.94444vw;
+    padding-block: 4.444vw;
+    padding-inline: 1.6666vw;
+  }
+}
+.siteFooter__wrap {
+  @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+    padding-block: 1.6666vw 3.888vw;
+  }
+
+}
+.footer__contacts {
+  padding-bottom: 32px;
+  @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+      padding-bottom: 0;
+  }
+}
+.contact_desc {
+  margin-bottom: 24px;
+  @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+    margin-bottom: 2.2222vw;
+  }
+
+}
+.info {
+
+}
+.footer__contacts > h2 {
+  margin-bottom: 4px;
+}
+.footer__contacts > p:last-of-type {
+  margin-top: 8px;
+}
+.siteFooter__main {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 32px;
+  margin-top: 56px;
+  @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+    padding-left: 13.8888vw;
+    gap: 4.4444vw;
+    margin-top: 0;
+  }
+}
+
+.footerList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+    gap: 0.5555vw;
+  }
+}
+.footerList > a {
+  transition: color 0.2s ease;
+  &:hover {
+    color: var(--primary);
+  }
+}
+.footerList > h4 {
+  margin-bottom: 24px;
+  text-transform: uppercase;
+  @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+      margin-bottom: 2.2222vw;
+  }
+}
+
 
 /*
    Modals

@@ -2,10 +2,9 @@ import React from 'react'
 import { createClient } from '@/utils/supabase/component'
 import styles from './SingleEventPage.module.css'
 import classNames from 'classnames'
-import placehold_image from '../../../public/assets/landing_place.webp'
 import Image from 'next/image'
 import { format } from 'date-fns';
-import { CalendarClock, MapPin, TicketIcon } from 'lucide-react'
+import { CalendarClock, MapPin, MapPinnedIcon, TicketIcon, Tickets, UserCircle2, XCircle } from 'lucide-react'
 import EventSwiper from '@/components/swipers/EventSwiper'
 import Link from 'next/link'
 
@@ -120,38 +119,85 @@ if (!event) return <div>Loading...</div>
                 }
                 </div>
                 <div className={styles.contentLeft__main}>
-                    <h3 className={styles.contentMain__title}>About the event</h3>
+                    <h3 className={styles.contentLeft__title}>About the event</h3>
                   <p className={styles.contentLeft__location}></p>
-                    <p className={styles.contentMain__text}>{event.description}</p>
+                    <p className={styles.contentLeft__text}>{event.description}</p>
                 </div>
                 <div className={styles.contentLeft__items}>
-                  <div className={styles.contentRight__item}>
-                    <h4 className={styles.contentRight__title}><CalendarClock />Date & Time</h4>
+                  <div>
+                    <h2 className={styles.contentRight__title}>
+                      Date & Time
+                    </h2>
                     <p className={styles.contentRight__subtitle}>{format(event.start_time,'eee, MMMM d ')} {formatTime(event.start_time)} - {formatTime(event.end_time)}</p>
                     <a href="#" className={styles.contentRight__link} >Mark in my calendar</a>
                   </div>
-                  <div className={styles.contentRight__item}>
-                    <h4 className={styles.contentRight__title}><MapPin />{event.location}</h4>
-                    <p className={styles.contentRight__subtitle}>Exact address here</p>
+                  <div>
+                  <h2 className={styles.contentRight__title}>
+                      Event Location
+                    </h2>
+                    <p className={styles.contentRight__subtitle}>{event.location}</p>
                     <a href="#" className={styles.contentRight__link} >Show on the map</a>
                   </div>
                 </div>
               </div>
+
               <div className={styles.contentRight}>
                 <div className={`${styles.contentRight__cost} txt-medium`}>
                   <div className={styles.contentRight__cost_top}>
                     <h4>Ticket Price</h4>
+                    {
+                      event.cost ?
+                      <p className={`${styles.contentRight__cost_price} h3`}>{event.cost} €</p> 
+                      : 
+                      <p className={`${styles.contentRight__cost_price} h3`}>Free</p>
+                    }
                   </div>
                   <div className={styles.contentRight__cost_main}>
-                    <TicketIcon size={24} />
-                    <p>
-                    {event.cost ? `Cost: ${event.cost} €` : "Free" }    
-                    </p>
+                    {event.cost && event.ticket_link &&
+                      <a href={event.ticket_link} rel="noopener noreferrer" className="btn__primary">Get tickets</a>
+                    }
+                    {event.cost && !event.ticket_link &&
+                     <span>Pay on site</span>
+                    }
+                    {event.cost === null || event.cost === 0 && event.ticket_link ?
+                    <>
+                      <span className={styles.free}>Free Entry</span>
+                      <a href={event.ticket_link} 
+                      rel="noopener noreferrer" className="btn__primary">Register</a>
+                    </>
+                    : null
+                    }
                   </div>
                 </div>
-                <div className={`${styles.contentRight__organiser} txt-medium`}>
-                  <h4>Event organiser</h4>
-                  <p>{event.organiser}</p>
+                <div className={classNames(styles.contentRight__organiser, styles.content__item)}>
+                  <div className={styles.organiser}>
+                    <UserCircle2 size={32} />
+                    <p className={`${styles.title}`}>Blue Moon Events</p>
+                  </div>
+                  <ul className={styles.benefitsList}>
+                    <li className={styles.benefitsList__item}>
+                      <XCircle size={24} />
+                      <div>
+                        <p className={`${styles.title} txt-medium`}>Free Cancellation</p>
+                        <p className={`${styles.text} txt-small`}>Cancel up to 24 hours in advance to receive a full refund</p>
+                      </div>
+                    </li>
+                    <li className={styles.benefitsList__item}>
+                      <Tickets size={24} />
+                      <div>
+                        <p className={`${styles.title} txt-medium`}>15% Discount</p>
+                        <p className={`${styles.text} txt-small`}>Receive a discount on all organiser products</p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+
+                <div className={classNames(styles.content__item, styles.contentRight__loc)}>
+                <p className={`${styles.title} h4`}>Event Location</p>
+                <div className={styles.contentRight__map}>
+                <Image src={"https://placehold.co/350x500/EEE/31343C"} width={350} height={500} alt={event.title} />
+                </div>
+
                 </div>
               </div>
             </section>

@@ -1,3 +1,4 @@
+import FooterNav from './nav/FooterNav'
 import SiteNav from './nav/SiteNav'
  
 export default function Layout({ children }) {
@@ -5,6 +6,7 @@ export default function Layout({ children }) {
     <>
       <SiteNav />
       {children}
+      <FooterNav />
     </>
   )
 }

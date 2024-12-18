@@ -71,7 +71,7 @@ function EventCard({ event, getCategoryNameById, isProfilePage, onDelete, onEdit
           <span className={`${styles.eventsCard__label} txt-medium`}>{getCategoryNameById(event.category_id)}</span>
         </div>
         <p className={styles.eventsCard__description}>
-          {event.description}
+        {event.description.length > 50 ? `${event.description.slice(0, 50)}...` : event.description}
         </p>
         <p className={styles.eventsCard__location}>
           <LocateIcon size={16} />
