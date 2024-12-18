@@ -1,17 +1,20 @@
 import React from 'react'
 import styles from './EventCard.module.css'
-import { ArrowUpCircleIcon, LocateIcon } from 'lucide-react';
+import { ArrowUpCircleIcon } from 'lucide-react';
 import Link from 'next/link';
-import classNames from 'classnames';
-import AlertDialog from './AlertDialog';
 import AlertModal from './AlertDialog';
 import { createClient } from '@/utils/supabase/component';
 import Image from 'next/image';
 import { format } from 'date-fns';
+import { useCategories } from '@/pages/api/context/categoriesProvider';
 
 
-function EventCard({ event, getCategoryNameById, isProfilePage, onDelete, onEdit }) {
+function EventCard({ event, isProfilePage, onDelete, onEdit }) {
   const supabase = createClient();  
+  const { categories } = useCategories();
+  const category = categories.find((cat) => cat.id === event.category_id);
+  const eventCategory = category ? category.name : 'No category';
+
 
   const handleEdit = () => {
     onEdit(event.id);
@@ -49,16 +52,14 @@ function EventCard({ event, getCategoryNameById, isProfilePage, onDelete, onEdit
     >
     <Link href={`/event/${event.id}`} className={styles.eventCard__link}>
       <div className={styles.eventsCard_media}>
-      {event?.images.length ?
-       event.images.map((image) => (
+      {event.images.length > 0 ?
             <Image
-              key={image.id}
+              key={event.id}
               width={1200}
               height={600}
-              src={image.public_url}
+              src={event.images[0]}
               alt={`Event ${event.title} image`}
             />
-      ))
       :
           <Image 
           key={event.id}
@@ -69,9 +70,14 @@ function EventCard({ event, getCategoryNameById, isProfilePage, onDelete, onEdit
           />
 
         }
+        {
+          eventCategory && 
          <div className={styles.eventsCard__categories}>
-          <span className={`${styles.eventsCard__label} txt-medium`}>{getCategoryNameById(event.category_id)}</span>
+          <span className={`${styles.eventsCard__label} txt-medium`}>
+            {eventCategory}
+            </span>
         </div>
+        }
       </div>
       <div className={styles.eventsCard__info}>
         {
@@ -98,39 +104,6 @@ function EventCard({ event, getCategoryNameById, isProfilePage, onDelete, onEdit
         }
 
       </div>
-      {/* <div className={styles.eventsCard__inner}>
-        <h4 className={styles.eventsCard__title}>
-          {event.title}
-        </h4>
-       
-        <p className={styles.eventsCard__description}>
-        {event.description.length > 50 ? `${event.description.slice(0, 50)}...` : event.description}
-        </p>
-        <p className={styles.eventsCard__location}>
-          <LocateIcon size={16} />
-          {event.location}
-        </p>
-        {
-          !isProfilePage &&
-          <div className={styles.eventCard__links}>
-            <Link 
-            href={`/event/${event.id}`}
-            className={`${styles.eventCard__link} btn__primary`}
-            >
-              Read more
-            </Link>
-            <Link href={event.ticket_link ? event.ticket_link : "#"} className={`${styles.eventCard__link} btn__primary`}>
-              Get tickets
-            </Link>
-          </div>
-        }
-          {isProfilePage && (
-            <div className={styles.eventCard__actions}>
-              <button onClick={handleEdit} className={`${styles.btn__edit} btn__primary`}>Edit</button>
-               <AlertModal handleDelete={handleDelete} eventId={event.id}/>
-            </div>
-      )}
-      </div> */}
     </Link>
     </li>
   )
