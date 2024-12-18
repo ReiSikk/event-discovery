@@ -166,28 +166,30 @@ function ProfilePage({ categories }) {
     <>
         <div className={classNames(styles.profileHeader, styles.container)}>
             <div className={styles.profileCard}>
-                <div className={classNames(styles.profileCard__edit, styles.btn__primary)} onClick={toggleModal} >
+                <div className={styles.profileCard__top}>
+                    <div className={styles.profileCard__left}>
+                    {session.user.user_metadata.avatar_url ? (
+                              <img className={styles.image} src={user.user_metadata.avatar_url} alt="avatar" />
+                          ) : 
+                          <UserCircle2 size={64} />
+                          }
+                      <div>
+                          {!profile && session.user && (
+                            <h3 className={styles.name}>{user.user_metadata.full_name}</h3>
+                          )}
+                          {profile && <h3 className={styles.name}>{profile.full_name}</h3>}
+                          <ul className={styles.personalInfoList}>
+                              <li className={styles.personalInfo__card}>
+                                  <span>Email</span>
+                                  <p>{session.user.email}</p>
+                              </li>
+                          </ul>
+                      </div>
+                    </div>
+                    <div className={classNames(styles.profileCard__edit, styles.btn__primary)} onClick={toggleModal} >
                     <Edit2 size={16} />
                     Edit Profile
                 </div>
-                <div className={styles.profileCard__top}>
-                        {session.user.user_metadata.avatar_url ? (
-                            <img className={styles.image} src={user.user_metadata.avatar_url} alt="avatar" />
-                        ) : 
-                        <UserCircle2 size={64} />
-                         }
-                    <div>
-                        {!profile && session.user && (
-                           <h3 className={styles.name}>{user.user_metadata.full_name}</h3>
-                        )}
-                        {profile && <h3 className={styles.name}>{profile.full_name}</h3>}
-                        <ul className={styles.personalInfoList}>
-                            <li className={styles.personalInfo__card}>
-                                <span>Email</span>
-                                <p>{session.user.email}</p>
-                            </li>
-                        </ul>
-                    </div>
                 </div>
                 <ul className={styles.profileCardList}>
                     <li className={styles.profileCardList__item}>
@@ -234,7 +236,7 @@ function ProfilePage({ categories }) {
     </>
     ) : ( 
     <main className={classNames(styles.container, styles.block)}>
-        <p className={styles.sessionStatus}>No profile found... Please <Link href="/login" className={styles.login__link}>log in</Link></p> 
+        <p className={styles.sessionStatus}>No profile found... Please <Link href="/login" className={styles.login__link}>Sign in</Link></p> 
     </main>
 )}
     </>

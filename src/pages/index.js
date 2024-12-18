@@ -76,7 +76,7 @@ export default function Home({ pageData, error, user}) {
                 <Link href="/login" className="btn btn__primary">
                   Sign In
                 </Link>
-                <Link href="/signup" className="btn btn__primary btn__secondary">
+                <Link href="/login?id=signup" className="btn btn__primary btn__secondary">
                   Sign Up
                 </Link>
               </div>

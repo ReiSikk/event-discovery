@@ -175,7 +175,7 @@ export default function SignUpForm() {
         <Form.Submit className={styles.loginBtn}>
           Sign Up
         </Form.Submit>
-        <p className={styles.login__text}>Already have an account? <Link href="/login" className={styles.login__link}>Log In</Link> </p>
+        <p className={styles.login__text}>Already have an account? <Link href="/login" className={styles.login__link}>Sign In</Link> </p>
       </Form.Root>
     </div>
   )

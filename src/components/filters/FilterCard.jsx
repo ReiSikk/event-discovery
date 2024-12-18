@@ -19,7 +19,7 @@ function FilterCard({ filter, filterState, onCategorySelect, categories, handleD
         aria-expanded={isExpanded}
       >
         <span>{filter.text}</span>
-        <ChevronDownIcon size={24} />
+        <ChevronDownIcon size={16} />
       </div>
       <div 
         className={`${styles.filterCard__inner} ${
