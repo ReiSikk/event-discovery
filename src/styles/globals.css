@@ -124,7 +124,7 @@ h4,
   font-weight: 400;
 }
 .txt-medium {
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   line-height: 1.5;
 }
 
@@ -450,13 +450,14 @@ h4,
 }
 
 .btn__primary.btn__cancel {
-  background: #f44336;
+  background: var(--red);
+  border: none;
   color: var(--bg-dark);
-  border: 1px solid var(--bg-dark);
+  transition: opacity 0.2s ease;
   &:hover {
-    background: #f44336;
+    background: var(--red);
+    opacity: 0.9;
     color: var(--bg-dark);
-    border: 1px solid var(--white);
   }
 }
 

@@ -10,6 +10,7 @@ import EventCard from '@/components/EventCard';
 import SearchBar from '@/components/SearchBar';
 import { X } from 'lucide-react';
 import CustomDateRangePicker from '@/components/filters/DateRangePicker';
+import { useCategories } from '@/pages/api/context/categoriesProvider';
 
 export async function getServerSideProps() {
   // Fetch user location and data from DB
@@ -27,11 +28,6 @@ export async function getServerSideProps() {
   .from('events')
   .select('*')
 
-
-let { data: categories, categoriesError } = await supabase
-.from('categories')
-.select('*')
-
  // Fetch event images
  const eventImages = await Promise.all(
   events?.map(async (event) => {
@@ -46,19 +42,14 @@ let { data: categories, categoriesError } = await supabase
       return { ...event, images: [] };
     }
 
-    const imagesWithUrls = await Promise.all(
-      images.map(async (image) => ({
-        ...image,
-        public_url: supabase.storage
-          .from('event-images')
-          .getPublicUrl(image.image_path).data.publicUrl,
-      }))
+     // Generate public URLs for images
+     const imagesWithUrls = images.map((image) => 
+      supabase.storage.from('event-images').getPublicUrl(image.image_path).data.publicUrl
     );
 
     return { ...event, images: imagesWithUrls };
   }) || []
 );
-
 
 
   // Fetch data from CMS
@@ -73,8 +64,7 @@ let { data: categories, categoriesError } = await supabase
     return {
       props: {
         pageData: json.data || null,
-        events: eventImages,
-        categories: categories || [],
+        events: eventImages || [],
         location: userLocation.location || null,
       },
     };
@@ -89,9 +79,9 @@ let { data: categories, categoriesError } = await supabase
   }
 }
 
-const HomePage = ({ pageData, events, categories, location }) => {
-
+const HomePage = ({ pageData, events, location }) => {
   const { filterState, updateFilter, getFilteredEvents } = useFilters(events);
+  const { categories } = useCategories();
   
   const handleCategorySelect = (categoryId) => {
     const current = filterState.categories;
@@ -113,7 +103,6 @@ const HomePage = ({ pageData, events, categories, location }) => {
       setQuery(e.target.value?.trimEnd());
     updateFilter(FILTER_TYPES.QUERY, query?.toLowerCase());
     }
-
 
   const getCategoryNameById = (id) => {
     const category = categories.find(cat => cat.id === id);
@@ -229,7 +218,7 @@ const HomePage = ({ pageData, events, categories, location }) => {
         {getFilteredEvents().length > 0 ? (
           <ul className={styles.eventsList}>
             {getFilteredEvents().map((event) => (
-              <EventCard key={event.id} event={event} getCategoryNameById={getCategoryNameById} />
+              <EventCard key={event.id} event={event} categories={categories}/>
             ))}
           </ul>
         ) : (

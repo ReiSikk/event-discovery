@@ -7,88 +7,129 @@ import { format } from 'date-fns';
 import { CalendarClock, MapPin, MapPinnedIcon, TicketIcon, Tickets, UserCircle2, XCircle } from 'lucide-react'
 import EventSwiper from '@/components/swipers/EventSwiper'
 import Link from 'next/link'
-
+import { useCategories } from '@/pages/api/context/categoriesProvider';
 
 export async function getServerSideProps({ params }) {
-    const supabase = createClient()
-    const eventId = params.event
-    
-    let { data: event, error } = await supabase
+  const supabase = createClient();
+  const eventId = params.event;
+
+  // Fetch the main event
+  let { data: event, error } = await supabase
     .from('events')
     .select('*')
     .eq('id', eventId)
-    .single()
+    .single();
 
+  if (error) {
+    console.error('Error fetching event:', error);
+    return {
+      notFound: true,
+    };
+  }
 
-    // Fetch event images
-    const { data: images, error: imagesError } = await supabase
+  // Fetch event images
+  const { data: images, error: imagesError } = await supabase
     .from('event_images')
     .select('*')
     .eq('event_id', eventId)
     .order('is_primary', { ascending: false });
-    //get public url
-    if (imagesError) {
-      console.error('Error fetching event images:', imagesError)
-    }
-    const imagesWithUrls = await Promise.all(
-      images.map(async (image) => ({
-        ...image,
-        public_url: supabase.storage
-          .from('event-images')
-          .getPublicUrl(image.image_path).data.publicUrl,
-      }))
-    );
-    const eventImgUrls = imagesWithUrls.map(image => image.public_url)
-    console.log(eventImgUrls, "eventImgUrls");
 
-    // Related events
-    const { data: relatedEvents, error: relatedError } = await supabase
+  if (imagesError) {
+    console.error('Error fetching event images:', imagesError);
+  }
+
+  const imagesWithUrls = images.map((image) => ({
+    ...image,
+    public_url: supabase.storage
+      .from('event-images')
+      .getPublicUrl(image.image_path).data.publicUrl,
+  }));
+
+  const eventImgUrls = imagesWithUrls.map((image) => image.public_url);
+  console.log(eventImgUrls, 'eventImgUrls');
+
+  // Fetch related events
+  const { data: relatedEvents, error: relatedError } = await supabase
     .from('events')
     .select('*')
     .eq('category_id', event.category_id)
     .neq('id', eventId)
     .limit(10)
-    .order('created_at', { ascending: false })
+    .order('created_at', { ascending: false });
 
-      // Fetch category data
-      let { data: categories, error: categoriesError } = await supabase
-      .from('categories')
-      .select('*')
+  if (relatedError) {
+    console.error('Error fetching related events:', relatedError);
+  }
 
-      if (categoriesError) {
-        console.error('Error fetching categories:', categoriesError)
-        return {
-          notFound: true,
-        }
-      }
+  // Fetch images for related events using `.in()`
+  const relatedEventIds = relatedEvents.map((event) => event.id);
 
-        // Match category ID with event's category ID
-      const eventCategory = categories.find(category => category.id === event.category_id)
-    
+  const { data: relatedImages, error: relatedImagesError } = await supabase
+    .from('event_images')
+    .select('*')
+    .in('event_id', relatedEventIds) // Corrected to use `.in()`
+    .order('is_primary', { ascending: false });
 
-      return {
-        props: {
-            event,
-            relatedEvents: relatedEvents || [],
-            category: eventCategory || null,
-            eventImgUrls: eventImgUrls || [],
-        },
-      };
-    } 
+  if (relatedImagesError) {
+    console.error('Error fetching related event images:', relatedImagesError);
+  }
+
+  // Generate public URLs for related event images correctly
+  const relatedImagesWithUrls = relatedImages.map((image) => ({
+    ...image,
+    public_url: supabase.storage
+      .from('event-images')
+      .getPublicUrl(image.image_path).data.publicUrl,
+  }));
+
+  // Create a mapping from event_id to its image URLs
+  const imagesByEventId = relatedImagesWithUrls.reduce((acc, image) => {
+    if (!acc[image.event_id]) {
+      acc[image.event_id] = [];
+    }
+    acc[image.event_id].push(image.public_url);
+    return acc;
+  }, {});
+
+
+
+  // Enrich related events with category names and their specific images
+  const enrichedRelatedEvents = relatedEvents.map((relatedEvent) => ({
+    ...relatedEvent,
+    images: imagesByEventId[relatedEvent.id] || [], // Assign images specific to each related event
+  }));
+  console.log(enrichedRelatedEvents, 'enrichedRelatedEvents');
+
+  // Enrich the main event
+  const fullyEnrichedEvent = {
+    ...event,
+    images: imagesWithUrls.map((img) => img.public_url) || [],
+  };
+
+  return {
+    props: {
+      event: fullyEnrichedEvent,
+      relatedEvents: enrichedRelatedEvents || [],
+      eventImgUrls: eventImgUrls || [],
+    },
+  };
+}
 
 
 const formatTime = (timeString) => {
       return format(new Date(timeString), 'HH:mm');
     };
 
-function EventPage ({ event, relatedEvents, category, eventImgUrls }) {
-  console.log(event, "event");
+function EventPage ({ event, relatedEvents, eventImgUrls }) {
+  const { categories } = useCategories();
+  const category = categories.find((cat) => cat.id === event.category_id);
+
 if (!event) return <div>Loading...</div>
 
   return (
     <>
         <header className={styles.eventHeader}>
-          <div className={classNames(styles.eventHeader__wrap, styles.container)}>
+          <div className={`${styles.eventHeader__wrap} container`}>
             <div className={styles.eventHeader__media}>
               {eventImgUrls && eventImgUrls[0] ?
                 <Image src={eventImgUrls[0]} width={1200} height={600} alt={event.title} className={styles.eventHeader__img} />
@@ -106,7 +147,7 @@ if (!event) return <div>Loading...</div>
           </div>
         </header>
         <main className={styles.eventMain}>
-            <section className={classNames(styles.eventContent, styles.container)}>
+            <section className={`${styles.eventContent} container`}>
               <div className={styles.contentLeft}>
                 <div className={styles.contentLeft__top}>
                   <h1 className={styles.contentLeft__title}>{event.title}</h1>
@@ -208,7 +249,7 @@ if (!event) return <div>Loading...</div>
                     <h2 className={styles.recommendedSection__title}>
                       Explore similar events
                     </h2>
-                    <Link href={'/home'} className='btn btn__primary'>Browse all events</Link>
+                    <Link href={'/home'} className='btn__primary'>Browse all events</Link>
                   </div>
                   <div className={styles.swiperWrap}>
                     <EventSwiper relatedEvents={relatedEvents}/>

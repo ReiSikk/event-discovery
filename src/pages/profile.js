@@ -14,20 +14,21 @@ import ToastNotification from '@/components/ToastNotification';
 export async function getServerSideProps() {
     const supabase = createClient();
 
-    
     let { data: categories, categoriesError } = await supabase
     .from('categories')
     .select('*')
+
     return {
         props: {
             categories: categories || [],
         },
     };
+
 }
 
 
 
-function ProfilePage({ categories }) {
+function ProfilePage({ }) {
     const supabase = createClient();
     const toastRef = useRef(null);
     const router = useRouter(); 
@@ -66,44 +67,36 @@ function ProfilePage({ categories }) {
             return [];
           }
       
-          const eventsWithImages = await Promise.all(
-            events.map(async (event) => {
+          // Fetch event images
+          const eventImages = await Promise.all(
+            events?.map(async (event) => {
               const { data: images, error: imagesError } = await supabase
                 .from('event_images')
                 .select('*')
                 .eq('event_id', event.id)
                 .order('is_primary', { ascending: false });
-      
+
               if (imagesError) {
                 console.error('Error fetching event images:', imagesError);
                 return { ...event, images: [] };
               }
-      
-              const imagesWithUrls = await Promise.all(
-                images.map(async (image) => ({
-                  ...image,
-                  public_url: supabase.storage
-                    .from('event-images')
-                    .getPublicUrl(image.image_path).data.publicUrl,
-                }))
+
+              // Generate public URLs for images
+              const imagesWithUrls = images.map((image) => 
+                supabase.storage.from('event-images').getPublicUrl(image.image_path).data.publicUrl
               );
-      
+
               return { ...event, images: imagesWithUrls };
-            })
+            }) || []
           );
       
-          return eventsWithImages; // Return the list of events with images
+          return eventImages;
+
         } catch (error) {
           console.error('Unexpected error:', error);
           return [];
         }
       }
-
-
-    const getCategoryNameById = (id) => {
-        const category = categories.find(cat => cat.id === id);
-        return category ? category.name : '';
-      };
 
 
     // Delete event from user events
@@ -222,7 +215,7 @@ function ProfilePage({ categories }) {
             {userEvents && userEvents.length > 0 ? (
                 <ul className={styles.eventsList}>
                 {userEvents.map((event) => (
-                    <EventCard key={event.id} event={event} getCategoryNameById={getCategoryNameById} onDelete={handleDeleteEvent} onEdit={handleEditEvent} isProfilePage/>
+                    <EventCard key={event.id} event={event} onDelete={handleDeleteEvent} onEdit={handleEditEvent} isProfilePage/>
                 ))}
                 </ul>
             ) : (
