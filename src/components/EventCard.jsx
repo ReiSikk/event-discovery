@@ -51,7 +51,50 @@ function EventCard({ event, isProfilePage, onDelete, onEdit }) {
     key={event.id}
     className={styles.eventsCard}
     >
-    <Link href={`/event/${event.id}`} className={styles.eventCard__link}>
+      {
+        !isProfilePage ?
+      <Link href={`/event/${event.id}`} className={styles.eventCard__link}>
+        <div className={styles.eventsCard_media}>
+        {event.images.length > 0 ?
+              <Image
+                key={event.id}
+                width={1200}
+                height={600}
+                src={event.images[0]}
+                alt={`Event ${event.title} image`}
+              />
+        :
+            <Image 
+            key={event.id}
+            width={1200}
+            height={600}
+            src={"https://placehold.co/1200x600/EEE/31343C"} 
+            alt={`Event ${event.title} image`} 
+            />
+
+          }
+          {
+            eventCategory && 
+          <div className={styles.eventsCard__categories}>
+            <span className={`${styles.eventsCard__label} txt-medium`}>
+              {eventCategory}
+              </span>
+          </div>
+          }
+        </div>
+        <div className={styles.eventsCard__info}>
+            <div className={styles.left}>
+              <h4 className='txt-medium'>{event.title}</h4>
+              <p className={`${styles.eventCard__date} txt-small`}>{format(event.start_time,'eee, MMMM d ')} {formatTime(event.start_time)} - {formatTime(event.end_time)}</p>
+            </div>
+            <div className={styles.right}>
+              <ArrowUpCircleIcon size={32} className={styles.eventCard__icon} />
+            </div>
+        </div>
+      </Link>
+      : 
+      <>
+      
       <div className={styles.eventsCard_media}>
       {event.images.length > 0 ?
             <Image
@@ -73,7 +116,7 @@ function EventCard({ event, isProfilePage, onDelete, onEdit }) {
         }
         {
           eventCategory && 
-         <div className={styles.eventsCard__categories}>
+        <div className={styles.eventsCard__categories}>
           <span className={`${styles.eventsCard__label} txt-medium`}>
             {eventCategory}
             </span>
@@ -81,31 +124,17 @@ function EventCard({ event, isProfilePage, onDelete, onEdit }) {
         }
       </div>
       <div className={styles.eventsCard__info}>
-        {
-          !isProfilePage ?
-          <>
-          <div className={styles.left}>
-            <h4 className='txt-medium'>{event.title}</h4>
-            <p className={`${styles.eventCard__date} txt-small`}>{format(event.start_time,'eee, MMMM d ')} {formatTime(event.start_time)} - {formatTime(event.end_time)}</p>
-          </div>
-          <div className={styles.right}>
-            <ArrowUpCircleIcon size={32} className={styles.eventCard__icon} />
-          </div>
-          </>
-          :
-            <div className={styles.eventCard__actions}>
-               <h4 className='txt-medium'>{event.title}</h4>
-               <div className={`${styles.eventCard__date} txt-small`}><CalendarClock size={16}/>{format(event.start_time,'eee, MMMM d ')} {formatTime(event.start_time)} - {formatTime(event.end_time)}</div>
-               <div className={styles.buttons}>
-                <button onClick={handleEdit} className={`${styles.btn__edit} btn__primary`}>Edit</button>
-                <AlertModal handleDelete={handleDelete} eventId={event.id}/>
-               </div>
-            </div>
-
-        }
-
+      <div className={styles.eventCard__actions}>
+      <h4 className='txt-medium'>{event.title}</h4>
+      <div className={`${styles.eventCard__date} txt-small`}><CalendarClock size={16}/>{format(event.start_time,'eee, MMMM d ')} {formatTime(event.start_time)} - {formatTime(event.end_time)}</div>
+      <div className={styles.buttons}>
+       <button onClick={handleEdit} className={`${styles.btn__edit} btn__primary`}>Edit</button>
+       <AlertModal handleDelete={handleDelete} eventId={event.id}/>
       </div>
-    </Link>
+   </div>
+      </div>
+      </>
+      }
     </li>
   )
 }

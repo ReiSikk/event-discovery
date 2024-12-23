@@ -3,8 +3,6 @@ import * as Form from "@radix-ui/react-form";
 import { XCircle } from 'lucide-react';
 import React, { useState, useActionState } from 'react';
 import { editProfile } from '@/actions/actions';
-import EventForm from "./forms/EventForm";
-// Toggle function to open/close the modal
 
 // Modal component
 function DialogModal({ modalOpen, toggleModal }) {

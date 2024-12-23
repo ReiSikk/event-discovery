@@ -5,6 +5,8 @@ import * as NavigationMenu from "@radix-ui/react-navigation-menu";
 import { CaretDownIcon } from "@radix-ui/react-icons";
 import styles from "./SiteNavMenu.module.css";
 import classNames from "classnames";
+import Link from "next/link";
+import { List } from "lucide-react";
 
 const SiteNavMenu = () => {
 	return (
@@ -18,12 +20,12 @@ const SiteNavMenu = () => {
 						<ul className={`${styles.List} one`}>
 							<li style={{ gridRow: "span 3" }}>
 								<NavigationMenu.Link asChild>
-									<a className={styles.Callout} href="/">
+									<Link className={styles.Callout} href="/">
 										<h1>LEIA</h1>
 										<p className={styles.CalloutText}>
 											Discover events tailored to your interests
 										</p>
-									</a>
+									</Link>
 								</NavigationMenu.Link>
 							</li>
 
@@ -107,5 +109,8 @@ const ListItem = React.forwardRef(
 		</li>
 	),
 );
+ListItem.displayName = "ListItem";
+
+SiteNavMenu.displayName = "SiteNavMenu";
 
 export default SiteNavMenu;

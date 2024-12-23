@@ -110,7 +110,7 @@ function ProfilePage() {
 
     // Edit user event
     const handleEditEvent = (eventId) => {
-        const event = userEvents.find(event => event.id === eventId)
+      console.log('Edit event:', eventId)
         router.push(`/event/${eventId}/edit`)
 
     }
@@ -218,7 +218,7 @@ function ProfilePage() {
                 </ul>
             ) : (
                 <div className={styles.noEventsFound}>
-                <h4>You haven't liked any events...</h4>
+                <h4>You haven&apos;t liked any events...</h4>
                 <div>Browse events <Link href="/home" className='link__underline'>here</Link></div>
                 </div>
             )}
@@ -235,7 +235,7 @@ function ProfilePage() {
                 </ul>
             ) : (
                 <div className={styles.noEventsFound}>
-                <h4>We couldn't find any events for you</h4>
+                <h4>We couldn&apos;t find any events for you</h4>
                 <div>Create your first event <Link href="/event/create" className='link__underline'>here</Link></div>
                 </div>
             )}

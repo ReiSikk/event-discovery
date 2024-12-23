@@ -42,4 +42,6 @@ const ToastNotification = forwardRef((props, ref) => {
     );
 });
 
+ToastNotification.displayName = "ToastNotification";
+
 export default ToastNotification;

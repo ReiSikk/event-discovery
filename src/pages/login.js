@@ -27,7 +27,7 @@ export default function LoginPage() {
     if (isLoggedIn) {
       router.push('/home')
     }
-  }, [isLoggedIn])
+  }, [router, isLoggedIn])
 
   return (
     <section className='loginForm__section container'>

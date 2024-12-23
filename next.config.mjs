@@ -11,6 +11,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'hdhpocotckesuowltwtk.supabase.co',
       },
+      {
+        protocol: 'http',
+        hostname: 'localhost'
+      },
     ],
     dangerouslyAllowSVG: true,
   },

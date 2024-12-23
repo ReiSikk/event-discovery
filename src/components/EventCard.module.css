@@ -3,6 +3,7 @@
   flex-direction: column;
   width: 100%;
   gap: 8px;
+  z-index: 10;
 }
 .eventCard__actions > .buttons {
   display: flex;
@@ -105,6 +106,7 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  z-index: 9;
   border-radius: var(--bradius);
   @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
   }

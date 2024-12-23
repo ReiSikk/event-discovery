@@ -96,7 +96,7 @@ export default function LoginWithUsername({ logIn, updateLoginOption}) {
             Sign in with login link instead
         </div>
       </form>
-      <p className={styles.login__text}>Don't have an account? <Link href="/login?id=signup" className={styles.login__link}>Sign Up</Link> </p>
+      <p className={styles.login__text}>Don&apos;t have an account? <Link href="/login?id=signup" className={styles.login__link}>Sign Up</Link> </p>
     </div>
   )
 }

@@ -181,7 +181,7 @@ const handleFileChange = (e) => {
     }
 
     fetchCategories()
-  }, [])
+  }, [supabase])
 
 
 
@@ -343,7 +343,7 @@ const handleFileChange = (e) => {
         <div className={classNames(styles.formFields, { 'visible': formStep === 3 })} id='imageUpload'>
           <div className={styles.form__imgUpload}>
             <div>
-              <Image size={16} />
+              <Image size={16} alt="Upload icon"/>
               <h3>Upload your image</h3>
             </div>
             <p className="txt-medium">This will be one of the first things the user sees when browsing events so choose wisely!</p>

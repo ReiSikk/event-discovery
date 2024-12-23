@@ -65,7 +65,7 @@ export default function LoginForm({ updateLoginOption }) {
       return () => {
         delete window.handleSignInWithGoogle
       }
-    }, [router])
+    }, [router, supabase.auth])
 
 
 
@@ -76,7 +76,7 @@ export default function LoginForm({ updateLoginOption }) {
       <div className={styles.loginForm__header}>
         <h1 className={styles.loginForm__title}>Sign in with Magic Link</h1>
         <p>
-          Enter your email and we'll send you a link to sign in with.
+          Enter your email and we&apos;ll send you a link to sign in with.
         </p>
       </div>
       {success && <p className="login__success">An email has been sent to {data.email} to login</p>}
@@ -100,7 +100,7 @@ export default function LoginForm({ updateLoginOption }) {
         <div className={`${styles.login__link} txt-medium`} onClick={() => updateLoginOption('userAndPass')}>
             Sign in with password instead
         </div>
-        <p className={styles.login__text}>Don't have an account? <Link href="/login?id=signup" className={styles.login__link}>Sign up</Link> </p>
+        <p className={styles.login__text}>Don&apos;t have an account? <Link href="/login?id=signup" className={styles.login__link}>Sign up</Link> </p>
         <GoogleSignInButton onClick={handleSignInWithGoogle} className="googleBtn"/>
       </form>
     </div>

@@ -10,6 +10,7 @@ function ProgressSteps({ eventProgress, formStep }) {
               <h4 className='col-t-none col-d-none'>{`Step ${formStep + 1} of 5`}</h4>
               {eventProgress.steps.map((step, index) => (
                 <div 
+                key={index}
                   className={classNames(
                     styles.progressStep,
                     formStep === index && styles.currentStep,

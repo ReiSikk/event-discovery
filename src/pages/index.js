@@ -101,7 +101,7 @@ export default function Home({ pageData, error, user}) {
                        Cost-Effective
                        </h3>
                        <p className={styles.uspDescription}>
-                       Most events are free or low-cost. Money shouldn't be the reason for staying in and couch slouching.
+                       Most events are free or low-cost. Money shouldn&apos;the reason for staying in and couch slouching.
                        </p>
                      </div>
                      <div className={styles.uspItem}>

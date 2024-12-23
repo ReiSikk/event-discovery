@@ -4,6 +4,7 @@ import Link from 'next/link';
 import * as Accordion from "@radix-ui/react-accordion";
 import classNames from 'classnames';
 import { ChevronDownIcon } from "@radix-ui/react-icons";
+import Image from 'next/image';
 
 export async function getServerSideProps() {
     const url = process.env.NEXT_PUBLIC_CMS_URL + 'for-organiser?populate=*'
@@ -47,7 +48,7 @@ function OrganiserPage({ pageData }) {
             </Link>
         </div>
         <div className={styles.heroSection__side}>
-            <img src={`http://localhost:1337${pageData?.hero_image.formats.large.url}`} alt={pageData?.title} className={styles.heroSection__image} />
+            <Image src={`http://localhost:1337${pageData?.hero_image.formats.large.url}`} alt={pageData?.title} className={styles.heroSection__image} width={1200} height={800}/>
         </div>
     </header>
     <main>
@@ -95,6 +96,7 @@ const AccordionTrigger = React.forwardRef(
 		</Accordion.Header>
 	),
 );
+AccordionTrigger.displayName = 'AccordionTrigger';
 
 const AccordionContent = React.forwardRef(
 	({ children, className, ...props }, forwardedRef) => (
@@ -107,5 +109,6 @@ const AccordionContent = React.forwardRef(
 		</Accordion.Content>
 	),
 );
+AccordionContent.displayName = 'AccordionContent';
 
 export default OrganiserPage

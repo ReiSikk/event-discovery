@@ -110,7 +110,7 @@ function EditEventForm({ session, eventToEdit }) {
     }
 
     fetchCategories()
-  }, [])
+  }, [supabase])
 
 
 
@@ -225,7 +225,7 @@ function EditEventForm({ session, eventToEdit }) {
       <div className={styles.formFields} id='imageUpload'>
         <div className={styles.form__imgUpload}>
           <div>
-            <Image size={16} />
+            <Image size={16} alt="Upload icon"/>
             <h3>Upload your image</h3>
           </div>
           <p>This will be one of the first things the user sees when browsing events so choose wisely!</p>

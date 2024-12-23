@@ -1,4 +1,4 @@
-import { createClient } from '@/utils/supabase/server'
+import { createClient } from '@/utils/supabase/server-props'
 import { redirect } from 'next/navigation'
 
 export async function GET(request) {
