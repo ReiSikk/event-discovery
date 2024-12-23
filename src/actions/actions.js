@@ -18,7 +18,6 @@ export async function createEvent(session, formData) {
             category_id: formData.get('category'),
             ticket_link: formData.get('ticket_link'),
         }
-        console.log(eventData, "eventData before inserting")
 
 
         const { data: eventInsertData, error: insertError } = await supabase
@@ -40,17 +39,14 @@ export async function createEvent(session, formData) {
             const fileExt = file.name.split('.').pop()
             const fileName = `${eventInsertData.id}_${Date.now()}.${fileExt}`
             const filePath = `${userId}/${fileName}`
-            console.log(filePath, "filePath")
 
             // Upload to Supabase storage
             const { data, error: uploadError } = await supabase.storage
                 .from('event-images')
                 .upload(filePath, file)
             
-                if(data) {
-                    console.log("data", data)
-                } else {
-                    console.log("upload error in line 52", uploadError)
+                if(uploadError) {
+                    console.log("data", uploadError)
                 }
 
             // Insert image record in event_images table
@@ -99,7 +95,6 @@ export async function updateEvent(session, formData, eventId) {
             category_id: formData.get('category'),
             ticket_link: formData.get('ticket_link'),
         }
-        console.log(eventData, "eventData before updating")
 
         const { data: eventUpdateData, error: updateError } = await supabase
             .from('events')
@@ -121,7 +116,6 @@ export async function updateEvent(session, formData, eventId) {
             const fileExt = file.name.split('.').pop()
             const fileName = `${eventUpdateData.id}_${Date.now()}.${fileExt}`
             const filePath = `${userId}/${fileName}`
-            console.log(filePath, "filePath")
 
             // Upload to Supabase storage
             const { data, error: uploadError } = await supabase.storage

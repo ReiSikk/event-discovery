@@ -23,7 +23,6 @@ function EventCard({ event, isProfilePage, onDelete, onEdit }) {
   }
 
   const handleDelete = async () => {
-    console.log('Delete event called')
     try {
       const { error } = await supabase
       .from('events')

@@ -8,7 +8,6 @@ import { createClient } from '@/utils/supabase/component'
 export async function getServerSideProps({ params }) {
     const supabase = createClient()
     const eventId = params.event
-    console.log(eventId, "eventId")
     
     let { data: event, error } = await supabase
     .from('events')

@@ -45,7 +45,6 @@ export default function CreateEventPage({ events: initialEvents }) {
     const [formStep, setFormStep] = useState(0);
 
     const handleNext = () => {
-      console.log('next formStep', formStep)
       if (formStep < 4) {
         setFormStep(prev => prev + 1)
         setEventProgress(prev => {
@@ -58,7 +57,6 @@ export default function CreateEventPage({ events: initialEvents }) {
       } 
     }
     const handlePrevious = () => {
-      console.log('previous formStep', formStep)
       if (formStep > 0) {
         setFormStep(prev => prev - 1)
         setEventProgress(prev => {

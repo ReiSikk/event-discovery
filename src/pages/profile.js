@@ -9,6 +9,7 @@ import Link from 'next/link';
 import EventCard from '@/components/EventCard';
 import DialogModal from '@/components/DialogModal';
 import ToastNotification from '@/components/ToastNotification';
+import { fetchEventImages } from '@/utils/fetchEventImages';
 
 
 function ProfilePage() {
@@ -20,7 +21,7 @@ function ProfilePage() {
     const [user, setUser] = useState(null); 
     const [profile, setProfile] = useState(null);
     const [userEvents, setUserEvents] = useState([]);
-    const [likedEvents, setLikedEvents] = useState([]);
+    const [userLikedEvents, setUserLikedEvents] = useState([]);
 
     // Modal State
     const [modalOpen, setModalOpen] = useState(false);
@@ -37,6 +38,7 @@ function ProfilePage() {
         return format(new Date(timeString), 'dd.MM.yyyy');
       };
 
+
     // Fetch liked events
     async function fetchLikedEvents(userId) {
       const { data, error } = await supabase
@@ -49,7 +51,23 @@ function ProfilePage() {
           return [];
       }
 
-      return data.map(like => like.event_id);
+      const likedEventIds =  data.map(like => like.event_id);
+      if (likedEventIds.length === 0) {
+        return [];
+      }
+
+      const { data: events, error: eventsError } = await supabase
+      .from('events')
+      .select('*')
+      .in('id', likedEventIds);
+  
+    if (eventsError) {
+      console.error('Error fetching events:', eventsError);
+      return [];
+    }
+
+    const eventImages = await fetchEventImages(events);
+    return eventImages;
   };
 
     //Fetch user created events from DB
@@ -66,28 +84,7 @@ function ProfilePage() {
           }
       
           // Fetch event images
-          const eventImages = await Promise.all(
-            events?.map(async (event) => {
-              const { data: images, error: imagesError } = await supabase
-                .from('event_images')
-                .select('*')
-                .eq('event_id', event.id)
-                .order('is_primary', { ascending: false });
-
-              if (imagesError) {
-                console.error('Error fetching event images:', imagesError);
-                return { ...event, images: [] };
-              }
-
-              // Generate public URLs for images
-              const imagesWithUrls = images.map((image) => 
-                supabase.storage.from('event-images').getPublicUrl(image.image_path).data.publicUrl
-              );
-
-              return { ...event, images: imagesWithUrls };
-            }) || []
-          );
-      
+          const eventImages = await fetchEventImages(events);
           return eventImages;
 
         } catch (error) {
@@ -114,7 +111,6 @@ function ProfilePage() {
     // Edit user event
     const handleEditEvent = (eventId) => {
         const event = userEvents.find(event => event.id === eventId)
-        console.log('Edit event called', eventId)
         router.push(`/event/${eventId}/edit`)
 
     }
@@ -146,10 +142,8 @@ function ProfilePage() {
       setProfile(profileData)
 
       const events = await getEventsByUserId(data.session.user.id);
-      // TODO: Fetch liked events from the id's stored in the likedEvents array
       const likedEvents = await fetchLikedEvents(data.session.user.id);
-      console.log('Liked events:', likedEvents);
-      // setLikedEvents(likedEvents);
+      setUserLikedEvents(likedEvents);
       setUserEvents(events);
 
     }
@@ -216,10 +210,10 @@ function ProfilePage() {
         <section className={classNames(styles.block, styles.eventsSection)}>
             <ToastNotification ref={toastRef} title={toastTitle} message={toastMessage}/>
             <h3 className={styles.eventsSection__title}>Liked events</h3>
-            {likedEvents && likedEvents.length > 0 ? (
+            {userLikedEvents && userLikedEvents.length > 0 ? (
                 <ul className={styles.eventsList}>
-                {likedEvents.map((event) => (
-                    <EventCard key={event.id} event={event} onDelete={handleDeleteEvent} onEdit={handleEditEvent} isProfilePage/>
+                {userLikedEvents.map((event) => (
+                    <EventCard key={event.id} event={event} onDelete={handleDeleteEvent} onEdit={handleEditEvent}/>
                 ))}
                 </ul>
             ) : (

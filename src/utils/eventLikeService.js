@@ -25,7 +25,6 @@ export async function addEventLike(userId, eventId) {
         if (error) {
         // Handle unique constraint violation
         if (error.code === '23505') {
-            console.log('Event already liked')
             return { success: false, message: 'Already liked' }
         }
         throw error
