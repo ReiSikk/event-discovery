@@ -4,10 +4,12 @@ import styles from './SingleEventPage.module.css'
 import classNames from 'classnames'
 import Image from 'next/image'
 import { format } from 'date-fns';
-import { CalendarClock, MapPin, MapPinnedIcon, TicketIcon, Tickets, UserCircle2, XCircle } from 'lucide-react'
+import { CalendarClock, MapPin, MapPinnedIcon, TicketIcon, Tickets, UserCircle2, XCircle, Heart } from 'lucide-react'
 import EventSwiper from '@/components/swipers/EventSwiper'
 import Link from 'next/link'
 import { useCategories } from '@/pages/api/context/categoriesProvider';
+import { useEventLike } from '@/utils/eventLikeService';
+import { useAuth } from '../api/auth/authprovider'
 
 export async function getServerSideProps({ params }) {
   const supabase = createClient();
@@ -46,7 +48,6 @@ export async function getServerSideProps({ params }) {
   }));
 
   const eventImgUrls = imagesWithUrls.map((image) => image.public_url);
-  console.log(eventImgUrls, 'eventImgUrls');
 
   // Fetch related events
   const { data: relatedEvents, error: relatedError } = await supabase
@@ -98,7 +99,6 @@ export async function getServerSideProps({ params }) {
     ...relatedEvent,
     images: imagesByEventId[relatedEvent.id] || [], // Assign images specific to each related event
   }));
-  console.log(enrichedRelatedEvents, 'enrichedRelatedEvents');
 
   // Enrich the main event
   const fullyEnrichedEvent = {
@@ -116,13 +116,17 @@ export async function getServerSideProps({ params }) {
 }
 
 
-const formatTime = (timeString) => {
-      return format(new Date(timeString), 'HH:mm');
-    };
-
 function EventPage ({ event, relatedEvents, eventImgUrls }) {
+  const { session } = useAuth();
+  const { likeCount, isLiked, toggleLike, isProcessing } = useEventLike(event.id)
   const { categories } = useCategories();
   const category = categories.find((cat) => cat.id === event.category_id);
+
+  const formatTime = (timeString) => {
+    return format(new Date(timeString), 'HH:mm');
+  };
+
+
 
 if (!event) return <div>Loading...</div>
 
@@ -156,6 +160,28 @@ if (!event) return <div>Loading...</div>
                       <span key={category.id} className={`${styles.contentLeft__label} txt-medium`}>
                         {category.name}
                       </span>
+                      {
+                        session?.user &&
+                        <button
+                        className="like__btn" 
+                        onClick={toggleLike}
+                        disabled={isProcessing}
+                        >
+                          <Heart size={24}  fill={isLiked ? '#ff5745' : 'none'} className={styles.eventCard__like} />
+                          {isLiked ? <span>Remove</span> : <span>Like</span>}
+                        </button>
+                      }
+                      {
+                        !session?.user &&
+                         <Link
+                         href='/login'
+                        className="like__btn" 
+                        >
+                          <Heart size={24}  fill={isLiked ? '#ff5745' : 'none'} className={styles.eventCard__like} />
+                          <span>Sign in to like</span>
+                        </Link>
+                      }
+
                   </div>
                 }
                 </div>

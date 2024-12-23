@@ -19,12 +19,10 @@ function SiteNav() {
   const { isMenuOpen, toggleMenu } = useBurgerMenu()
 
   const handleLogOut = async () => {
-    console.log('Logging out')
     const { error } = await supabase.auth.signOut()
     if (error) {
       console.error('Sign out error:', error.message)
     } else {
-      console.log('Logged out successfully')
       router.push('/')
     }
   }

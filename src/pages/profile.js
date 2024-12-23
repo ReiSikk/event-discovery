@@ -9,26 +9,10 @@ import Link from 'next/link';
 import EventCard from '@/components/EventCard';
 import DialogModal from '@/components/DialogModal';
 import ToastNotification from '@/components/ToastNotification';
+import { fetchEventImages } from '@/utils/fetchEventImages';
 
 
-export async function getServerSideProps() {
-    const supabase = createClient();
-
-    let { data: categories, categoriesError } = await supabase
-    .from('categories')
-    .select('*')
-
-    return {
-        props: {
-            categories: categories || [],
-        },
-    };
-
-}
-
-
-
-function ProfilePage({ }) {
+function ProfilePage() {
     const supabase = createClient();
     const toastRef = useRef(null);
     const router = useRouter(); 
@@ -37,6 +21,7 @@ function ProfilePage({ }) {
     const [user, setUser] = useState(null); 
     const [profile, setProfile] = useState(null);
     const [userEvents, setUserEvents] = useState([]);
+    const [userLikedEvents, setUserLikedEvents] = useState([]);
 
     // Modal State
     const [modalOpen, setModalOpen] = useState(false);
@@ -44,7 +29,6 @@ function ProfilePage({ }) {
     // Toast State
     const [toastMessage, setToastMessage] = useState('')
     const [toastTitle, setToastTitle] = useState('')
-    
 
     const toggleModal = () => {
         setModalOpen(!modalOpen);
@@ -54,7 +38,39 @@ function ProfilePage({ }) {
         return format(new Date(timeString), 'dd.MM.yyyy');
       };
 
-    //Fetch user events from DB
+
+    // Fetch liked events
+    async function fetchLikedEvents(userId) {
+      const { data, error } = await supabase
+          .from('event_likes')
+          .select('event_id')
+          .eq('user_id', userId);
+
+      if (error) {
+          console.error('Error fetching liked events:', error);
+          return [];
+      }
+
+      const likedEventIds =  data.map(like => like.event_id);
+      if (likedEventIds.length === 0) {
+        return [];
+      }
+
+      const { data: events, error: eventsError } = await supabase
+      .from('events')
+      .select('*')
+      .in('id', likedEventIds);
+  
+    if (eventsError) {
+      console.error('Error fetching events:', eventsError);
+      return [];
+    }
+
+    const eventImages = await fetchEventImages(events);
+    return eventImages;
+  };
+
+    //Fetch user created events from DB
     async function getEventsByUserId(userId) {
         try {
           const { data: events, error: eventsError } = await supabase
@@ -68,28 +84,7 @@ function ProfilePage({ }) {
           }
       
           // Fetch event images
-          const eventImages = await Promise.all(
-            events?.map(async (event) => {
-              const { data: images, error: imagesError } = await supabase
-                .from('event_images')
-                .select('*')
-                .eq('event_id', event.id)
-                .order('is_primary', { ascending: false });
-
-              if (imagesError) {
-                console.error('Error fetching event images:', imagesError);
-                return { ...event, images: [] };
-              }
-
-              // Generate public URLs for images
-              const imagesWithUrls = images.map((image) => 
-                supabase.storage.from('event-images').getPublicUrl(image.image_path).data.publicUrl
-              );
-
-              return { ...event, images: imagesWithUrls };
-            }) || []
-          );
-      
+          const eventImages = await fetchEventImages(events);
           return eventImages;
 
         } catch (error) {
@@ -97,6 +92,7 @@ function ProfilePage({ }) {
           return [];
         }
       }
+
 
 
     // Delete event from user events
@@ -115,7 +111,6 @@ function ProfilePage({ }) {
     // Edit user event
     const handleEditEvent = (eventId) => {
         const event = userEvents.find(event => event.id === eventId)
-        console.log('Edit event called', eventId)
         router.push(`/event/${eventId}/edit`)
 
     }
@@ -147,6 +142,8 @@ function ProfilePage({ }) {
       setProfile(profileData)
 
       const events = await getEventsByUserId(data.session.user.id);
+      const likedEvents = await fetchLikedEvents(data.session.user.id);
+      setUserLikedEvents(likedEvents);
       setUserEvents(events);
 
     }
@@ -209,7 +206,25 @@ function ProfilePage({ }) {
                 </ul>
             </div>
         </div>
-        <main className={classNames(styles.container, styles.block, styles.eventsSection)}>
+        <main className='container block'>
+        <section className={classNames(styles.block, styles.eventsSection)}>
+            <ToastNotification ref={toastRef} title={toastTitle} message={toastMessage}/>
+            <h3 className={styles.eventsSection__title}>Liked events</h3>
+            {userLikedEvents && userLikedEvents.length > 0 ? (
+                <ul className={styles.eventsList}>
+                {userLikedEvents.map((event) => (
+                    <EventCard key={event.id} event={event} onDelete={handleDeleteEvent} onEdit={handleEditEvent}/>
+                ))}
+                </ul>
+            ) : (
+                <div className={styles.noEventsFound}>
+                <h4>You haven't liked any events...</h4>
+                <div>Browse events <Link href="/home" className='link__underline'>here</Link></div>
+                </div>
+            )}
+                <DialogModal toggleModal={toggleModal} modalOpen={modalOpen}/>
+        </section>
+        <section className={classNames(styles.block, styles.eventsSection)}>
             <ToastNotification ref={toastRef} title={toastTitle} message={toastMessage}/>
             <h3 className={styles.eventsSection__title}>My Events</h3>
             {userEvents && userEvents.length > 0 ? (
@@ -225,6 +240,7 @@ function ProfilePage({ }) {
                 </div>
             )}
                 <DialogModal toggleModal={toggleModal} modalOpen={modalOpen}/>
+        </section>
         </main>
     </>
     ) : ( 

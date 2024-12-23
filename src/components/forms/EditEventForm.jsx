@@ -17,8 +17,6 @@ function EditEventForm({ session, eventToEdit }) {
   const supabase = createClient()
   const router = useRouter()
   const toastRef = useRef(null)
-  console.log(eventToEdit, "eventToEdit in editEventForm")
-  console.log(session, "session in editEventForm")
 
   
   // State for form data and navigation
@@ -73,7 +71,6 @@ function EditEventForm({ session, eventToEdit }) {
     // Add the file to formData if it exists
     if (file) {
         formData.append('event_image', file)
-        console.log('file in handleSubmit', file)
     }
 
     const result = await updateEvent(session, formData, eventToEdit.id)

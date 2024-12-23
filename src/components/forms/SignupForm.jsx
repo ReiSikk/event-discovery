@@ -25,13 +25,10 @@ export default function SignUpForm() {
          
           // Check if passwords match
           if (password !== confirmPassword) {
-            console.log('passwords dont match');
             setError('Passwords do not match');
             return;
           }
           
-          console.log('passwords match');
-          console.log(email, password, name, "user data before signUp call");
           const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
             email: email?.trim(),
             password: password?.trim(),

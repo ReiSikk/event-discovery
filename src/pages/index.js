@@ -39,7 +39,6 @@ export async function getServerSideProps() {
 export default function Home({ pageData, error, user}) {
   const [session, setSession] = useState(null);
   const router = useRouter();
-  console.log(pageData, "pageData");
   
   useEffect(() => {
     async function getSession() {
@@ -67,19 +66,59 @@ export default function Home({ pageData, error, user}) {
           <section className={`${styles.heroSection} ${styles.container}`}>
             <div className={styles.heroSection__main}>
               <h1 className={styles.heroSection__title}>
-                {pageData?.title}
+                {pageData? pageData?.title : 'Discover. Connect. Grow.'}
               </h1>
               <p className={styles.heroSection__text}>
-                {pageData?.lead}
+              {pageData ? pageData?.lead : 'Leia is more than an event platform — it\'s your gateway to building genuine relationships. Whether you\'re seeking professional networking, friendship, or exciting experiences, we help you find your tribe.'}
               </p>
               <div className={styles.heroSection__cta}>
-                <Link href="/login" className="btn btn__primary">
-                  Sign In
-                </Link>
-                <Link href="/login?id=signup" className="btn btn__primary btn__secondary">
+                <Link href="/login?id=signup" className="btn btn__primary">
                   Sign Up
                 </Link>
+                <Link href="/home" className="btn btn__primary btn__secondary">
+                  Start browsing
+                </Link>
               </div>
+              {!pageData ? (
+                 <div className={styles.uspContainer}>
+                 <div className={styles.uspGrid}>
+                     <div className={styles.uspItem}>
+                       <span className={styles.uspIcon}>
+                       🎭
+                       </span>
+                       <h3 className={styles.uspTitle}>
+                         Event Discovery
+                       </h3>
+                       <p className={styles.uspDescription}>
+                        Discover events tailored to your interests.
+                       </p>
+                     </div>
+                     <div className={styles.uspItem}>
+                       <span className={styles.uspIcon}>
+                       💸
+                       </span>
+                       <h3 className={styles.uspTitle}>
+                       Cost-Effective
+                       </h3>
+                       <p className={styles.uspDescription}>
+                       Most events are free or low-cost. Money shouldn't be the reason for staying in and couch slouching.
+                       </p>
+                     </div>
+                     <div className={styles.uspItem}>
+                       <span className={styles.uspIcon}>
+                       🌍
+                       </span>
+                       <h3 className={styles.uspTitle}>
+                       Expand your personal and professional circles
+                       </h3>
+                       <p className={styles.uspDescription}>
+                        Meet people who share your passions and interests.
+                       </p>
+                     </div>
+                 </div>
+               </div>
+              ) : null
+                }
               {pageData?.cardsRepeater ? (
                   <div className={styles.uspContainer}>
                     <div className={styles.uspGrid}>

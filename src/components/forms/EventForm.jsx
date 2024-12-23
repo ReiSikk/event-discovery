@@ -194,7 +194,6 @@ const handleFileChange = (e) => {
     // Add the file to formData if it exists
     if (file) {
         formData.append('event_image', file)
-        console.log('file in handleSubmit', file)
     }
 
     const result = await createEvent(session, formData)

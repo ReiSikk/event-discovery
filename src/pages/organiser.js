@@ -7,7 +7,6 @@ import { ChevronDownIcon } from "@radix-ui/react-icons";
 
 export async function getServerSideProps() {
     const url = process.env.NEXT_PUBLIC_CMS_URL + 'for-organiser?populate=*'
-    console.log(url, "url");
   
     try {
       const res = await fetch(url);
@@ -33,8 +32,6 @@ export async function getServerSideProps() {
   }
 
 function OrganiserPage({ pageData }) {
-    console.log(pageData, "pageData");
-    console.log(pageData?.faqRepeater[0], "faqRepeater");
   return (
     <>
     <header className={`${styles.hero} container`}>

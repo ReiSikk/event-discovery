@@ -20,8 +20,8 @@ function EventSwiper({ relatedEvents }) {
         navigation
         >
         {relatedEvents.map((event) => (
-                  <SwiperSlide>
-                    <EventCard event={event} />
+                  <SwiperSlide key={event.id}>
+                    <EventCard event={event}/>
                   {/* <div className={styles.eventSlide}>
                       <Image 
                       src={event.images.length > 0 ? event.images[0] : 'https://placehold.co/800x699/EEE/31343C'} 
