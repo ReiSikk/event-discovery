@@ -28,7 +28,7 @@ function SiteNav() {
   }
 
   return (
-    <header className={`${styles.header} ${styles.container}`}>
+    <header className={`${styles.header} container`}>
     <nav className={styles.siteNav}>
         <Link href="/">
             <h1 className={styles.siteNav__logo}>Leia</h1>

@@ -143,12 +143,12 @@ const HomePage = ({ pageData, events, location }) => {
 
   return (
     <>
-    <header className={styles.heroSection}>
+    <header className={`${styles.heroSection} container block`}>
       <h1 className={styles.header__title}>
-        {pageData.title}
+        {pageData ? pageData?.title : 'Let\'s  make it personal.'}
       </h1>
       <p className={styles.header__text}>
-        {pageData.lead}
+        {pageData ? pageData?.lead : 'Select your interests to get event suggestions based on what you love'}
       </p>
       <ul className={styles.filterCards}>
         <CustomDateRangePicker handleDateRangeChange={handleDateRangeChange} filterState={filterState} />
@@ -165,12 +165,12 @@ const HomePage = ({ pageData, events, location }) => {
       </ul>
       {events && <SearchBar handleSearchQuery={handleSearchQuery} /> }
     </header>
-    <main className={classNames(styles.mainContainer, styles.container)}>
+    <main className={`${styles.mainContainer} container`}>
         <div className={styles.mainContainer__header}>
         <h2 className={`${styles.sidebar__title} h4`}>
           Browsing events in {location ? `${location.city}, ${location.country.code}` : 'your area'}
         </h2>
-            <button className={classNames(styles.btn__primary, styles.mapBtn)}>View on the map</button>
+            <button className={`${styles.mapBtn} btn__primary`}>View on the map</button>
         </div>
       <section className={styles.content}>
         <div className={styles.content_sidebar}>
@@ -188,7 +188,7 @@ const HomePage = ({ pageData, events, location }) => {
               <ul className={styles.sidebarList}>
               {filterState.dateRange.start && filterState.dateRange.end && (
                 <li
-                  className={classNames(styles.btn__primary, styles.sidebar__filter)}
+                  className={`${styles.sidebar__filter} btn__primary`}
                   onClick={() => updateFilter(FILTER_TYPES.DATE, { start: null, end: null })}
                 >
                   {new Date(filterState.dateRange.start).toLocaleDateString()} - {new Date(filterState.dateRange.end).toLocaleDateString()}
@@ -200,7 +200,7 @@ const HomePage = ({ pageData, events, location }) => {
                 <>
                   {filterState.categories.map((categoryId) => (
                      <li 
-                     className={classNames(styles.btn__primary, styles.sidebar__filter)}
+                     className={`${styles.sidebar__filter} btn__primary`}
                       key={categoryId}
                       onClick={() => handleCategoryClick(categoryId)}
                      >

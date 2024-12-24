@@ -470,7 +470,7 @@ const handleFileChange = (e) => {
         {
           !formStep === 4 && 
           <Form.Submit 
-          className={classNames(styles.form__submit, styles.btn__primary)}
+          className={`${styles.form__submit} btn__primary`}
           disabled={isPending}
           >
             {isPending ? 'Creating event...' : 'Submit'}
@@ -499,7 +499,7 @@ const handleFileChange = (e) => {
             {
               formStep === 4 &&
                 <Form.Submit 
-                className={classNames(styles.form__submit, styles.btn__primary)}
+                className={`${styles.form__submit} btn__primary`}
                 disabled={isPending}
                 >
                   {isPending ? 'Creating event...' : 'Submit'}
