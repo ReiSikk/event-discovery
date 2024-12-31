@@ -2,7 +2,7 @@ import React from 'react'
 import styles from './EventCard.module.css'
 import { ArrowUpCircleIcon, CalendarClock } from 'lucide-react';
 import Link from 'next/link';
-import AlertModal from './AlertDialog';
+import AlertModal from './modals/AlertDialog';
 import { createClient } from '@/utils/supabase/component';
 import Image from 'next/image';
 import { format } from 'date-fns';

@@ -7,7 +7,7 @@ import { format } from 'date-fns';
 import classNames from 'classnames';
 import Link from 'next/link';
 import EventCard from '@/components/EventCard';
-import DialogModal from '@/components/DialogModal';
+import DialogModal from '@/components/modals/DialogModal';
 import ToastNotification from '@/components/ToastNotification';
 import { fetchEventImages } from '@/utils/fetchEventImages';
 

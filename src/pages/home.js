@@ -13,70 +13,70 @@ import CustomDateRangePicker from '@/components/filters/DateRangePicker';
 import { useCategories } from '@/pages/api/context/categoriesProvider';
 
 export async function getServerSideProps() {
-  // Fetch user location and data from DB
-  const supabase = createClient()
+  const supabase = createClient();
+
+  // Fetch user location
   const userLocation = await fetch(`https://api.ipregistry.co/?key=${process.env.NEXT_PUBLIC_IPREGISTRY_API_KEY}`)
-  .then((res) => {
-    return res.json();
-  }) 
-  .catch((error) => {
-    console.error('Error fetching user location:', error);
-    return null;
-  });
-  
-  let { data: events, error } = await supabase
-  .from('events')
-  .select('*')
+    .then((res) => res.json())
+    .catch((error) => {
+      console.error('Error fetching user location:', error);
+      return null;
+    });
 
- // Fetch event images
- const eventImages = await Promise.all(
-  events?.map(async (event) => {
-    const { data: images, error: imagesError } = await supabase
-      .from('event_images')
-      .select('*')
-      .eq('event_id', event.id)
-      .order('is_primary', { ascending: false });
+  // Fetch events from Supabase
+  let { data: events, error: eventsError } = await supabase
+    .from('events')
+    .select('*');
 
-    if (imagesError) {
-      console.error('Error fetching event images:', imagesError);
-      return { ...event, images: [] };
-    }
+  if (eventsError) {
+    console.error('Error fetching events:', eventsError);
+    events = [];
+  }
 
-     // Generate public URLs for images
-     const imagesWithUrls = images.map((image) => 
-      supabase.storage.from('event-images').getPublicUrl(image.image_path).data.publicUrl
-    );
+  // Fetch event images
+  const eventImages = await Promise.all(
+    events?.map(async (event) => {
+      const { data: images, error: imagesError } = await supabase
+        .from('event_images')
+        .select('*')
+        .eq('event_id', event.id)
+        .order('is_primary', { ascending: false });
 
-    return { ...event, images: imagesWithUrls };
-  }) || []
-);
+      if (imagesError) {
+        console.error('Error fetching event images:', imagesError);
+        return { ...event, images: [] };
+      }
 
+      // Generate public URLs for images
+      const imagesWithUrls = images.map((image) =>
+        supabase.storage.from('event-images').getPublicUrl(image.image_path).data.publicUrl
+      );
+
+      return { ...event, images: imagesWithUrls };
+    }) || []
+  );
 
   // Fetch data from CMS
-  const url = process.env.NEXT_PUBLIC_CMS_URL + 'home?populate=*'
+  const cmsUrl = process.env.NEXT_PUBLIC_CMS_URL + 'home?populate=*';
+  let pageData = null;
   try {
-    const res = await fetch(url);
+    const res = await fetch(cmsUrl);
     if (!res.ok) {
       throw new Error('Failed to fetch data');
     }
     const json = await res.json();
-
-    return {
-      props: {
-        pageData: json.data || null,
-        events: eventImages || [],
-        location: userLocation.location || null,
-      },
-    };
+    pageData = json.data || null;
   } catch (error) {
-    console.error('Error fetching data:', error);
-    return {
-      props: {
-        pageData: null,
-        error: 'Failed to load page data',
-      },
-    };
+    console.error('Error fetching data from CMS:', error);
   }
+
+  return {
+    props: {
+      pageData,
+      events: eventImages || [],
+      location: userLocation?.location || null,
+    },
+  };
 }
 
 const HomePage = ({ pageData, events, location }) => {
