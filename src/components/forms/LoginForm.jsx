@@ -19,13 +19,18 @@ export default function LoginForm({ updateLoginOption }) {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
+      const redirectUrl = process.env.NODE_ENV === 'development'
+      ? process.env.NEXT_PUBLIC_DEV_REDIRECT_URL
+      : process.env.NEXT_PUBLIC_PROD_REDIRECT_URL;
+
       const { data: dataUser, error: signInError } = await supabase
       .auth
       .signInWithOtp({
          email: data.email,
          options: {
           shouldCreateUser: false,
-          emailRedirectTo: 'http://localhost:3000/home'
+          emailRedirectTo: redirectUrl
+          // emailRedirectTo: 'http://localhost:3000/home'
          }
         })
 
