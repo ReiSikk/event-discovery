@@ -63,7 +63,7 @@ export default function Home({ pageData, error, user}) {
       <div
       >
         <main className={styles.main}>
-          <section className={`${styles.heroSection} ${styles.container}`}>
+          <section className={`${styles.heroSection} container`}>
             <div className={styles.heroSection__main}>
               <h1 className={styles.heroSection__title}>
                 {pageData? pageData?.title : 'Discover. Connect. Grow.'}

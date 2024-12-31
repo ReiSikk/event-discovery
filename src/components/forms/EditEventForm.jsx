@@ -345,7 +345,7 @@ function EditEventForm({ session, eventToEdit }) {
     </div>
 
       <Form.Submit 
-      className={classNames(styles.form__submit, styles.btn__primary)}
+      className={`${styles.form__submit} btn__primary`}
       disabled={isPending}
       >{isPending ? 'Creating event...' : 'Submit'}</Form.Submit>
     </Form.Root>

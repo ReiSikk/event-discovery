@@ -38,10 +38,10 @@ function OrganiserPage({ pageData }) {
     <header className={`${styles.hero} container`}>
         <div className={styles.heroSection__main}>
             <h1 className={styles.heroSection__title}>
-            {pageData?.title}
+            {pageData.title ? pageData.title : 'Make your event ideas come to life.'}
             </h1>
             <p className={styles.heroSection__lead}>
-            {pageData?.lead}
+            {pageData.lead ? pageData.lead : 'Leia is more than an event platform — it\'s a place where communities are formed, friends are made and experiences are lived.'}
             </p>
             <Link href="/event/create" className="btn btn__primary btn__secondary">
                 Create an event

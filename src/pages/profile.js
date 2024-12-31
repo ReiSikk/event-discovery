@@ -7,7 +7,7 @@ import { format } from 'date-fns';
 import classNames from 'classnames';
 import Link from 'next/link';
 import EventCard from '@/components/EventCard';
-import DialogModal from '@/components/DialogModal';
+import DialogModal from '@/components/modals/DialogModal';
 import ToastNotification from '@/components/ToastNotification';
 import { fetchEventImages } from '@/utils/fetchEventImages';
 
@@ -154,7 +154,7 @@ function ProfilePage() {
     <>
     {session?.user ? (
     <>
-        <div className={classNames(styles.profileHeader, styles.container)}>
+        <div className={`${styles.profileHeader} container`}>
             <div className={styles.profileCard}>
                 <div className={styles.profileCard__top}>
                     <div className={styles.profileCard__left}>
@@ -176,7 +176,7 @@ function ProfilePage() {
                           </ul>
                       </div>
                     </div>
-                    <div className={classNames(styles.profileCard__edit, styles.btn__primary)} onClick={toggleModal} >
+                    <div className={`${styles.profileCard__edit} btn__primary`} onClick={toggleModal} >
                     <Edit2 size={16} />
                     Edit Profile
                 </div>
@@ -244,7 +244,7 @@ function ProfilePage() {
         </main>
     </>
     ) : ( 
-    <main className={classNames(styles.container, styles.block)}>
+    <main className="container block">
         <p className={styles.sessionStatus}>No profile found... Please <Link href="/login" className={styles.login__link}>Sign in</Link></p> 
     </main>
 )}

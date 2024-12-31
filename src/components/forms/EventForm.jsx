@@ -104,15 +104,16 @@ const handleNextStep = () => {
   }, {})
 
     // Separate check for file input (event_image)
-    if (formStep === 3) { // Assuming step 3 is the image upload step
+    if (formStep === 3) {
       if (!file) {
         newErrors['event_image'] = 'Please upload an image for your event.'
       } else {
-        // Optional: Add more file validations (e.g., file type, size)
+        // Check for file type
         const validTypes = ['image/jpeg', 'image/png', 'image/webp' ]
         if (!validTypes.includes(file.type)) {
           newErrors['event_image'] = 'Unsupported file type. Please upload a JPEG, PNG, or WebP image.'
         }
+        // Check for file size
         const maxSize = 5 * 1024 * 1024 // 5MB
         if (file.size > maxSize) {
           newErrors['event_image'] = 'File size exceeds 5MB. Please upload a smaller image.'
@@ -128,15 +129,14 @@ const handleNextStep = () => {
 
   handleNext()
 }
-console.log('handleNextStep formErrors', formErrors)
 
 
-// Display file name when file is selected
+// Display file name when a file is selected
 const handleFileChange = (e) => {
   const selectedFile = e.target.files[0]
   if (selectedFile) {
     setFile(selectedFile)
-    // Optionally, clear any existing errors related to the file
+    // Clear any existing errors related to the file
     setFormErrors(prev => ({ ...prev, event_image: '' }))
   } else {
     setFile(null)
@@ -470,7 +470,7 @@ const handleFileChange = (e) => {
         {
           !formStep === 4 && 
           <Form.Submit 
-          className={classNames(styles.form__submit, styles.btn__primary)}
+          className={`${styles.form__submit} btn__primary`}
           disabled={isPending}
           >
             {isPending ? 'Creating event...' : 'Submit'}
@@ -499,7 +499,7 @@ const handleFileChange = (e) => {
             {
               formStep === 4 &&
                 <Form.Submit 
-                className={classNames(styles.form__submit, styles.btn__primary)}
+                className={`${styles.form__submit} btn__primary`}
                 disabled={isPending}
                 >
                   {isPending ? 'Creating event...' : 'Submit'}

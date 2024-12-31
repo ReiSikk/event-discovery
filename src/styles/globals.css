@@ -350,9 +350,9 @@ h4,
 .footerList {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 16px;
   @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
-    gap: 0.5555vw;
+    gap: 1.1111vw;
   }
 }
 .footerList > a {

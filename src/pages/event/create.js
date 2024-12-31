@@ -73,7 +73,7 @@ export default function CreateEventPage({ events: initialEvents }) {
   return (
     <>
       {isLoggedIn ? (
-        <main className={classNames(styles.main, styles.container)}>
+        <main className={`${styles.main} container`}>
           <section className={styles.formSection}>
             <ProgressSteps formStep={formStep} eventProgress={eventProgress} />
             <div className={styles.formSection__main}>
@@ -88,7 +88,7 @@ export default function CreateEventPage({ events: initialEvents }) {
           </section>
         </main>
       ) : (
-        <main className={classNames(styles.mainError, styles.container)}>
+        <main className={`${styles.mainError} container`}>
           <h3>Whoops! You need to be logged in to publish events</h3>
           <p>Please sign in or create a profile to continue.</p>
           <div className="buttons__flex">

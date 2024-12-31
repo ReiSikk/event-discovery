@@ -54,14 +54,14 @@
   display: flex;
   flex: 1;
   justify-content: space-between;
-  padding-block: 12px;
+  padding-block: 16px;
   padding-inline: 16px;
   border-bottom-left-radius: var(--bradius);
   border-bottom-right-radius: var(--bradius);
   transition: background 0.4s ease;
 
   @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
-    padding: 1.1111vw;
+    padding: 1.666vw;
   }
 }
 .eventsCard__info > h4,

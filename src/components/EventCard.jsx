@@ -2,7 +2,7 @@ import React from 'react'
 import styles from './EventCard.module.css'
 import { ArrowUpCircleIcon, CalendarClock } from 'lucide-react';
 import Link from 'next/link';
-import AlertModal from './AlertDialog';
+import AlertModal from './modals/AlertDialog';
 import { createClient } from '@/utils/supabase/component';
 import Image from 'next/image';
 import { format } from 'date-fns';
@@ -85,7 +85,7 @@ function EventCard({ event, isProfilePage, onDelete, onEdit }) {
         <div className={styles.eventsCard__info}>
             <div className={styles.left}>
               <h4 className='txt-medium'>{event.title}</h4>
-              <p className={`${styles.eventCard__date} txt-small`}>{format(event.start_time,'eee, MMMM d ')} {formatTime(event.start_time)} - {formatTime(event.end_time)}</p>
+              <div className={`${styles.eventCard__date} txt-small`}><CalendarClock size={16}/>{format(event.start_time,'eee, MMMM d ')} {formatTime(event.start_time)} - {formatTime(event.end_time)}</div>
             </div>
             <div className={styles.right}>
               <ArrowUpCircleIcon size={32} className={styles.eventCard__icon} />

@@ -1,52 +1,6 @@
 /* ==========================================================================
     Profile Page Styles
    ========================================================================== */
-.container {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  margin-inline: auto;
-  max-width: var(--container-width);
-  width: 100%;
-  position: relative;
-  padding-inline: 16px;
-
-  @media only screen and (max-width: 767px) {
-    padding-inline: 4.1025vw;
-  }
-
-  @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
-    padding-inline: 1.6666vw;
-  }
-
-  &.block {
-    display: block;
-  }
-}
-.btn__primary {
-  display: inline-flex;
-  min-width: 125px;
-  padding-block: 10px 9px;
-  padding-inline: 18px;
-  flex-shrink: 0;
-  border-radius: 200px;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  border: 1px solid var(--primary);
-  background: var(--bg);
-  color: var(--primary);
-  font-family: var(--font-headings);
-  font-weight: 500;
-  transition: background 0.3s ease-in-out;
-  cursor: pointer;
-
-  &:hover {
-    background: var(--primary);
-    color: var(--bg);
-  }
-}
-
 .profileHeader {
   padding-block: 32px;
   @media only screen and (min-width: 768px) and (max-width: 1024px) {
@@ -211,6 +165,8 @@
 }
 .eventsList > li {
   width: 100%;
+  background: var(--bg-dark);
+  border-radius: var(--bradius);
 }
 
 .sessionStatus {

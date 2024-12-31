@@ -1,29 +1,4 @@
-
-.btn__primary {
-    display: inline-flex;
-    min-width: 125px;
-    padding-block: 10px 9px;
-    padding-inline: 18px;
-    flex-shrink: 0;
-    border-radius: 200px;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    border: 1px solid var(--primary);
-    transition: background 0.3s ease-in-out;
-    background: var(--bg);
-    color: var(--primary);
-    font-family: var(--font-headings);
-    font-weight: 500;
-    cursor: pointer;
-
-    &:hover {
-        background: var(--primary);
-        color: var(--bg);
-    }
-}
-  
-  .eventSlide {
+    .eventSlide {
     display: flex;
     flex-direction: column;
     justify-content: space-between;

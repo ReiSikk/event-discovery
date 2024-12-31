@@ -13,70 +13,70 @@ import CustomDateRangePicker from '@/components/filters/DateRangePicker';
 import { useCategories } from '@/pages/api/context/categoriesProvider';
 
 export async function getServerSideProps() {
-  // Fetch user location and data from DB
-  const supabase = createClient()
+  const supabase = createClient();
+
+  // Fetch user location
   const userLocation = await fetch(`https://api.ipregistry.co/?key=${process.env.NEXT_PUBLIC_IPREGISTRY_API_KEY}`)
-  .then((res) => {
-    return res.json();
-  }) 
-  .catch((error) => {
-    console.error('Error fetching user location:', error);
-    return null;
-  });
-  
-  let { data: events, error } = await supabase
-  .from('events')
-  .select('*')
+    .then((res) => res.json())
+    .catch((error) => {
+      console.error('Error fetching user location:', error);
+      return null;
+    });
 
- // Fetch event images
- const eventImages = await Promise.all(
-  events?.map(async (event) => {
-    const { data: images, error: imagesError } = await supabase
-      .from('event_images')
-      .select('*')
-      .eq('event_id', event.id)
-      .order('is_primary', { ascending: false });
+  // Fetch events from Supabase
+  let { data: events, error: eventsError } = await supabase
+    .from('events')
+    .select('*');
 
-    if (imagesError) {
-      console.error('Error fetching event images:', imagesError);
-      return { ...event, images: [] };
-    }
+  if (eventsError) {
+    console.error('Error fetching events:', eventsError);
+    events = [];
+  }
 
-     // Generate public URLs for images
-     const imagesWithUrls = images.map((image) => 
-      supabase.storage.from('event-images').getPublicUrl(image.image_path).data.publicUrl
-    );
+  // Fetch event images
+  const eventImages = await Promise.all(
+    events?.map(async (event) => {
+      const { data: images, error: imagesError } = await supabase
+        .from('event_images')
+        .select('*')
+        .eq('event_id', event.id)
+        .order('is_primary', { ascending: false });
 
-    return { ...event, images: imagesWithUrls };
-  }) || []
-);
+      if (imagesError) {
+        console.error('Error fetching event images:', imagesError);
+        return { ...event, images: [] };
+      }
 
+      // Generate public URLs for images
+      const imagesWithUrls = images.map((image) =>
+        supabase.storage.from('event-images').getPublicUrl(image.image_path).data.publicUrl
+      );
+
+      return { ...event, images: imagesWithUrls };
+    }) || []
+  );
 
   // Fetch data from CMS
-  const url = process.env.NEXT_PUBLIC_CMS_URL + 'home?populate=*'
+  const cmsUrl = process.env.NEXT_PUBLIC_CMS_URL + 'home?populate=*';
+  let pageData = null;
   try {
-    const res = await fetch(url);
+    const res = await fetch(cmsUrl);
     if (!res.ok) {
       throw new Error('Failed to fetch data');
     }
     const json = await res.json();
-
-    return {
-      props: {
-        pageData: json.data || null,
-        events: eventImages || [],
-        location: userLocation.location || null,
-      },
-    };
+    pageData = json.data || null;
   } catch (error) {
-    console.error('Error fetching data:', error);
-    return {
-      props: {
-        pageData: null,
-        error: 'Failed to load page data',
-      },
-    };
+    console.error('Error fetching data from CMS:', error);
   }
+
+  return {
+    props: {
+      pageData,
+      events: eventImages || [],
+      location: userLocation?.location || null,
+    },
+  };
 }
 
 const HomePage = ({ pageData, events, location }) => {
@@ -143,12 +143,12 @@ const HomePage = ({ pageData, events, location }) => {
 
   return (
     <>
-    <header className={styles.heroSection}>
+    <header className={`${styles.heroSection} container block`}>
       <h1 className={styles.header__title}>
-        {pageData.title}
+        {pageData ? pageData?.title : 'Let\'s  make it personal.'}
       </h1>
       <p className={styles.header__text}>
-        {pageData.lead}
+        {pageData ? pageData?.lead : 'Select your interests to get event suggestions based on what you love'}
       </p>
       <ul className={styles.filterCards}>
         <CustomDateRangePicker handleDateRangeChange={handleDateRangeChange} filterState={filterState} />
@@ -165,12 +165,12 @@ const HomePage = ({ pageData, events, location }) => {
       </ul>
       {events && <SearchBar handleSearchQuery={handleSearchQuery} /> }
     </header>
-    <main className={classNames(styles.mainContainer, styles.container)}>
+    <main className={`${styles.mainContainer} container`}>
         <div className={styles.mainContainer__header}>
         <h2 className={`${styles.sidebar__title} h4`}>
           Browsing events in {location ? `${location.city}, ${location.country.code}` : 'your area'}
         </h2>
-            <button className={classNames(styles.btn__primary, styles.mapBtn)}>View on the map</button>
+            <button className={`${styles.mapBtn} btn__primary`}>View on the map</button>
         </div>
       <section className={styles.content}>
         <div className={styles.content_sidebar}>
@@ -188,7 +188,7 @@ const HomePage = ({ pageData, events, location }) => {
               <ul className={styles.sidebarList}>
               {filterState.dateRange.start && filterState.dateRange.end && (
                 <li
-                  className={classNames(styles.btn__primary, styles.sidebar__filter)}
+                  className={`${styles.sidebar__filter} btn__primary`}
                   onClick={() => updateFilter(FILTER_TYPES.DATE, { start: null, end: null })}
                 >
                   {new Date(filterState.dateRange.start).toLocaleDateString()} - {new Date(filterState.dateRange.end).toLocaleDateString()}
@@ -200,7 +200,7 @@ const HomePage = ({ pageData, events, location }) => {
                 <>
                   {filterState.categories.map((categoryId) => (
                      <li 
-                     className={classNames(styles.btn__primary, styles.sidebar__filter)}
+                     className={`${styles.sidebar__filter} btn__primary`}
                       key={categoryId}
                       onClick={() => handleCategoryClick(categoryId)}
                      >
