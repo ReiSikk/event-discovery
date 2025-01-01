@@ -46,7 +46,7 @@ export const AuthProvider = ({ children }) => {
     authListener?.subscription.unsubscribe()
     
   }, [router, supabase])
-  if (loading) return <p>Loading...</p>
+  if (loading) return <p className="center">Loading...</p>
 
   return (
     <AuthContext.Provider value={{ session, isLoggedIn }}>

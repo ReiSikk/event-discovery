@@ -151,6 +151,10 @@ h4,
   }
 }
 
+.center {
+  margin-inline: auto;
+}
+
 /* Grid system */
 
 .container {
@@ -307,12 +311,16 @@ h4,
   }
 }
 .siteFooter__wrap {
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 24px;
   @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
     padding-block: 1.6666vw 3.888vw;
+
   }
 
 }
-.footer__contacts {
+.siteFooter__contacts {
   padding-bottom: 32px;
   @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
       padding-bottom: 0;
@@ -339,7 +347,6 @@ h4,
   flex-direction: row;
   flex-wrap: wrap;
   gap: 32px;
-  margin-top: 56px;
   @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
     padding-left: 13.8888vw;
     gap: 4.4444vw;
@@ -730,6 +737,17 @@ div[data-testid="underlay"] {
     margin-top: 6.944vw;
   }
 }
+
+.tabs__root {
+  width: 100%;
+
+  @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+    min-width: 420px;
+    max-width: 31.25vw;
+  }
+}
+
+
 
 .tabs__list {
   position: relative;

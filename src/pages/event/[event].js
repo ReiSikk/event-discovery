@@ -128,7 +128,7 @@ function EventPage ({ event, relatedEvents, eventImgUrls }) {
 
 
 
-if (!event) return <div>Loading...</div>
+if (!event) return <div className="center">Loading...</div>
 
   return (
     <>

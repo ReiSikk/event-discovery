@@ -8,10 +8,6 @@
   border: 1px solid var(--primary);
   border-radius: 10px;
   padding: 24px;
-  
-  @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
-    min-width: 420px;
-  }
   }
 
   .loginForm__header {
@@ -46,9 +42,11 @@
     color: var(--primary);
     transition: background 0.3s ease-in-out;
     cursor: pointer;
+    margin-top: 24px;
+    margin-inline: auto;
 
     @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
-      max-width: 100%;
+      max-width: 27.77777vw;
     }
 
     &:hover {
@@ -61,6 +59,11 @@
   .login__text {
     color: var(--white);
     text-align: center;
+    margin-top: 24px;
+    @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+        margin-top: 1.6666vw;
+        margin-inline: auto;
+    }
   }
   .login__link {
     text-decoration: underline;

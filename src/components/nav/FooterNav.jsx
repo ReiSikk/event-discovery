@@ -6,7 +6,7 @@ function FooterNav() {
     <>
     <footer className='siteFooter'>
         <div className="siteFooter__wrap container">
-            <div className="footer__contacts">
+            <div className="siteFooter__contacts">
                 <h2>LEIA</h2>
                 <p className='contact_desc'>
                     Discover events tailored to your interests.

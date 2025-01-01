@@ -38,17 +38,19 @@ function OrganiserPage({ pageData }) {
     <header className={`${styles.hero} container`}>
         <div className={styles.heroSection__main}>
             <h1 className={styles.heroSection__title}>
-            {pageData.title ? pageData.title : 'Make your event ideas come to life.'}
+            {pageData ? pageData?.title : 'Make your event ideas come to life.'}
             </h1>
             <p className={styles.heroSection__lead}>
-            {pageData.lead ? pageData.lead : 'Leia is more than an event platform — it\'s a place where communities are formed, friends are made and experiences are lived.'}
+            {pageData ? pageData?.lead : 'Leia is more than an event platform — it\'s a place where communities are formed, friends are made and experiences are lived.'}
             </p>
             <Link href="/event/create" className="btn btn__primary btn__secondary">
                 Create an event
             </Link>
         </div>
         <div className={styles.heroSection__side}>
+          {pageData?.hero_image &&
             <Image src={`http://localhost:1337${pageData?.hero_image.formats.large.url}`} alt={pageData?.title} className={styles.heroSection__image} width={1200} height={800}/>
+          }
         </div>
     </header>
     <main>
