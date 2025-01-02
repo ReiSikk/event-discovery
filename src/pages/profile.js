@@ -10,6 +10,7 @@ import EventCard from '@/components/EventCard';
 import DialogModal from '@/components/modals/DialogModal';
 import ToastNotification from '@/components/ToastNotification';
 import { fetchEventImages } from '@/utils/fetchEventImages';
+import Head from 'next/head';
 
 
 function ProfilePage() {
@@ -152,6 +153,12 @@ function ProfilePage() {
 
   return (
     <>
+     <Head>
+        <title>Leia App - Find social activities & Create your own</title>
+        <meta name="description" content="Welcome to Events Discovery" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+     </Head>
     {session?.user ? (
     <>
         <div className={`${styles.profileHeader} container`}>

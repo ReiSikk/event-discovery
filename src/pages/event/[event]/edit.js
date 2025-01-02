@@ -3,6 +3,7 @@ import EditEventForm from '@/components/forms/EditEventForm'
 import { useAuth } from '@/pages/api/auth/authprovider'
 import { useRouter } from 'next/router'
 import { createClient } from '@/utils/supabase/component'
+import Head from 'next/head'
 
 
 export async function getServerSideProps({ params }) {
@@ -35,12 +36,20 @@ function EditEventPage({ event }) {
 
 
   return (
-    <div>
-        <header className='editEvent__header container'>
-            <h1>Make changes to your event</h1>
-        </header>
-        <EditEventForm  eventToEdit={event} session={session} />
-    </div>
+    <>
+      <Head>
+        <title>Leia App - Find social activities & Create your own</title>
+        <meta name="description" content="Welcome to Events Discovery" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <div>
+          <header className='editEvent__header container'>
+              <h1>Make changes to your event</h1>
+          </header>
+          <EditEventForm  eventToEdit={event} session={session} />
+      </div>
+    </>
   )
 }
 

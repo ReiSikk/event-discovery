@@ -10,6 +10,8 @@ import Link from 'next/link'
 import { useCategories } from '@/pages/api/context/categoriesProvider';
 import { useEventLike } from '@/utils/eventLikeService';
 import { useAuth } from '../api/auth/authprovider'
+import Head from 'next/head'
+
 
 export async function getServerSideProps({ params }) {
   const supabase = createClient();
@@ -132,6 +134,12 @@ if (!event) return <div className="center">Loading...</div>
 
   return (
     <>
+     <Head>
+        <title>Leia App - Find social activities & Create your own</title>
+        <meta name="description" content="Welcome to Events Discovery" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
         <header className={styles.eventHeader}>
           <div className={`${styles.eventHeader__wrap} container`}>
             <div className={styles.eventHeader__media}>

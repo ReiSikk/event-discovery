@@ -7,6 +7,7 @@ import { useRouter } from 'next/router'
 import classNames from 'classnames'
 import Link from 'next/link'
 import { useAuth } from '@/pages/api/auth/authprovider'
+import Head from 'next/head'
 
 export async function getServerSideProps() {
   const supabase = createClient()
@@ -72,6 +73,12 @@ export default function CreateEventPage({ events: initialEvents }) {
 
   return (
     <>
+     <Head>
+        <title>Leia App - Find social activities & Create your own</title>
+        <meta name="description" content="Welcome to Events Discovery" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+     </Head>
       {isLoggedIn ? (
         <main className={`${styles.main} container`}>
           <section className={styles.formSection}>

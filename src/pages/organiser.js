@@ -5,6 +5,7 @@ import * as Accordion from "@radix-ui/react-accordion";
 import classNames from 'classnames';
 import { ChevronDownIcon } from "@radix-ui/react-icons";
 import Image from 'next/image';
+import Head from 'next/head';
 
 export async function getServerSideProps() {
     const url = process.env.NEXT_PUBLIC_CMS_URL + 'for-organiser?populate=*'
@@ -35,6 +36,12 @@ export async function getServerSideProps() {
 function OrganiserPage({ pageData }) {
   return (
     <>
+     <Head>
+        <title>Leia App - Find social activities & Create your own</title>
+        <meta name="description" content="Welcome to Events Discovery" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
     <header className={`${styles.hero} container`}>
         <div className={styles.heroSection__main}>
             <h1 className={styles.heroSection__title}>

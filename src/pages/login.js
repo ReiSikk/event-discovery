@@ -6,6 +6,7 @@ import * as Tabs from "@radix-ui/react-tabs";
 import SignUpForm from '@/components/forms/SignupForm';
 import { useAuth } from '@/pages/api/auth/authprovider'
 import LoginWithUsername from '@/components/forms/LoginWithUsername';
+import Head from 'next/head'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -20,8 +21,6 @@ export default function LoginPage() {
     setLoginOption(option)
   }
 
-
-  //TODO: Check for user session
   // if user is logged in redirect to home page
   useEffect(() => {
     if (isLoggedIn) {
@@ -30,6 +29,13 @@ export default function LoginPage() {
   }, [router, isLoggedIn])
 
   return (
+    <>
+     <Head>
+        <title>Leia App - Find social activities & Create your own</title>
+        <meta name="description" content="Welcome to Events Discovery" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
     <section className='loginForm__section container'>
        <Tabs.Root className="tabs__root" defaultValue="tab1" value={activeTab}
       onValueChange={setActiveTab}>
@@ -51,5 +57,6 @@ export default function LoginPage() {
         </Tabs.Content>
       </Tabs.Root>
     </section>
+    </>
   )
 }

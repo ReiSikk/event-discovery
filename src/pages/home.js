@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Head from "next/head";
 import styles from "@/styles/HomePage.module.css";
 import FilterCard from '@/components/filters/FilterCard';
 import classNames from 'classnames';
@@ -143,6 +144,12 @@ const HomePage = ({ pageData, events, location }) => {
 
   return (
     <>
+      <Head>
+        <title>Leia App - Find social activities & Create your own</title>
+        <meta name="description" content="Welcome to Events Discovery" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
     <header className={`${styles.heroSection} container block`}>
       <h1 className={styles.header__title}>
         {pageData ? pageData?.title : 'Let\'s  make it personal.'}
