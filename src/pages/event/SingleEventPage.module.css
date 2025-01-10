@@ -22,7 +22,7 @@
   padding-top: 16px;
 
   @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
-    padding-block: 6.9444vw 2.222vw;
+    padding-block: 4.4444vw 2.222vw;
     &:before {
       content: "";
       display: block;
@@ -54,7 +54,7 @@
   border-radius: var(--bradius);
   height: 53.662vw;
   @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
-    height: 37.5vh;
+    height: 48.6111vh;
   }
 }
 .eventHeader__meta {
@@ -380,10 +380,11 @@
   padding-top: 50px;
 
   @media only screen and (max-width: 767px) {
-    padding-inline: 4.1025vw;
+    padding-inline: 4.1025vw 0;
   }
 
   @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
     padding-inline: 1.6666vw;
   }
 }
+

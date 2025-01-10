@@ -54,7 +54,7 @@ function EventCard({ event, isProfilePage, onDelete, onEdit }) {
       {
         !isProfilePage ?
       <Link href={`/event/${event.id}`} className={styles.eventCard__link}>
-        <div className={styles.eventsCard_media}>
+        <div className={styles.eventsCard__media}>
         {event.images.length > 0 ?
               <Image
                 key={event.id}
@@ -95,7 +95,7 @@ function EventCard({ event, isProfilePage, onDelete, onEdit }) {
       : 
       <>
       
-      <div className={styles.eventsCard_media}>
+      <div className={styles.eventsCard__media}>
       {event.images.length > 0 ?
             <Image
               key={event.id}
