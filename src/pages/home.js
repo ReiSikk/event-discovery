@@ -7,11 +7,14 @@ import Link from 'next/link';
 import { createClient } from '@/utils/supabase/component'
 import { FILTER_TYPES } from '@/utils/constants/constants';
 import { useFilters } from '@/components/filters/useFilters';
+import ModalMap from '@/components/maps/Map';
 import EventCard from '@/components/EventCard';
 import SearchBar from '@/components/SearchBar';
 import { X } from 'lucide-react';
 import CustomDateRangePicker from '@/components/filters/DateRangePicker';
 import { useCategories } from '@/pages/api/context/categoriesProvider';
+
+
 
 export async function getServerSideProps() {
   const supabase = createClient();
@@ -83,6 +86,7 @@ export async function getServerSideProps() {
 const HomePage = ({ pageData, events, location }) => {
   const { filterState, updateFilter, getFilteredEvents } = useFilters(events);
   const { categories } = useCategories();
+  const [modalOpen, setModalOpen] = useState(false);
   
   const handleCategorySelect = (categoryId) => {
     const current = filterState.categories;
@@ -141,6 +145,11 @@ const HomePage = ({ pageData, events, location }) => {
     }
   ];
 
+  const toggleModal = () => {
+    setModalOpen(!modalOpen);
+    console.log('modalOpen called');
+  };
+
 
   return (
     <>
@@ -177,7 +186,8 @@ const HomePage = ({ pageData, events, location }) => {
         <h2 className={`${styles.sidebar__title} h4`}>
           Browsing events in {location ? `${location.city}, ${location.country.code}` : 'your area'}
         </h2>
-            <button className={`${styles.mapBtn} btn__primary`}>View on the map</button>
+            <button className={`${styles.mapBtn} btn__primary`} onClick={() => toggleModal()}>View on the map</button>
+            {modalOpen && <ModalMap modalOpen={modalOpen} toggleModal={toggleModal} />}
         </div>
       <section className={styles.content}>
         <div className={styles.content_sidebar}>

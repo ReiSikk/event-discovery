@@ -11,7 +11,8 @@ import { useCategories } from '@/pages/api/context/categoriesProvider';
 import { useEventLike } from '@/utils/eventLikeService';
 import { useAuth } from '../api/auth/authprovider'
 import Head from 'next/head'
-import Map from '@/components/Map'
+// import Map from '@/components/Map'
+import {APIProvider, Map, MapCameraChangedEvent} from '@vis.gl/react-google-maps';
 
 
 export async function getServerSideProps({ params }) {
@@ -272,7 +273,15 @@ if (!event) return <div className="center">Loading...</div>
                 <p className={`${styles.title} h4`}>Event Location</p>
                 <div className={styles.contentRightMap}>
                 {/* <Image src={"https://placehold.co/350x500/EEE/31343C"} width={350} height={500} alt={event.title} /> */}
-                <Map />
+                {/* <Map /> */}
+                <Map
+                      defaultZoom={13}
+                      defaultCenter={ { lat: -33.860664, lng: 151.208138 } }
+                      style={{ height: '400px' }}
+                      onCameraChanged={ (ev) =>
+                        console.log('camera changed:', ev.detail.center, 'zoom:', ev.detail.zoom)
+                      }>
+                </Map>
                 </div>
 
                 </div>
