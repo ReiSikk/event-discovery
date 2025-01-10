@@ -11,6 +11,7 @@ import { useCategories } from '@/pages/api/context/categoriesProvider';
 import { useEventLike } from '@/utils/eventLikeService';
 import { useAuth } from '../api/auth/authprovider'
 import Head from 'next/head'
+import Map from '@/components/Map'
 
 
 export async function getServerSideProps({ params }) {
@@ -269,8 +270,9 @@ if (!event) return <div className="center">Loading...</div>
 
                 <div className={classNames(styles.content__item, styles.contentRight__loc)}>
                 <p className={`${styles.title} h4`}>Event Location</p>
-                <div className={styles.contentRight__map}>
-                <Image src={"https://placehold.co/350x500/EEE/31343C"} width={350} height={500} alt={event.title} />
+                <div className={styles.contentRightMap}>
+                {/* <Image src={"https://placehold.co/350x500/EEE/31343C"} width={350} height={500} alt={event.title} /> */}
+                <Map />
                 </div>
 
                 </div>
