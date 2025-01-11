@@ -1,6 +1,5 @@
-import React, { useEffect, useRef } from 'react'
-import { Loader } from '@googlemaps/js-api-loader'
-import { APIProvider, Map, AdvancedMarker, MapCameraChangedEvent, Pin } from '@vis.gl/react-google-maps';
+import React from 'react'
+import { Map } from "@vis.gl/react-google-maps";
 import PoiMarkers from './PoiMarkers';
 
 function ModalMap({ modalOpen, toggleModal }) {
@@ -14,12 +13,10 @@ function ModalMap({ modalOpen, toggleModal }) {
       ];
 
   return (
-
-    <div 
-    className={`modalMap ${modalOpen ? 'open' : 'close'}`}
-    >
+    <div className={`modalMap ${modalOpen ? 'open' : 'close'}`}>
         <Map
             defaultZoom={13}
+            disableDefaultUI={true}
             defaultCenter={ { 
                 lat: 59.4370,
                 lng: 24.7476  

@@ -464,6 +464,8 @@ z-index: 999;
   gap: 16px;
 }
 
+/** Buttons ***/
+
 .btn__primary.btn__cancel {
   background: var(--red);
   border: none;

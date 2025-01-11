@@ -11,6 +11,11 @@ import { ArrowLeft, ArrowRight, Image, Link, Upload } from 'lucide-react';
 import { useRouter } from 'next/router'
 import ToastNotification from '@/components/ToastNotification';
 import { set } from 'date-fns';
+import AutoCompleteMap from '../maps/AutoCompleteMap';
+import {
+  ControlPosition,
+  MapControl,
+} from "@vis.gl/react-google-maps";
 
 
 function EventForm({ session, formStep, handlePrevious, handleNext }) {
@@ -24,6 +29,10 @@ function EventForm({ session, formStep, handlePrevious, handleNext }) {
   const [categories, setCategories] = useState([]);
   const [eventCreated, setEventCreated] = useState(false);
   const [error, setError] = useState(null);
+
+  // Google Maps selected place state
+  const [selectedPlace, setSelectedPlace] = useState(null);
+  
   // State for form fields
   const [ticketType, setTicketType] = useState('');
   const [file, setFile] = useState(null);
@@ -102,6 +111,7 @@ const handleNextStep = () => {
     }
     return errors
   }, {})
+
 
     // Separate check for file input (event_image)
     if (formStep === 3) {
@@ -256,7 +266,7 @@ const handleFileChange = (e) => {
               }
             </Form.Field>
 
-            <Form.Field name="location" className={styles.formField} >
+            {/* <Form.Field name="location" className={styles.formField} >
               <Form.Label className={styles.formField__label}>Location</Form.Label>
               <Form.Control 
               type="text" 
@@ -270,7 +280,11 @@ const handleFileChange = (e) => {
                 {formErrors.location}
               </p>
               }
-            </Form.Field>
+            </Form.Field> */}
+            <Form.Field name="location" className={styles.formField} >
+              <Form.Label className={styles.formField__label}>Location</Form.Label>
+              <AutoCompleteMap handleInputChange={handleInputChange} formErrors={formErrors}/>
+          </Form.Field>
         </div>
     
         <div className={classNames(styles.formFields, { 'visible': formStep === 1 })} id='dateTime'>

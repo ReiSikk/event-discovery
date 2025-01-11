@@ -184,6 +184,30 @@
   margin-bottom: 8px;
 }
 
+/* ** Google Maps Autocomplete field  ***/
+.autoCompleteMap {
+  height: 400px;
+}
+
+.autoCompleteMap__control {
+  min-width: 150px;
+
+  @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+    width: 33vw;
+  }
+
+}
+.autoCompleteMap__input {
+  width: 100%;
+  max-width: none;
+}
+.autoCompleteMap__infoWindow {
+  color: var(--bg-dark);
+  font-family: var(--font-body);
+}
+
+
+/* ** Feedback Toast ***/
 .feedbackToast {
   position: fixed;
   bottom: 0;
