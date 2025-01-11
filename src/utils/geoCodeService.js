@@ -5,11 +5,22 @@ async function geocodeLatLng(lat, lng) {
     const data = await response.json();
     console.log('geocodeLatLng called and responded with:', data);
     if (data.status === 'OK' && data.results.length > 0) {
-      return data.results[0].formatted_address;
+        return data.results[0].formatted_address;
     } else {
         return 'Address not found';
     }
     console.log('geocodeLatLng called and responded with:', data);
   };
+
+async function geocodeAddress(address) {
+    const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${API_KEY}`);
+    const data = await response.json();
+    console.log('geocodeAddress called and responded with:', data);
+    if (data.status === 'OK' && data.results.length > 0) {
+      return data.results[0].geometry.location;
+    } else {
+        return null;
+    }
+  }
   
-export default geocodeLatLng;
+export  { geocodeLatLng, geocodeAddress };
