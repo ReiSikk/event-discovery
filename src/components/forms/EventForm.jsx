@@ -32,6 +32,9 @@ function EventForm({ session, formStep, handlePrevious, handleNext }) {
 
   // Google Maps selected place state
   const [selectedPlace, setSelectedPlace] = useState(null);
+  const [markerPosition, setMarkerPosition] = useState(null);
+  const [address, setAddress] = useState('');
+  const [infoWindowOpen, setInfoWindowOpen] = useState(false);
   
   // State for form fields
   const [ticketType, setTicketType] = useState('');
@@ -49,6 +52,7 @@ function EventForm({ session, formStep, handlePrevious, handleNext }) {
     ticket_type: '',
     ticket_link: '',
   })
+  console.log(formData)
   const [formErrors, setFormErrors] = useState({
     title: '',
     description: '',
@@ -203,7 +207,7 @@ const handleFileChange = (e) => {
     }
     // Add the file to formData if it exists
     if (file) {
-        formData.append('event_image', file)
+      formData.append('event_image', file)
     }
 
     const result = await createEvent(session, formData)
@@ -225,6 +229,15 @@ const handleFileChange = (e) => {
     } else {
       setError(result.error.message)
     }
+}
+
+
+// Callback to handle location selection from Google Maps in child AutoCompleteMap component
+const handleLocationChange = (location) => {
+  setFormData(prev => ({
+    ...prev,
+    location
+  }));
 }
 
 
@@ -283,7 +296,19 @@ const handleFileChange = (e) => {
             </Form.Field> */}
             <Form.Field name="location" className={styles.formField} >
               <Form.Label className={styles.formField__label}>Location</Form.Label>
-              <AutoCompleteMap handleInputChange={handleInputChange} formErrors={formErrors}/>
+              <AutoCompleteMap 
+              handleInputChange={handleInputChange} 
+              formErrors={formErrors} 
+              onLocationChange={handleLocationChange} 
+              setSelectedPlace={setSelectedPlace} 
+              selectedPlace={selectedPlace} 
+              address={address}
+              setAddress={setAddress}
+              infoWindowOpen={infoWindowOpen}
+              setInfoWindowOpen={setInfoWindowOpen}
+              markerPosition={markerPosition}
+              setMarkerPosition={setMarkerPosition}
+              />
           </Form.Field>
         </div>
     

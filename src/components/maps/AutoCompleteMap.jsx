@@ -21,7 +21,7 @@ import { geocodeAddress }  from "../../utils/geoCodeService";
 
 const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
-const PlaceAutocomplete = ({ onPlaceSelect, handleInputChange, formErrors }) => {
+const PlaceAutocomplete = ({ onPlaceSelect, handleInputChange, formErrors, setAddress, setInfoWindowOpen, onLocationChange, setMarkerPosition }) => {
     const [placeAutocomplete, setPlaceAutocomplete] = useState(null);
     const inputRef = useRef(null);
     const places = useMapsLibrary("places");
@@ -44,13 +44,26 @@ const PlaceAutocomplete = ({ onPlaceSelect, handleInputChange, formErrors }) => 
   
       setPlaceAutocomplete(new places.Autocomplete(inputRef.current, options));
     }, [places]);
+    
+
     useEffect(() => {
       if (!placeAutocomplete) return;
   
       placeAutocomplete.addListener("place_changed", () => {
-        onPlaceSelect(placeAutocomplete.getPlace());
+          onPlaceSelect(placeAutocomplete.getPlace());
+          const place = placeAutocomplete.getPlace();
+
+          if (place.geometry) {
+            setAddress(place.formatted_address);
+            setInfoWindowOpen(true);
+            onLocationChange(`POINT(${place.geometry.location.lng()} ${place.geometry.location.lat()})`);
+            setMarkerPosition(place.geometry.location);
+          } else {
+            alert("No details available for input: '" + place.name + "'");
+          }
+
       });
-    }, [onPlaceSelect, placeAutocomplete]);
+    }, [onPlaceSelect, placeAutocomplete, setAddress, setInfoWindowOpen]);
 
     return (
             <div className="autocomplete-container">
@@ -89,23 +102,20 @@ return null;
 
 
 
-function AutoCompleteMap({ handleInputChange, formErrors}) {
+function AutoCompleteMap({ handleInputChange, formErrors, onLocationChange, setSelectedPlace, selectedPlace, address, setAddress, infoWindowOpen, setInfoWindowOpen, markerPosition, setMarkerPosition }) {
 
-    const [selectedPlace, setSelectedPlace] = useState(null);
     const [markerRef, marker] = useAdvancedMarkerRef();
-    const [markerPosition, setMarkerPosition] = useState(null);
-    const [address, setAddress] = useState('');
-    const [infoWindowOpen, setInfoWindowOpen] = useState(false);
 
     const handleMapClick = async (ev) => {
         const latLng = ev.detail.latLng;
-        setMarkerPosition(ev.detail.latLng);
+        setMarkerPosition(latLng);
         setInfoWindowOpen(true);
 
         // Get the address for the clicked location
         try {
-            const address = await geocodeLatLng(latLng.lat, latLng.lng);
+            const { address, location } = await geocodeLatLng(latLng.lat, latLng.lng);
             setAddress(address);
+            onLocationChange(`POINT(${location.lng} ${location.lat})`);
 
           } catch (error) {
             console.error('Error geocoding lat/lng:', error);
@@ -114,19 +124,19 @@ function AutoCompleteMap({ handleInputChange, formErrors}) {
     };
 
     // Set the autocomplete place and marker position to state
-     // Set the autocomplete place and marker position to state
-     const handleSelectPlace = useCallback(async (place) => {
-        setSelectedPlace(place);
-        setMarkerPosition(place.geometry.location);
-        setAddress(place.formatted_address);
-        setInfoWindowOpen(true);
-    
-        try {
-          const placeDetails = await geocodeAddress(place.formatted_address);
-        } catch (error) {
-          console.error('Error getting place details:', error);
-        }
-      }, []);
+    //  const handleSelectPlace = async (place) => {
+    //     setSelectedPlace(place);
+    //     setMarkerPosition(place.geometry.location);
+    //     setInfoWindowOpen(true);
+        
+    //     try {
+    //         const location = await geocodeAddress(place.formatted_address);
+    //         onLocationChange(`POINT(${location.lng} ${location.lat})`);
+    //       } catch (error) {
+    //         console.error('Error getting place details:', error);
+    //       }
+
+    // };
     
      // Open marker when click on
       const handleMarkerClick = () => {
@@ -181,7 +191,7 @@ function AutoCompleteMap({ handleInputChange, formErrors}) {
         </Map>
         <MapControl position={ControlPosition.TOP_LEFT} className={styles.autoCompleteMap__wrap}>
           <div className={`autocomplete-control ${styles.autoCompleteMap__control}`}>
-            <PlaceAutocomplete onPlaceSelect={handleSelectPlace} handleInputChange={handleInputChange} formErrors={formErrors} />
+            <PlaceAutocomplete onPlaceSelect={setSelectedPlace} handleInputChange={handleInputChange} formErrors={formErrors} setAddress={setAddress} setInfoWindowOpen={setInfoWindowOpen} onLocationChange={onLocationChange} setMarkerPosition={setMarkerPosition}/>
           </div>
         </MapControl>
         <MapHandler place={selectedPlace} marker={marker} />

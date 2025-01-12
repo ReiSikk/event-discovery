@@ -18,6 +18,7 @@ export async function createEvent(session, formData) {
             category_id: formData.get('category'),
             ticket_link: formData.get('ticket_link'),
         }
+        console.log("eventData location before submit", eventData)
 
 
         const { data: eventInsertData, error: insertError } = await supabase
