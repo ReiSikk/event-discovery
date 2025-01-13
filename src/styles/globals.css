@@ -534,6 +534,7 @@ z-index: 999;
   padding: 25px;
   animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
   color: var(--white);
+  z-index: 999;
 }
 .AlertDialogContent:focus {
   outline: none;

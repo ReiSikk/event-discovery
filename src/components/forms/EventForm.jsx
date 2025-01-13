@@ -211,6 +211,7 @@ const handleFileChange = (e) => {
       formData.append('event_image', file)
     }
     if (locationPoint) {
+      console.log('locationPoint exists', locationPoint)
       formData.append('location', locationPoint)
     }
 

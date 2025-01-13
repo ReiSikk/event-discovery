@@ -106,39 +106,6 @@ function AutoCompleteMap({ handleInputChange, formErrors, onLocationChange, setS
 
     const [markerRef, marker] = useAdvancedMarkerRef();
 
-    const handleMapClick = async (ev) => {
-        const latLng = ev.detail.latLng;
-        setMarkerPosition(latLng);
-        setInfoWindowOpen(true);
-
-        // Get the address for the clicked location
-        try {
-            const { address, location } = await geocodeLatLng(latLng.lat, latLng.lng);
-            setAddress(address);
-            onLocationChange(`POINT(${location.lng} ${location.lat})`);
-            setLocationPoint(`POINT(${location.lng} ${location.lat})`);
-
-          } catch (error) {
-            console.error('Error geocoding lat/lng:', error);
-          }
-
-    };
-
-    // Set the autocomplete place and marker position to state
-    //  const handleSelectPlace = async (place) => {
-    //     setSelectedPlace(place);
-    //     setMarkerPosition(place.geometry.location);
-    //     setInfoWindowOpen(true);
-        
-    //     try {
-    //         const location = await geocodeAddress(place.formatted_address);
-    //         onLocationChange(`POINT(${location.lng} ${location.lat})`);
-    //       } catch (error) {
-    //         console.error('Error getting place details:', error);
-    //       }
-
-    // };
-    
      // Open marker when click on
       const handleMarkerClick = () => {
         setInfoWindowOpen(!infoWindowOpen);
@@ -164,7 +131,6 @@ function AutoCompleteMap({ handleInputChange, formErrors, onLocationChange, setS
           gestureHandling={"greedy"}
           disableDefaultUI={true}
           className={styles.autoCompleteMap}
-          onClick={handleMapClick}
         >
           {markerPosition && (
             <>
@@ -195,7 +161,7 @@ function AutoCompleteMap({ handleInputChange, formErrors, onLocationChange, setS
             <PlaceAutocomplete onPlaceSelect={setSelectedPlace} handleInputChange={handleInputChange} formErrors={formErrors} setAddress={setAddress} setInfoWindowOpen={setInfoWindowOpen} onLocationChange={onLocationChange} setMarkerPosition={setMarkerPosition}/>
           </div>
         </MapControl>
-        <MapHandler place={selectedPlace} marker={marker} />
+        <MapHandler place={selectedPlace}  marker={marker}/>
       </APIProvider>
     );
 }
