@@ -75,11 +75,6 @@ const PlaceAutocomplete = ({ onPlaceSelect, handleInputChange, formErrors, setAd
                 onChange={handleInputChange}
                 ref={inputRef} 
                 />
-            {/* {
-            formErrors.location && <p match="valueMissing" className="input__message">
-            {formErrors.location}
-            </p>
-            } */}
             </div>
     );
   };
@@ -140,7 +135,7 @@ function AutoCompleteMap({ handleInputChange, formErrors, onLocationChange, setS
                 {infoWindowOpen &&
                     <InfoWindow 
                     position={markerPosition} 
-                    className={styles.autoCompleteMap__infoWindow}
+                    className="autoCompleteMap__infoWindow"
                     maxWidth={300}
                     onClose={handleMarkerClose}
                     ariaLabel={`Event location description pop-up, the event address is: ${address}`}

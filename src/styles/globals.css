@@ -464,6 +464,11 @@ z-index: 999;
   gap: 16px;
 }
 
+.autoCompleteMap__infoWindow {
+  color: var(--bg-dark);
+  font-family: var(--font-body);
+}
+
 /** Buttons ***/
 
 .btn__primary.btn__cancel {

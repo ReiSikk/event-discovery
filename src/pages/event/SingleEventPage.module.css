@@ -191,6 +191,10 @@
     gap: 48px;
     border-left: 1px solid var(--primary);
   }
+
+  & > div {
+    width: 100%;
+  }
 }
 .contentRight__cost {
   font-family: var(--font-headings);
@@ -322,13 +326,15 @@
   width: 100%;
   background: none;
   padding: 0;
-  @media only screen and (min-width: 1025px) {
-    width: 24.3055vw;
-  }
 }
 .contentRight__loc .title {
 }
 .contentRightMap {
+  & > div {
+    & > div {
+      border-radius: var(--bradius);
+    }
+  }
 }
 .contentRightMap img {
   object-fit: cover;

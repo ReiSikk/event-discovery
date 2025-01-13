@@ -34,8 +34,8 @@ function EventForm({ session, formStep, handlePrevious, handleNext }) {
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [markerPosition, setMarkerPosition] = useState(null);
   const [address, setAddress] = useState('');
-  const [locationPoint, setLocationPoint] = useState('');
   const [infoWindowOpen, setInfoWindowOpen] = useState(false);
+  const [locationPoint, setLocationPoint] = useState('');
   
   // State for form fields
   const [ticketType, setTicketType] = useState('');
