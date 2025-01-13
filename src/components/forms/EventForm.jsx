@@ -34,6 +34,7 @@ function EventForm({ session, formStep, handlePrevious, handleNext }) {
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [markerPosition, setMarkerPosition] = useState(null);
   const [address, setAddress] = useState('');
+  const [locationPoint, setLocationPoint] = useState('');
   const [infoWindowOpen, setInfoWindowOpen] = useState(false);
   
   // State for form fields
@@ -52,7 +53,6 @@ function EventForm({ session, formStep, handlePrevious, handleNext }) {
     ticket_type: '',
     ticket_link: '',
   })
-  console.log(formData)
   const [formErrors, setFormErrors] = useState({
     title: '',
     description: '',
@@ -64,7 +64,6 @@ function EventForm({ session, formStep, handlePrevious, handleNext }) {
     ticket_type: '',
     ticket_link: ''
   });
-  
 
 // Validate form fields
 const validateField = (name, value) => {
@@ -200,17 +199,23 @@ const handleFileChange = (e) => {
 
 
   const handleSubmit = async (formData) => {
+    console.log("handleSubmit called");
     
     const formDataToSubmit = new FormData()
     for (const key in formData) {
       formDataToSubmit.append(key, formData[key])
     }
+
     // Add the file to formData if it exists
     if (file) {
       formData.append('event_image', file)
     }
+    if (locationPoint) {
+      formData.append('location', locationPoint)
+    }
 
     const result = await createEvent(session, formData)
+    console.log('result', result)
     if (result.success) {
       setEventCreated(true)
       toastRef.current.triggerToast()
@@ -238,6 +243,7 @@ const handleLocationChange = (location) => {
     ...prev,
     location
   }));
+  setLocationPoint(location)
 }
 
 
@@ -279,22 +285,7 @@ const handleLocationChange = (location) => {
               }
             </Form.Field>
 
-            {/* <Form.Field name="location" className={styles.formField} >
-              <Form.Label className={styles.formField__label}>Location</Form.Label>
-              <Form.Control 
-              type="text" 
-              placeholder='Where your event is happening'  
-              className={styles.formField__input} 
-              required
-              onChange={handleInputChange}
-              />
-              {
-              formErrors.location && <p match="valueMissing" className="input__message">
-                {formErrors.location}
-              </p>
-              }
-            </Form.Field> */}
-            <Form.Field name="location" className={styles.formField} >
+            <Form.Field name="location" className={styles.formField}>
               <Form.Label className={styles.formField__label}>Location</Form.Label>
               <AutoCompleteMap 
               handleInputChange={handleInputChange} 
@@ -308,6 +299,7 @@ const handleLocationChange = (location) => {
               setInfoWindowOpen={setInfoWindowOpen}
               markerPosition={markerPosition}
               setMarkerPosition={setMarkerPosition}
+              setLocationPoint={setLocationPoint}
               />
           </Form.Field>
         </div>

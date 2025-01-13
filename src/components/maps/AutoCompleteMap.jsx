@@ -102,7 +102,7 @@ return null;
 
 
 
-function AutoCompleteMap({ handleInputChange, formErrors, onLocationChange, setSelectedPlace, selectedPlace, address, setAddress, infoWindowOpen, setInfoWindowOpen, markerPosition, setMarkerPosition }) {
+function AutoCompleteMap({ handleInputChange, formErrors, onLocationChange, setSelectedPlace, selectedPlace, address, setAddress, infoWindowOpen, setInfoWindowOpen, markerPosition, setMarkerPosition, setLocationPoint }) {
 
     const [markerRef, marker] = useAdvancedMarkerRef();
 
@@ -116,6 +116,7 @@ function AutoCompleteMap({ handleInputChange, formErrors, onLocationChange, setS
             const { address, location } = await geocodeLatLng(latLng.lat, latLng.lng);
             setAddress(address);
             onLocationChange(`POINT(${location.lng} ${location.lat})`);
+            setLocationPoint(`POINT(${location.lng} ${location.lat})`);
 
           } catch (error) {
             console.error('Error geocoding lat/lng:', error);
