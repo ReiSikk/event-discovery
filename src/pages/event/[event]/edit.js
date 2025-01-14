@@ -43,12 +43,12 @@ function EditEventPage({ event }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div>
+      <section className='container block'>
           <header className='editEvent__header container'>
               <h1>Make changes to your event</h1>
           </header>
           <EditEventForm  eventToEdit={event} session={session} />
-      </div>
+      </section>
     </>
   )
 }

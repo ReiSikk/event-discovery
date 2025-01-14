@@ -114,6 +114,8 @@
 }
 .form__submit {
   max-width: 25.486vw;
+  width: 100%;
+  margin-left: auto;
 }
 
 

@@ -1,3 +1,5 @@
+import { createClient } from '@/utils/supabase/component';
+
 const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
 async function geocodeLatLng(lat, lng) {
@@ -12,7 +14,6 @@ async function geocodeLatLng(lat, lng) {
     } else {
         return { address: 'Address not found', location: null}
     }
-    console.log('geocodeLatLng called and responded with:', data);
   };
 
   async function geocodeAddress(address) {
@@ -29,5 +30,23 @@ async function geocodeLatLng(lat, lng) {
       return null;
     }
   }
+
+async function fetchEventLocation(eventId) {
+    const supabase = createClient();
   
-export  { geocodeLatLng, geocodeAddress };
+    try {
+      const { data, error } = await supabase.rpc("fetch_event_location", { event_id: eventId });
+  
+      if (error) {
+        console.error("Error fetching event location:", error);
+        return null;
+      }
+  
+      return data;
+    } catch (error) {
+      console.error("Error fetching event location:", error);
+      return null;
+    }
+  }
+  
+export  { geocodeLatLng, geocodeAddress, fetchEventLocation };

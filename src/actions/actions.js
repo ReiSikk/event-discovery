@@ -1,7 +1,6 @@
 "use server"
 
 import { createClient } from '@/utils/supabase/component'
-import { revalidatePath } from 'next/cache'
 
 export async function createEvent(session, formData) {
     const supabase = createClient()
@@ -82,7 +81,7 @@ export async function createEvent(session, formData) {
     }
 }
 
-export async function updateEvent(session, formData, eventId) {
+export async function updateEvent( session, formData, eventId) {
     const supabase = createClient()
     const userId = session.user.id
 

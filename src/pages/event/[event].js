@@ -43,7 +43,6 @@ export async function getServerSideProps({ params }) {
   }
 
   // Fetch event location by geocoding the coordinates
-
   let { data, locationError } = await supabase.rpc("fetch_event_location", { event_id: eventId });
 
   if (locationError) {
@@ -165,7 +164,6 @@ function EventPage({ event, relatedEvents, eventImgUrls }) {
   useEffect(() => {
     const getAddressFromCoords = async () => {
       if (event && event.locationCoords) {
-        console.log("Event:", event);
         const geocodeResult = await geocodeLatLng(event.locationCoords.lat, event.locationCoords.lng);
         console.log("Geocode Result:", geocodeResult);
         setAddress(geocodeResult.address);

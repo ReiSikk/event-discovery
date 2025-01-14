@@ -10,12 +10,7 @@ import classNames from 'classnames';
 import { ArrowLeft, ArrowRight, Image, Link, Upload } from 'lucide-react';
 import { useRouter } from 'next/router'
 import ToastNotification from '@/components/ToastNotification';
-import { set } from 'date-fns';
 import AutoCompleteMap from '../maps/AutoCompleteMap';
-import {
-  ControlPosition,
-  MapControl,
-} from "@vis.gl/react-google-maps";
 
 
 function EventForm({ session, formStep, handlePrevious, handleNext }) {
@@ -81,7 +76,7 @@ const validateField = (name, value) => {
     case 'category':
       return !value ? 'Please select a category for your event.' : '';
     case 'ticket_type':
-      return !value ? 'Please select a ticket type.' : '';
+      return !value || value.trim() === '' ? 'Please select a ticket type.' : '';
     case 'event_image':
       return !value ? 'Please upload an image for your event.' : '';
     case 'ticket_link':
@@ -199,7 +194,6 @@ const handleFileChange = (e) => {
 
 
   const handleSubmit = async (formData) => {
-    console.log("handleSubmit called");
     
     const formDataToSubmit = new FormData()
     for (const key in formData) {
@@ -211,12 +205,10 @@ const handleFileChange = (e) => {
       formData.append('event_image', file)
     }
     if (locationPoint) {
-      console.log('locationPoint exists', locationPoint)
       formData.append('location', locationPoint)
     }
 
     const result = await createEvent(session, formData)
-    console.log('result', result)
     if (result.success) {
       setEventCreated(true)
       toastRef.current.triggerToast()
@@ -238,7 +230,7 @@ const handleFileChange = (e) => {
 }
 
 
-// Callback to handle location selection from Google Maps in child AutoCompleteMap component
+// Handle location selection from Google Maps in child AutoCompleteMap component
 const handleLocationChange = (location) => {
   setFormData(prev => ({
     ...prev,
@@ -301,6 +293,7 @@ const handleLocationChange = (location) => {
               markerPosition={markerPosition}
               setMarkerPosition={setMarkerPosition}
               setLocationPoint={setLocationPoint}
+              required={true}
               />
           </Form.Field>
         </div>
@@ -409,6 +402,7 @@ const handleLocationChange = (location) => {
           <Form.Label className={styles.formField__label}>
             Ticket type and pricing
           </Form.Label>
+          {!ticketType && <p className="input__message">Select a ticket type for your event</p>}
           <Form.Control asChild/>
           <div className={styles.radioGroup} role="radiogroup">
             <div className={classNames(styles.radioOption, ticketType === "free" ? styles.active : '')}>
@@ -491,8 +485,9 @@ const handleLocationChange = (location) => {
                   placeholder="Enter ticket URL"
                   required
                   className={styles.formField__input}
+                  onChange={handleInputChange}
                 />
-                <Form.Message match="valueMissing">
+                <Form.Message match="valueMissing" className='input__message'>
                   Please enter a ticket link
                 </Form.Message>
               </Form.Field>

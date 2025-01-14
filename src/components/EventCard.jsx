@@ -49,7 +49,7 @@ function EventCard({ event, isProfilePage, onDelete, onEdit }) {
   return (
     <li 
     key={event.id}
-    className={styles.eventsCard}
+    className={`${styles.eventsCard} fp-col`}
     >
       {
         !isProfilePage ?

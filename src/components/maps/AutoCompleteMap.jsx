@@ -1,6 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
-import * as Form from "@radix-ui/react-form";
-import { createRoot } from "react-dom/client";
+import React, { useState, useEffect, useRef } from "react";
 import {
   APIProvider,
   ControlPosition,
@@ -15,13 +13,11 @@ import {
 } from "@vis.gl/react-google-maps";
 import styles from "../forms/EventForm.module.css";
 import classNames from "classnames";
-import { geocodeLatLng }  from "../../utils/geoCodeService";
-import { geocodeAddress }  from "../../utils/geoCodeService";
 
 
 const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
-const PlaceAutocomplete = ({ onPlaceSelect, handleInputChange, formErrors, setAddress, setInfoWindowOpen, onLocationChange, setMarkerPosition }) => {
+const PlaceAutocomplete = ({ onPlaceSelect, handleInputChange, setAddress, setInfoWindowOpen, onLocationChange, setMarkerPosition, required, formErrors }) => {
     const [placeAutocomplete, setPlaceAutocomplete] = useState(null);
     const inputRef = useRef(null);
     const places = useMapsLibrary("places");
@@ -71,10 +67,12 @@ const PlaceAutocomplete = ({ onPlaceSelect, handleInputChange, formErrors, setAd
                 type="text" 
                 placeholder='Where your event is happening'  
                 className={classNames(styles.formField__input, styles.autoCompleteMap__input)} 
-                required
+                required={required}
                 onChange={handleInputChange}
                 ref={inputRef} 
                 />
+                {formErrors.location && <p className="input__message">{formErrors.location}</p>}
+
             </div>
     );
   };
@@ -97,7 +95,7 @@ return null;
 
 
 
-function AutoCompleteMap({ handleInputChange, formErrors, onLocationChange, setSelectedPlace, selectedPlace, address, setAddress, infoWindowOpen, setInfoWindowOpen, markerPosition, setMarkerPosition, setLocationPoint }) {
+function AutoCompleteMap({ handleInputChange, formErrors, onLocationChange, setSelectedPlace, selectedPlace, address, setAddress, infoWindowOpen, setInfoWindowOpen, markerPosition, setMarkerPosition, required }) {
 
     const [markerRef, marker] = useAdvancedMarkerRef();
 
@@ -153,7 +151,7 @@ function AutoCompleteMap({ handleInputChange, formErrors, onLocationChange, setS
         </Map>
         <MapControl position={ControlPosition.TOP_LEFT} className={styles.autoCompleteMap__wrap}>
           <div className={`autocomplete-control ${styles.autoCompleteMap__control}`}>
-            <PlaceAutocomplete onPlaceSelect={setSelectedPlace} handleInputChange={handleInputChange} formErrors={formErrors} setAddress={setAddress} setInfoWindowOpen={setInfoWindowOpen} onLocationChange={onLocationChange} setMarkerPosition={setMarkerPosition}/>
+            <PlaceAutocomplete onPlaceSelect={setSelectedPlace} handleInputChange={handleInputChange} formErrors={formErrors} setAddress={setAddress} setInfoWindowOpen={setInfoWindowOpen} onLocationChange={onLocationChange} setMarkerPosition={setMarkerPosition} address={address} required={required}/>
           </div>
         </MapControl>
         <MapHandler place={selectedPlace}  marker={marker}/>
