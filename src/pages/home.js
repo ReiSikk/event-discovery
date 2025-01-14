@@ -5,7 +5,7 @@ import FilterCard from '@/components/filters/FilterCard';
 import { createClient } from '@/utils/supabase/component'
 import { FILTER_TYPES } from '@/utils/constants/constants';
 import { useFilters } from '@/components/filters/useFilters';
-import ModalMap from '@/components/maps/Map';
+import ModalMap from '@/components/maps/ModalMap';
 import EventCard from '@/components/EventCard';
 import SearchBar from '@/components/SearchBar';
 import { X } from 'lucide-react';

@@ -1,28 +1,20 @@
 import React, { useState, useCallback } from 'react'
 import { AdvancedMarker, Pin } from '@vis.gl/react-google-maps';
 
-function PoiMarkers({ pois, map }) {
+function PoiMarkers({ pois, map, handleMarkerClick }) {
     const [selectedPoi, setSelectedPoi] = useState(null)
 
-    const handleClick = useCallback((ev, poi) => {
-        console.log('marker clicked:', poi.key);
-        if(!map) return;
-        if(!ev.latLng) return;
-        console.log('marker clicked:', ev.latLng.toString());
-        map.panTo(ev.latLng);
-        setSelectedPoi(poi)
-      });
-    
 
   return (
-    <>
+    <ul>
       {pois.map((poi) => (
-        <>
+        <li
+          key={poi.key}
+        >
             <AdvancedMarker
-            key={poi.key}
             position={poi.location}
             clickable={true}
-            onClick={(ev) => handleClick(ev, poi)}
+            onClick={handleMarkerClick}
             >
             <Pin background={'#7dffaf'} glyphColor={'#000'} borderColor={'#000'} />
             </AdvancedMarker>
@@ -32,10 +24,10 @@ function PoiMarkers({ pois, map }) {
               <p>{poi.location.lat}, {poi.location.lng}</p>
             </div>
           )}
-        </>
+        </li>
       ))
       }
-    </>
+    </ul>
   )
 }
 

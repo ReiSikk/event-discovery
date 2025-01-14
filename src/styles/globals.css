@@ -398,10 +398,26 @@ h4,
 /* Google maps modal */
 .modalMap {
 z-index: 999;
+flex-direction: column;
+gap: 12px;
+padding-inline: 5vw;
+@media only screen and (min-width: 1025px) {
+  padding-inline: 12.5vw;
+}
 }
 .modalMap.open > .map {
-  height: 75svh;
-  width: 75vw;
+  width: 90vw;
+  height: 80svh;
+  @media only screen and (min-width: 1025px) {
+    height: 75svh;
+    width: 75vw;
+  }
+  & > div {
+    border-radius: var(--bradius);
+  }
+}
+.modalMap__close {
+  align-self: flex-end;
 }
 
 .modal.open,.modalMap.open {
