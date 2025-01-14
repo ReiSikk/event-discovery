@@ -17,6 +17,7 @@ export const useFilters = (events) => {
   }, []);
 
   const getFilteredEvents = useCallback(() => {
+    console.log('getFilteredEvents called');
     return events.filter(event => {
 
       // Categories Filter - exclude the event if it doesn't match any selected categories

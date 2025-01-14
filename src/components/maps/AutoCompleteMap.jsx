@@ -71,7 +71,7 @@ const PlaceAutocomplete = ({ onPlaceSelect, handleInputChange, setAddress, setIn
                 onChange={handleInputChange}
                 ref={inputRef} 
                 />
-                {formErrors.location && <p className="input__message">{formErrors.location}</p>}
+                {formErrors?.location && <p className="input__message">{formErrors.location}</p>}
 
             </div>
     );

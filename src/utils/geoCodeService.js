@@ -31,11 +31,12 @@ async function geocodeLatLng(lat, lng) {
     }
   }
 
-async function fetchEventLocation(eventId) {
+async function fetchEventLocation(eventIds) {
     const supabase = createClient();
+    // Filter out null or empty values
   
     try {
-      const { data, error } = await supabase.rpc("fetch_event_location", { event_id: eventId });
+      const { data, error } = await supabase.rpc("fetch_event_location", { event_ids: eventIds });
   
       if (error) {
         console.error("Error fetching event location:", error);
@@ -48,5 +49,6 @@ async function fetchEventLocation(eventId) {
       return null;
     }
   }
+
   
 export  { geocodeLatLng, geocodeAddress, fetchEventLocation };

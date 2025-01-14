@@ -142,7 +142,7 @@ const handleLocationChange = (location) => {
    // Fetch event location
    useEffect(() => {
     async function fetchLocation() {
-      const locationData = await fetchEventLocation(eventToEdit.id);
+      const locationData = await fetchEventLocation([eventToEdit.id]);
       if (locationData) {
         // Assuming locationData contains lat and lng
         const { lat, lng } = locationData[0];
