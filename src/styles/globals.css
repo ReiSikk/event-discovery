@@ -23,6 +23,7 @@
 
   /* Type */
   --txt-small: 1.2rem;
+  --txt-medium: 1.4rem;
 
   /* Other */
   --bradius: 24px;
@@ -363,6 +364,8 @@ h4,
 }
 .footerList > a {
   transition: color 0.2s ease;
+  font-size: var(--txt-medium);
+  opacity: 0.9;
   &:hover {
     color: var(--primary);
   }
@@ -1059,7 +1062,8 @@ div[data-testid="underlay"] {
   ========================================================================== */
 
 .eventSwiper {
-  border-radius: var(--bradius);
+  border-top-left-radius: var(--bradius);
+  border-bottom-left-radius: var(--bradius);
 }
 .eventSwiper > .swiper-button-prev,
 .eventSwiper > .swiper-button-next {
