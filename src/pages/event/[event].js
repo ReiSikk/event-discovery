@@ -3,25 +3,21 @@ import { createClient } from "@/utils/supabase/component";
 import styles from "./SingleEventPage.module.css";
 import classNames from "classnames";
 import Image from "next/image";
-import { format, set } from "date-fns";
-import { CalendarClock, MapPin, MapPinnedIcon, TicketIcon, Tickets, UserCircle2, XCircle, Heart } from "lucide-react";
+import { format } from "date-fns";
+import { Tickets, UserCircle2, XCircle, Heart } from "lucide-react";
 import EventSwiper from "@/components/swipers/EventSwiper";
 import Link from "next/link";
 import { useCategories } from "@/pages/api/context/categoriesProvider";
 import { useEventLike } from "@/utils/eventLikeService";
 import { useAuth } from "../api/auth/authprovider";
 import Head from "next/head";
-// import Map from '@/components/Map'
 import {
   APIProvider,
-  ControlPosition,
-  MapControl,
   AdvancedMarker,
   Map,
   Pin,
   useMap,
   InfoWindow,
-  useMapsLibrary,
   useAdvancedMarkerRef,
 } from "@vis.gl/react-google-maps";
 import { geocodeLatLng } from "../../utils/geoCodeService";

@@ -1,9 +1,15 @@
 import React, { useEffect, useCallback, useState } from 'react'
-import { Map, InfoWindow } from "@vis.gl/react-google-maps";
-import PoiMarkers from './PoiMarkers';
+import { Map, InfoWindow, AdvancedMarker, Pin } from "@vis.gl/react-google-maps";
+import { geocodeLatLng } from '@/utils/geoCodeService';
+import Link from 'next/link';
 
-function ModalMap({ modalOpen, toggleModal, filteredEvents }) {
-  const [infoWindowOpen, setInfoWindowOpen] = useState(false);
+function ModalMap({ modalOpen, toggleModal, filteredEvents, isAnyFilterActive }) {
+
+  const [infoWindowOpen, setInfoWindowOpen] = useState({
+    open: false,
+    position: null,
+    formattedAddress: null
+  });
 
   //TODO: REMOVE TEMP
   // Filter out mock data which has no location
@@ -13,6 +19,7 @@ function ModalMap({ modalOpen, toggleModal, filteredEvents }) {
 
     return {
       key: event.id,
+      title: event.title,
       location: {
         lat: event.location.lat,
         lng: event.location.lng
@@ -36,19 +43,40 @@ function ModalMap({ modalOpen, toggleModal, filteredEvents }) {
     };
   }, [escFunction]);
 
-  // Open marker when click on
-  const handleMarkerClick = () => {
-    setInfoWindowOpen(!infoWindowOpen);
+  // Open marker when hovered on
+  const handleMarkerHover = async (position) => {
+    const formattedAddress = await geocodeLatLng(position.lat, position.lng);
+
+    if (!formattedAddress) {
+      console.error('No address found for:', position);
+      return;
+    }
+    if (formattedAddress) {
+      setInfoWindowOpen({
+        open: true,
+        position: position,
+        formattedAddress: formattedAddress
+      })
+    }
   };
 
-  // Close marker info windown
+  // Handle InfoWindow close
   const handleMarkerClose = () => {
-    setInfoWindowOpen(!infoWindowOpen);
+    setInfoWindowOpen({
+      open: false,
+      position: null,
+      formattedAddress: null
+    });
   };
 
   return (
     <div className={`modalMap ${modalOpen ? 'open' : 'close'}`}>
-      <div className="modalMap__close btn__primary" onClick={toggleModal}>Close map</div>
+        <div className='modalMap__top fp'>
+          <h4>
+            {isAnyFilterActive ? 'Showing filtered events' : 'Showing all events'}
+          </h4>
+          <div className="modalMap__close btn__primary" onClick={toggleModal}>Close map</div>
+        </div>
         <Map
             defaultZoom={13}
             disableDefaultUI={true}
@@ -59,22 +87,34 @@ function ModalMap({ modalOpen, toggleModal, filteredEvents }) {
             className="map"
             mapId='DEMO_MAP_ID'
             >
-         <PoiMarkers pois={locations} handleMarkerClick={handleMarkerClick}/>
-          {infoWindowOpen &&
-                <InfoWindow 
-                className="autoCompleteMap__infoWindow"
-                maxWidth={300}
-                onClose={handleMarkerClose}
-                ariaLabel={`Event location description pop-up, the event address is: ${address}`}
-                style={{
+             {locations.map((poi) => (
+            <div key={poi.key}>
+              <AdvancedMarker
+                position={poi.location}
+                clickable={true}
+                onMouseEnter={() => handleMarkerHover(poi.location)}
+              >
+                <Pin background={'#7dffaf'} glyphColor={'#000'} borderColor={'#000'} />
+              </AdvancedMarker>
+              {infoWindowOpen.open && infoWindowOpen.position.lat === poi.location.lat && infoWindowOpen.position.lng === poi.location.lng && (
+                <InfoWindow
+                  position={poi.location}
+                  onClose={handleMarkerClose}
+                  className="autoCompleteMap__infoWindow"
+                  maxWidth={300}
+                  ariaLabel={`Event location description pop-up, the event address is: ${poi.location.lat}, ${poi.location.lng}`}
+                  style={{
                     width: `200px`,
                     textAlign: `center`,
-                }}
+                  }}
                 >
-                    <h4>Event address</h4>
-                    {address ? <p>{address}</p> : <p>Click on the map to set the location</p>}
+                  <h4>{poi.title}</h4>
+                  <p>{infoWindowOpen.formattedAddress.address}</p>
+                  <Link href={`/event/${poi.key}`} className='btn__primary infoWindow__btn '>Go to event page</Link>
                 </InfoWindow>
-            }
+              )}
+            </div>
+          ))}
         </Map>
     </div>
   )

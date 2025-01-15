@@ -154,6 +154,9 @@ h4,
 .center {
   margin-inline: auto;
 }
+.copyright__claim {
+  margin-top: 24px;
+}
 
 /* Grid system */
 
@@ -333,9 +336,6 @@ h4,
   }
 
 }
-.info {
-
-}
 .footer__contacts > h2 {
   margin-bottom: 4px;
 }
@@ -348,7 +348,6 @@ h4,
   flex-wrap: wrap;
   gap: 32px;
   @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
-    padding-left: 13.8888vw;
     gap: 4.4444vw;
     margin-top: 0;
   }
@@ -403,6 +402,17 @@ gap: 12px;
 padding-inline: 5vw;
 @media only screen and (min-width: 1025px) {
   padding-inline: 12.5vw;
+}
+.modalMap__top {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+
+  & > h4 {
+    margin-bottom: 0;
+  }
 }
 }
 .modalMap.open > .map {
@@ -483,6 +493,12 @@ padding-inline: 5vw;
 .autoCompleteMap__infoWindow {
   color: var(--bg-dark);
   font-family: var(--font-body);
+}
+.infoWindow__btn {
+  margin-block: 10px;
+  @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+    margin-block: 0.83333vw;
+  }
 }
 
 /** Buttons ***/
@@ -605,9 +621,6 @@ padding-inline: 5vw;
   }
 }
 
-/*
-   Buttons
-   ========================================================================== */
 *.btn__primary {
   width: fit-content;
 }

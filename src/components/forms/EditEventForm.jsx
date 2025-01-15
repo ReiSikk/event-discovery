@@ -47,9 +47,8 @@ function EditEventForm({ session, eventToEdit }) {
     ticket_type: '',
     ticket_link: '',
   })
-  
 
-
+  // Prefill form data
   useEffect(() => {
     if (eventToEdit) {
       setFormData({
@@ -158,8 +157,6 @@ const handleLocationChange = (location) => {
 
     fetchLocation();
   }, [eventToEdit.id]);
-
-
 
   return (
     <>

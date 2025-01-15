@@ -139,11 +139,6 @@ const HomePage = ({ pageData, events, location }) => {
       text: "Select categories",
       type: FILTER_TYPES.CATEGORY 
     },
-    { 
-      id: 2, 
-      text: "View on the map",
-      type: FILTER_TYPES.LOCATION 
-    }
   ];
 
 
@@ -228,7 +223,7 @@ const HomePage = ({ pageData, events, location }) => {
         </h2>
             <button className={`${styles.mapBtn} btn__primary`} onClick={() => toggleModal()}>View on the map</button>
             {modalOpen && 
-            <ModalMap modalOpen={modalOpen} toggleModal={toggleModal} filteredEvents={filteredEvents} />
+            <ModalMap modalOpen={modalOpen} toggleModal={toggleModal} filteredEvents={filteredEvents} filterState={filterState} isAnyFilterActive={isAnyFilterActive}/>
             }
         </div>
       <section className={styles.content}>
@@ -274,18 +269,7 @@ const HomePage = ({ pageData, events, location }) => {
           </div>
         </div>{/* content_sidebar */}
         <div className={styles.content_main}>
-       {/*  {getFilteredEvents().length > 0 ? (
-          <ul className={styles.eventsList}>
-            {getFilteredEvents().map((event) => (
-              <EventCard key={event.id} event={event} categories={categories}/>
-            ))}
-          </ul>
-        ) : (
-          <div className={`${styles.eventsList__error} h2`}>
-            <p className='h3'>No results found</p>
-            <p className='txt-medium'>Try adjusting your search or filters to find what you are looking for.</p>
-          </div>
-        )} */}
+
         { filteredEvents.length > 0 ? (
           <ul className={styles.eventsList}>
             {filteredEvents.map((event) => (
