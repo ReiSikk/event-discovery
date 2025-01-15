@@ -2,16 +2,18 @@ import React, { useEffect, useState } from 'react';
 import Head from "next/head";
 import styles from "@/styles/HomePage.module.css";
 import FilterCard from '@/components/filters/FilterCard';
-import classNames from 'classnames';
-import Link from 'next/link';
 import { createClient } from '@/utils/supabase/component'
 import { FILTER_TYPES } from '@/utils/constants/constants';
 import { useFilters } from '@/components/filters/useFilters';
+import ModalMap from '@/components/maps/ModalMap';
 import EventCard from '@/components/EventCard';
 import SearchBar from '@/components/SearchBar';
 import { X } from 'lucide-react';
 import CustomDateRangePicker from '@/components/filters/DateRangePicker';
 import { useCategories } from '@/pages/api/context/categoriesProvider';
+import { fetchEventLocation } from '@/utils/geoCodeService';
+
+
 
 export async function getServerSideProps() {
   const supabase = createClient();
@@ -83,6 +85,9 @@ export async function getServerSideProps() {
 const HomePage = ({ pageData, events, location }) => {
   const { filterState, updateFilter, getFilteredEvents } = useFilters(events);
   const { categories } = useCategories();
+  const [filteredEvents, setFilteredEvents] = useState(events);
+  const [filteredEventsIds, setFilteredEventsIds] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
   
   const handleCategorySelect = (categoryId) => {
     const current = filterState.categories;
@@ -134,12 +139,51 @@ const HomePage = ({ pageData, events, location }) => {
       text: "Select categories",
       type: FILTER_TYPES.CATEGORY 
     },
-    { 
-      id: 2, 
-      text: "View on the map",
-      type: FILTER_TYPES.LOCATION 
-    }
   ];
+
+
+  // Toggle map modal
+  const toggleModal = () => {
+    setModalOpen(!modalOpen);
+    console.log('modalOpen called');
+  };
+
+  // Filter events when filters change
+  useEffect(() => {
+    async function fetchFilteredEvents() {
+      try {
+        const events = await getFilteredEvents(filterState);
+        setFilteredEvents(events);
+
+        const filteredEventIds = events.map(event => event.id); 
+        setFilteredEventsIds(filteredEventIds);
+
+        // convert strings to an array of lat & lng objects
+        const eventLocations = await fetchEventLocation([filteredEventIds]);
+
+          // Enrich events with lat and lng values
+          const enrichedEvents = events.map((event) => {
+            const coordinates = eventLocations.find((location) => location.event_id === event.id);
+            return {
+              ...event,
+              location: {
+                lat: coordinates?.lat || null,
+                lng: coordinates?.lng || null,
+              } || null,
+            };
+          }
+          );
+
+          setFilteredEvents(enrichedEvents);
+
+
+      } catch (error) {
+        console.error('Error fetching filtered events:', error);
+      }
+    }
+
+    fetchFilteredEvents();
+  }, [filterState, events]);
 
 
   return (
@@ -177,7 +221,10 @@ const HomePage = ({ pageData, events, location }) => {
         <h2 className={`${styles.sidebar__title} h4`}>
           Browsing events in {location ? `${location.city}, ${location.country.code}` : 'your area'}
         </h2>
-            <button className={`${styles.mapBtn} btn__primary`}>View on the map</button>
+            <button className={`${styles.mapBtn} btn__primary`} onClick={() => toggleModal()}>View on the map</button>
+            {modalOpen && 
+            <ModalMap modalOpen={modalOpen} toggleModal={toggleModal} filteredEvents={filteredEvents} filterState={filterState} isAnyFilterActive={isAnyFilterActive}/>
+            }
         </div>
       <section className={styles.content}>
         <div className={styles.content_sidebar}>
@@ -222,9 +269,10 @@ const HomePage = ({ pageData, events, location }) => {
           </div>
         </div>{/* content_sidebar */}
         <div className={styles.content_main}>
-        {getFilteredEvents().length > 0 ? (
+
+        { filteredEvents.length > 0 ? (
           <ul className={styles.eventsList}>
-            {getFilteredEvents().map((event) => (
+            {filteredEvents.map((event) => (
               <EventCard key={event.id} event={event} categories={categories}/>
             ))}
           </ul>
@@ -233,7 +281,8 @@ const HomePage = ({ pageData, events, location }) => {
             <p className='h3'>No results found</p>
             <p className='txt-medium'>Try adjusting your search or filters to find what you are looking for.</p>
           </div>
-        )}
+        )
+        }
         </div>
       </section>
     </main>

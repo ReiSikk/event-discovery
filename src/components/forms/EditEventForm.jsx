@@ -10,19 +10,27 @@ import classNames from 'classnames';
 import { Image, Link, Upload } from 'lucide-react';
 import { useRouter } from 'next/router'
 import ToastNotification from '@/components/ToastNotification';
-import { set } from 'date-fns';
+import AutoCompleteMap from '../maps/AutoCompleteMap';
+import { fetchEventLocation, geocodeLatLng } from '@/utils/geoCodeService'
 
 
 function EditEventForm({ session, eventToEdit }) {
   const supabase = createClient()
   const router = useRouter()
   const toastRef = useRef(null)
-
   
   // State for form data and navigation
   const [response, action, isPending] = useActionState(updateEvent, null)
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState(null);
+
+  // Google Maps selected place state
+  const [selectedPlace, setSelectedPlace] = useState(null);
+  const [markerPosition, setMarkerPosition] = useState(null);
+  const [address, setAddress] = useState('');
+  const [infoWindowOpen, setInfoWindowOpen] = useState(true);
+  const [locationPoint, setLocationPoint] = useState('');
+
   // State for form fields
   const [ticketType, setTicketType] = useState('');
   const [file, setFile] = useState(null);
@@ -39,9 +47,8 @@ function EditEventForm({ session, eventToEdit }) {
     ticket_type: '',
     ticket_link: '',
   })
-  
 
-
+  // Prefill form data
   useEffect(() => {
     if (eventToEdit) {
       setFormData({
@@ -60,17 +67,36 @@ function EditEventForm({ session, eventToEdit }) {
   }, [eventToEdit])
 
 
-  const handleFieldChange = (field, value) => {
+  // Handle input changes with validation
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    
+    // Update form data
     setFormData(prev => ({
       ...prev,
-      [field]: value
-    }))
-  }
+      [name]: value
+    }));
+
+  };
+
+  // Handle location selection from Google Maps in child AutoCompleteMap component
+const handleLocationChange = (location) => {
+  setFormData(prev => ({
+    ...prev,
+    location
+  }));
+  setLocationPoint(location)
+}
 
   const handleSubmit = async (formData) => {
     // Add the file to formData if it exists
     if (file) {
         formData.append('event_image', file)
+    }
+
+    if (locationPoint) {
+      console.log('locationPoint exists in update', locationPoint)
+      formData.append('location', locationPoint)
     }
 
     const result = await updateEvent(session, formData, eventToEdit.id)
@@ -112,7 +138,25 @@ function EditEventForm({ session, eventToEdit }) {
     fetchCategories()
   }, [supabase])
 
+   // Fetch event location
+   useEffect(() => {
+    async function fetchLocation() {
+      const locationData = await fetchEventLocation([eventToEdit.id]);
+      if (locationData) {
+        // Assuming locationData contains lat and lng
+        const { lat, lng } = locationData[0];
+        setMarkerPosition({ lat, lng });
+        setLocationPoint(`POINT(${lng} ${lat})`);
+        const addressData = await geocodeLatLng(lat, lng);
+        console.log('addressData:', addressData);
+        if (addressData?.address) {
+          setAddress(addressData.address);
+        }
+      }
+    }
 
+    fetchLocation();
+  }, [eventToEdit.id]);
 
   return (
     <>
@@ -125,7 +169,7 @@ function EditEventForm({ session, eventToEdit }) {
             placeholder='Name of your event'  
             className={styles.formField__input} 
             value={formData.title}
-            onChange={(e) => handleFieldChange('title', e.target.value)}
+            onChange={handleInputChange}
              />
             <Form.Message match="valueMissing" className="input__message">
               Please enter a title for the event/activity.
@@ -139,7 +183,7 @@ function EditEventForm({ session, eventToEdit }) {
               placeholder='Provide a description of your event'  
               className={styles.formField__input} 
               value={formData.description}
-              onChange={(e) => handleFieldChange('description', e.target.value)}
+              onChange={handleInputChange}
               required
             />
             <Form.Message match="valueMissing" className="input__message">
@@ -147,19 +191,21 @@ function EditEventForm({ session, eventToEdit }) {
             </Form.Message>
           </Form.Field>
 
-          <Form.Field name="location" className={styles.formField} >
-            <Form.Label className={styles.formField__label}>Location</Form.Label>
-            <Form.Control 
-              type="text" 
-              placeholder='Where your event is happening'  
-              className={styles.formField__input} 
-              value={formData.location}
-              onChange={(e) => handleFieldChange('location', e.target.value)}
-              required
-            />
-            <Form.Message match="valueMissing" className="input__message">
-              Please enter a location for your listing.
-            </Form.Message>
+          <Form.Field name="location" className={styles.formField}>
+              <Form.Label className={styles.formField__label}>Location</Form.Label>
+              <AutoCompleteMap 
+              handleInputChange={handleInputChange} 
+              onLocationChange={handleLocationChange} 
+              setSelectedPlace={setSelectedPlace} 
+              selectedPlace={selectedPlace} 
+              address={address}
+              setAddress={setAddress}
+              infoWindowOpen={infoWindowOpen}
+              setInfoWindowOpen={setInfoWindowOpen}
+              markerPosition={markerPosition}
+              setMarkerPosition={setMarkerPosition}
+              setLocationPoint={setLocationPoint}
+              />
           </Form.Field>
         </div>
     
@@ -170,7 +216,7 @@ function EditEventForm({ session, eventToEdit }) {
               type="datetime-local"  
               className={styles.formField__input} 
               value={formData.start_time}
-              onChange={(e) => handleFieldChange('start_time', e.target.value)}
+              onChange={handleInputChange}
               required
             />
           <Form.Message match="valueMissing" className="input__message">
@@ -183,7 +229,7 @@ function EditEventForm({ session, eventToEdit }) {
               type="datetime-local"  
               className={styles.formField__input} 
               value={formData.end_time}
-              onChange={(e) => handleFieldChange('end_time', e.target.value)}
+              onChange={handleInputChange}
               required
             />
           <Form.Message match="valueMissing" className="input__message">
@@ -197,7 +243,7 @@ function EditEventForm({ session, eventToEdit }) {
           <Form.Control asChild>
           <select
                 value={formData.category}
-                onChange={(e) => handleFieldChange('category', e.target.value)}
+                onChange={handleInputChange}
                 required
               >
             <option value="">Select category</option>
@@ -217,7 +263,7 @@ function EditEventForm({ session, eventToEdit }) {
               placeholder='Leave empty if the event is free of charge' 
               className={styles.formField__input} 
               value={formData.cost}
-              onChange={(e) => handleFieldChange('cost', e.target.value)}
+              onChange={handleInputChange}
             />
         </Form.Field>
       </div>
@@ -333,7 +379,7 @@ function EditEventForm({ session, eventToEdit }) {
               placeholder="Enter ticket URL"
               required
               className={styles.formField__input}
-              onChange={(e) => handleFieldChange('ticket_link', e.target.value)}
+              onChange={handleInputChange}
             />
             <Form.Message match="valueMissing">
               Please enter a ticket link

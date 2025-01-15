@@ -154,6 +154,9 @@ h4,
 .center {
   margin-inline: auto;
 }
+.copyright__claim {
+  margin-top: 24px;
+}
 
 /* Grid system */
 
@@ -333,9 +336,6 @@ h4,
   }
 
 }
-.info {
-
-}
 .footer__contacts > h2 {
   margin-bottom: 4px;
 }
@@ -348,7 +348,6 @@ h4,
   flex-wrap: wrap;
   gap: 32px;
   @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
-    padding-left: 13.8888vw;
     gap: 4.4444vw;
     margin-top: 0;
   }
@@ -381,7 +380,7 @@ h4,
    Modals
    ========================================================================== */
 
-.modal {
+.modal,.modalMap {
   display: none;
   position: fixed;
   z-index: 1;
@@ -395,13 +394,49 @@ h4,
   border: none;
   opacity: 0;
 }
+/* Google maps modal */
+.modalMap {
+z-index: 999;
+flex-direction: column;
+gap: 12px;
+padding-inline: 5vw;
+@media only screen and (min-width: 1025px) {
+  padding-inline: 12.5vw;
+}
+.modalMap__top {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
 
-.modal.open {
+  & > h4 {
+    margin-bottom: 0;
+  }
+}
+}
+.modalMap.open > .map {
+  width: 90vw;
+  height: 80svh;
+  @media only screen and (min-width: 1025px) {
+    height: 75svh;
+    width: 75vw;
+  }
+  & > div {
+    border-radius: var(--bradius);
+  }
+}
+.modalMap__close {
+  align-self: flex-end;
+}
+
+.modal.open,.modalMap.open {
   display: flex;
   justify-content: center;
   align-items: center;
   animation: opacity 0.6s cubic-bezier(0.5, 1, 0.89, 1) forwards;
   opacity: 1;
+  z-index: 999;
 }
 
 .modal__body {
@@ -454,6 +489,19 @@ h4,
   margin-top: auto;
   gap: 16px;
 }
+
+.autoCompleteMap__infoWindow {
+  color: var(--bg-dark);
+  font-family: var(--font-body);
+}
+.infoWindow__btn {
+  margin-block: 10px;
+  @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+    margin-block: 0.83333vw;
+  }
+}
+
+/** Buttons ***/
 
 .btn__primary.btn__cancel {
   background: var(--red);
@@ -523,6 +571,7 @@ h4,
   padding: 25px;
   animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
   color: var(--white);
+  z-index: 999;
 }
 .AlertDialogContent:focus {
   outline: none;
@@ -572,16 +621,12 @@ h4,
   }
 }
 
-/*
-   Buttons
-   ========================================================================== */
 *.btn__primary {
   width: fit-content;
 }
 
 .btn__primary {
   display: inline-flex;
-  min-width: 125px;
   padding-block: 10px 9px;
   padding-inline: 18px;
   flex-shrink: 0;
@@ -703,8 +748,10 @@ div[data-testid="underlay"] {
 }
 .editEventForm {
   width: 100%;
-  max-width: 71.1111vw;
   margin-inline: auto;
+  @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+    max-width: 1280px;
+  }
 }
 
 .formNav {

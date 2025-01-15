@@ -114,6 +114,8 @@
 }
 .form__submit {
   max-width: 25.486vw;
+  width: 100%;
+  margin-left: auto;
 }
 
 
@@ -184,6 +186,26 @@
   margin-bottom: 8px;
 }
 
+/* ** Google Maps Autocomplete field  ***/
+.autoCompleteMap {
+  height: 400px;
+}
+
+.autoCompleteMap__control {
+  min-width: 150px;
+
+  @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+    width: 33vw;
+  }
+
+}
+.autoCompleteMap__input {
+  width: 100%;
+  max-width: none;
+}
+
+
+/* ** Feedback Toast ***/
 .feedbackToast {
   position: fixed;
   bottom: 0;

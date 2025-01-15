@@ -15,6 +15,9 @@ function FooterNav() {
                     <p className='txt-small'>Valukoja 18A</p>
                     <p className='txt-small'>Tallinn, Estonia</p>
                     <a href="tel:+372 555555555" className='txt-small'>+372 55008922</a>
+                    <p className="txt-small copyright__claim">&copy; All rights reserved. {new Date().getFullYear()}
+                        <span> Developed by Rei Sikk for Copenhagen Business Academy PBA Web Development final Bachelor Project.</span>
+                    </p>
                 </div>
             </div>
             <div className="siteFooter__main">

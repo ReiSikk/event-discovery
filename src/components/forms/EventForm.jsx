@@ -10,7 +10,7 @@ import classNames from 'classnames';
 import { ArrowLeft, ArrowRight, Image, Link, Upload } from 'lucide-react';
 import { useRouter } from 'next/router'
 import ToastNotification from '@/components/ToastNotification';
-import { set } from 'date-fns';
+import AutoCompleteMap from '../maps/AutoCompleteMap';
 
 
 function EventForm({ session, formStep, handlePrevious, handleNext }) {
@@ -24,6 +24,14 @@ function EventForm({ session, formStep, handlePrevious, handleNext }) {
   const [categories, setCategories] = useState([]);
   const [eventCreated, setEventCreated] = useState(false);
   const [error, setError] = useState(null);
+
+  // Google Maps selected place state
+  const [selectedPlace, setSelectedPlace] = useState(null);
+  const [markerPosition, setMarkerPosition] = useState(null);
+  const [address, setAddress] = useState('');
+  const [infoWindowOpen, setInfoWindowOpen] = useState(false);
+  const [locationPoint, setLocationPoint] = useState('');
+  
   // State for form fields
   const [ticketType, setTicketType] = useState('');
   const [file, setFile] = useState(null);
@@ -51,7 +59,6 @@ function EventForm({ session, formStep, handlePrevious, handleNext }) {
     ticket_type: '',
     ticket_link: ''
   });
-  
 
 // Validate form fields
 const validateField = (name, value) => {
@@ -69,7 +76,7 @@ const validateField = (name, value) => {
     case 'category':
       return !value ? 'Please select a category for your event.' : '';
     case 'ticket_type':
-      return !value ? 'Please select a ticket type.' : '';
+      return !value || value.trim() === '' ? 'Please select a ticket type.' : '';
     case 'event_image':
       return !value ? 'Please upload an image for your event.' : '';
     case 'ticket_link':
@@ -102,6 +109,7 @@ const handleNextStep = () => {
     }
     return errors
   }, {})
+
 
     // Separate check for file input (event_image)
     if (formStep === 3) {
@@ -191,9 +199,13 @@ const handleFileChange = (e) => {
     for (const key in formData) {
       formDataToSubmit.append(key, formData[key])
     }
+
     // Add the file to formData if it exists
     if (file) {
-        formData.append('event_image', file)
+      formData.append('event_image', file)
+    }
+    if (locationPoint) {
+      formData.append('location', locationPoint)
     }
 
     const result = await createEvent(session, formData)
@@ -215,6 +227,16 @@ const handleFileChange = (e) => {
     } else {
       setError(result.error.message)
     }
+}
+
+
+// Handle location selection from Google Maps in child AutoCompleteMap component
+const handleLocationChange = (location) => {
+  setFormData(prev => ({
+    ...prev,
+    location
+  }));
+  setLocationPoint(location)
 }
 
 
@@ -256,21 +278,24 @@ const handleFileChange = (e) => {
               }
             </Form.Field>
 
-            <Form.Field name="location" className={styles.formField} >
+            <Form.Field name="location" className={styles.formField}>
               <Form.Label className={styles.formField__label}>Location</Form.Label>
-              <Form.Control 
-              type="text" 
-              placeholder='Where your event is happening'  
-              className={styles.formField__input} 
-              required
-              onChange={handleInputChange}
+              <AutoCompleteMap 
+              handleInputChange={handleInputChange} 
+              formErrors={formErrors} 
+              onLocationChange={handleLocationChange} 
+              setSelectedPlace={setSelectedPlace} 
+              selectedPlace={selectedPlace} 
+              address={address}
+              setAddress={setAddress}
+              infoWindowOpen={infoWindowOpen}
+              setInfoWindowOpen={setInfoWindowOpen}
+              markerPosition={markerPosition}
+              setMarkerPosition={setMarkerPosition}
+              setLocationPoint={setLocationPoint}
+              required={true}
               />
-              {
-              formErrors.location && <p match="valueMissing" className="input__message">
-                {formErrors.location}
-              </p>
-              }
-            </Form.Field>
+          </Form.Field>
         </div>
     
         <div className={classNames(styles.formFields, { 'visible': formStep === 1 })} id='dateTime'>
@@ -377,6 +402,7 @@ const handleFileChange = (e) => {
           <Form.Label className={styles.formField__label}>
             Ticket type and pricing
           </Form.Label>
+          {!ticketType && <p className="input__message">Select a ticket type for your event</p>}
           <Form.Control asChild/>
           <div className={styles.radioGroup} role="radiogroup">
             <div className={classNames(styles.radioOption, ticketType === "free" ? styles.active : '')}>
@@ -459,8 +485,9 @@ const handleFileChange = (e) => {
                   placeholder="Enter ticket URL"
                   required
                   className={styles.formField__input}
+                  onChange={handleInputChange}
                 />
-                <Form.Message match="valueMissing">
+                <Form.Message match="valueMissing" className='input__message'>
                   Please enter a ticket link
                 </Form.Message>
               </Form.Field>
