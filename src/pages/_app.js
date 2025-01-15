@@ -8,7 +8,7 @@ import {APIProvider} from '@vis.gl/react-google-maps';
 export default function App({ Component, pageProps }) {
 
   return (
-  <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}>
+  <APIProvider key={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}>
     <AuthProvider>
       <CategoryProvider>
       <BurgerMenuProvider>

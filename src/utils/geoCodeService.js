@@ -1,6 +1,6 @@
 import { createClient } from '@/utils/supabase/component';
 
-const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_GEOCODING_API_KEY;
 
 // Geocode the latitude and longitude into a human readable address
 async function geocodeLatLng(lat, lng) {
