@@ -6,9 +6,10 @@ import { CategoryProvider } from "./api/context/categoriesProvider";
 import {APIProvider} from '@vis.gl/react-google-maps';
 
 export default function App({ Component, pageProps }) {
+  const mapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
   return (
-  <APIProvider key={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}>
+  <APIProvider apiKey={mapsApiKey}>
     <AuthProvider>
       <CategoryProvider>
       <BurgerMenuProvider>

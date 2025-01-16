@@ -14,7 +14,7 @@ import {
 import styles from "../forms/EventForm.module.css";
 import classNames from "classnames";
 
-const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;;
 
 const PlaceAutocomplete = ({
   onPlaceSelect,
