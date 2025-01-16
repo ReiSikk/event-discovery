@@ -60,15 +60,23 @@ export async function getServerSideProps() {
   );
 
   // Fetch data from CMS
-  const cmsUrl = process.env.NEXT_PUBLIC_CMS_URL + 'home?populate=*';
+  const CMS_URL = process.env.NEXT_PUBLIC_CMS_URL + 'home?populate=*';
+  const CMS_TOKEN = process.env.NEXT_PUBLIC_CMS_READ_TOKEN;
+
   let pageData = null;
   try {
-    const res = await fetch(cmsUrl);
+    const res = await fetch(`${CMS_URL}`, {
+      headers: {
+        'Authorization': `Bearer ${CMS_TOKEN}`,
+        'Content-Type': 'application/json'
+      }
+    });
     if (!res.ok) {
       throw new Error('Failed to fetch data');
     }
     const json = await res.json();
     pageData = json.data || null;
+    console.log('pageData:', pageData);
   } catch (error) {
     console.error('Error fetching data from CMS:', error);
   }
@@ -196,7 +204,7 @@ const HomePage = ({ pageData, events, location }) => {
       </Head>
     <header className={`${styles.heroSection} container block`}>
       <h1 className={styles.header__title}>
-        {pageData ? pageData?.title : 'Let\'s  make it personal.'}
+        {pageData ? pageData?.title : 'Let\'s make it personal.'}
       </h1>
       <p className={styles.header__text}>
         {pageData ? pageData?.lead : 'Select your interests to get event suggestions based on what you love'}

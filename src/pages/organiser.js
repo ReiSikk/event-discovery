@@ -8,10 +8,17 @@ import Image from 'next/image';
 import Head from 'next/head';
 
 export async function getServerSideProps() {
-    const url = process.env.NEXT_PUBLIC_CMS_URL + 'for-organiser?populate=*'
+    const CMS_URL = process.env.NEXT_PUBLIC_CMS_URL + 'for-organiser?populate=*'
+    const CMS_TOKEN = process.env.NEXT_PUBLIC_CMS_READ_TOKEN;
   
     try {
-      const res = await fetch(url);
+      const res = await fetch(`${CMS_URL}`, {
+        headers: {
+          'Authorization': `Bearer ${CMS_TOKEN}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      
       if (!res.ok) {
         throw new Error('Failed to fetch data');
       }
