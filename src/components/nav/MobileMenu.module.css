@@ -33,9 +33,11 @@
     align-items: center;
     padding-block: 12px;
     padding-inline: 16px;
+    border-bottom: 1px solid var(--primary);
 
 }
 .mobileMenu__title {
+    margin-bottom: 0;
 
 }
 .mobileMenu__close {
@@ -58,11 +60,15 @@
     list-style-type: none;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 24px;
+    margin-top: 9.5665vh;
     opacity: 0;
     transition: all 0.7s ease;
     transform: translateY(-20px);
     transition-delay: 250ms;
+    @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+        gap: 1.6666vw;
+    }
 }
 .mobileMenu__list_open {
     opacity: 1;
@@ -103,5 +109,7 @@
 }
 .mobileMenu__buttons > * {
     flex: 1;
-    max-width: 250px;
+    @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+        max-width: 315px;
+    }
 }
