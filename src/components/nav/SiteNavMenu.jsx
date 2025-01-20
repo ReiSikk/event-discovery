@@ -6,9 +6,11 @@ import { CaretDownIcon } from "@radix-ui/react-icons";
 import styles from "./SiteNavMenu.module.css";
 import classNames from "classnames";
 import Link from "next/link";
-import { List } from "lucide-react";
+import { useAuth } from "@/pages/api/auth/authprovider";
 
 const SiteNavMenu = () => {
+	const { isLoggedIn } = useAuth();
+
 	return (
 		<NavigationMenu.Root className={styles.Root}>
 			<NavigationMenu.List className={styles.MenuList}>
@@ -53,20 +55,20 @@ const SiteNavMenu = () => {
 								title="Publish your event/activity"
 								href="/event/create"
 							>
-								Sign up for a free account and start publishing events.
+							  Host your event or activity on LEIA
 							</ListItem>
 							<ListItem
 							className={styles.ListItem}
-								title="Sign In"
-								href="/login"
+								title={isLoggedIn ? "My Profile" : "Log in"}
+								href={isLoggedIn ? "/profile" : "/login"}
 							>
-								Start saving events to your account or create & manage your events.
+								{isLoggedIn ? "Manage your published and liked events " : "Create an account to start publishing and saving events."}
 							</ListItem>
 							<ListItem
 							className={styles.ListItem}
 							 title="Not sure where to start?" 
-							 href="/faq">
-								Check out our FAQ.
+							 href="/organiser">
+								Check out our FAQ
 							</ListItem>
 						</ul>
 					</NavigationMenu.Content>

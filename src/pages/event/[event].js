@@ -170,6 +170,7 @@ function EventPage({ event, relatedEvents, eventImgUrls }) {
     getAddressFromCoords();
   }, [event]);
 
+
   // Open marker when click on
   const handleMarkerClick = () => {
     setInfoWindowOpen(!infoWindowOpen);
