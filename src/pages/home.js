@@ -18,18 +18,29 @@ import { fetchEventLocation } from '@/utils/geoCodeService';
 export async function getServerSideProps() {
   const supabase = createClient();
 
-  // Fetch user location
+  // Fetch user location from external API
   const userLocation = await fetch(`https://api.ipregistry.co/?key=${process.env.NEXT_PUBLIC_IPREGISTRY_API_KEY}`)
     .then((res) => res.json())
     .catch((error) => {
       console.error('Error fetching user location:', error);
       return null;
     });
+  
+  // Get user's location coordinates from the API response to use in the Postgres function call
+  const lat = userLocation?.location?.latitude;
+  const long = userLocation?.location?.longitude;
 
   // Fetch events from Supabase
-  let { data: events, error: eventsError } = await supabase
-    .from('events')
-    .select('*');
+  // let { data: events, error: eventsError } = await supabase
+  //   .from('events')
+  //   .select('*');
+
+  // Fetch events from Supabase and sort by distance to user location by calling a Postgres function as a remote stored procedure
+  let { data: events, error: eventsError } = await supabase.rpc('nearby_events', { lat, long })
+  if (eventsError) {
+    console.error(eventsError)
+  }
+
 
   if (eventsError) {
     console.error('Error fetching events:', eventsError);
@@ -76,7 +87,6 @@ export async function getServerSideProps() {
     }
     const json = await res.json();
     pageData = json.data || null;
-    console.log('pageData:', pageData);
   } catch (error) {
     console.error('Error fetching data from CMS:', error);
   }
@@ -112,6 +122,7 @@ const HomePage = ({ pageData, events, location }) => {
  
   // Search Events
   const [query, setQuery] = useState('');
+
   // Handle Search bar input change
   const handleSearchQuery = (e) => {
       setQuery(e.target.value?.trimEnd());
@@ -131,9 +142,10 @@ const HomePage = ({ pageData, events, location }) => {
     });
   };
 
-  // Clear all filters
+  // Check if any filter is active
   const isAnyFilterActive = filterState.categories.length > 0 || filterState.dateRange.start && filterState.dateRange.end  || filterState.location || filterState.query;
-
+  
+  // Clear all filters
   const clearFilters = () => {
     updateFilter(FILTER_TYPES.CATEGORY, []);
     updateFilter(FILTER_TYPES.DATE, { start: null, end: null });
@@ -153,7 +165,6 @@ const HomePage = ({ pageData, events, location }) => {
   // Toggle map modal
   const toggleModal = () => {
     setModalOpen(!modalOpen);
-    console.log('modalOpen called');
   };
 
   // Filter events when filters change
@@ -192,7 +203,6 @@ const HomePage = ({ pageData, events, location }) => {
 
     fetchFilteredEvents();
   }, [filterState, events]);
-
 
   return (
     <>

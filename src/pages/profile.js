@@ -23,6 +23,7 @@ function ProfilePage() {
     const [profile, setProfile] = useState(null);
     const [userEvents, setUserEvents] = useState([]);
     const [userLikedEvents, setUserLikedEvents] = useState([]);
+    console.log('userLikedEvents:', userLikedEvents)
 
     // Modal State
     const [modalOpen, setModalOpen] = useState(false);
@@ -70,6 +71,7 @@ function ProfilePage() {
     const eventImages = await fetchEventImages(events);
     return eventImages;
   };
+  
 
     //Fetch user created events from DB
     async function getEventsByUserId(userId) {
@@ -116,7 +118,12 @@ function ProfilePage() {
 
     }
 
-    
+    // Handle like change
+    // const handleLikeChange = async () => {
+    //   const likedEvents = await fetchLikedEvents(session.user.id);
+    //   setUserLikedEvents(likedEvents);
+    // };
+  
   
   useEffect(() => {
     async function getSession() {
@@ -148,6 +155,7 @@ function ProfilePage() {
       setUserEvents(events);
 
     }
+    
     getSession();
   }, [router, supabase]);
 
@@ -220,7 +228,14 @@ function ProfilePage() {
             {userLikedEvents && userLikedEvents.length > 0 ? (
                 <ul className={styles.eventsList}>
                 {userLikedEvents.map((event) => (
-                    <EventCard key={event.id} event={event} onDelete={handleDeleteEvent} onEdit={handleEditEvent}/>
+                    <EventCard 
+                    key={event.id} 
+                    event={event} 
+                    onDelete={handleDeleteEvent} 
+                    onEdit={handleEditEvent} 
+                    removeEventBtn 
+                    isProfilePage
+                     />
                 ))}
                 </ul>
             ) : (

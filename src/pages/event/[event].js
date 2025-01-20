@@ -170,6 +170,7 @@ function EventPage({ event, relatedEvents, eventImgUrls }) {
     getAddressFromCoords();
   }, [event]);
 
+
   // Open marker when click on
   const handleMarkerClick = () => {
     setInfoWindowOpen(!infoWindowOpen);
@@ -249,14 +250,14 @@ function EventPage({ event, relatedEvents, eventImgUrls }) {
               )}
             </div>
             <div className={styles.contentLeft__main}>
-              <h3 className={styles.contentLeft__title}>About the event</h3>
+              <h2 className={styles.contentLeft__title}>About the event</h2>
               <p className={styles.contentLeft__location}></p>
               <p className={styles.contentLeft__text}>{event.description}</p>
             </div>
-            <div className={styles.contentLeft__items}>
-              <div>
-                <h2 className={styles.contentRight__title}>Date & Time</h2>
-                <p className={styles.contentRight__subtitle}>
+            <div className={styles.contentLeftItems}>
+              <div className={styles.contentLeftItems__item}>
+                <h3 className={styles.contentLeftItems__title}>Date & Time</h3>
+                <p className={styles.contentLeftItems__subtitle}>
                   {format(event.start_time, "eee, MMMM d ")} {formatTime(event.start_time)} -{" "}
                   {formatTime(event.end_time)}
                 </p>
@@ -264,9 +265,9 @@ function EventPage({ event, relatedEvents, eventImgUrls }) {
                   Mark in my calendar
                 </a>
               </div>
-              <div>
-                <h2 className={styles.contentRight__title}>Event Location</h2>
-                {address && <p className={styles.contentRight__subtitle}>{address}</p>}
+              <div className={styles.contentLeftItems__item}>
+                <h4 className={`${styles.contentLeftItems__title} h3`}>Event Location</h4>
+                {address && <p className={styles.contentLeftItems__subtitle}>{address}</p>}
               </div>
             </div>
           </div>
@@ -300,8 +301,7 @@ function EventPage({ event, relatedEvents, eventImgUrls }) {
             </div>
             <div className={classNames(styles.contentRight__organiser, styles.content__item)}>
               <div className={styles.organiser}>
-                <UserCircle2 size={32} />
-                <p className={`${styles.title}`}>Blue Moon Events</p>
+                <h5 className={`${styles.title} h4`}>Blue Moon Events</h5>
               </div>
               <ul className={styles.benefitsList}>
                 <li className={styles.benefitsList__item}>

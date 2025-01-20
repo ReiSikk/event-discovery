@@ -156,7 +156,7 @@
     padding-top: 2.222vw;
   }
 }
-.contentLeft__items {
+.contentLeftItems {
   display: flex;
   flex-direction: column;
   gap: 32px;
@@ -165,6 +165,17 @@
   @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
     gap: 2.222vw;
     margin-block: 3.8888vw 0;
+  }
+}
+.contentLeftItems__item {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.contentLeftItems__item:last-of-type {
+  margin-top: 24px;
+  @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+    margin-top: 2.222vw;
   }
 }
 .contentLeft__cats {
@@ -252,12 +263,10 @@
     margin-bottom: 0.6944vw;
   }
 }
-.contentRight__title {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.contentLeftItems__title {
+  margin-bottom: 0;
 }
-.contentRight__subtitle {
+.contentLeftItems__subtitle {
 }
 
 .contentRight__link {
@@ -268,7 +277,7 @@
   padding-top: 10px;
   margin-top: auto;
   @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
-    padding-top: 0.6944vw;
+    padding-top: 1.6666vw;
   }
 }
 
@@ -280,8 +289,7 @@
   }
 }
 .organiser {
-  display: flex;
-  align-items: center;
+  text-align: center;
   gap: 8px;
   margin-bottom: 16px;
   @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
@@ -297,10 +305,7 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding-left: 8px;
-  @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
-    padding-left: 0.55555vw;
-  }
+ 
 }
 .benefitsList__item {
   display: flex;
@@ -310,6 +315,10 @@
   gap: 8px;
 }
 .benefitsList__item > svg {
+  width: 100%;
+  height: auto;
+  max-height: 24px;
+  max-width: 24px;
 }
 .benefitsList__item .text {
   opacity: 0.7;
@@ -317,6 +326,8 @@
 
 .benefitsList__item .title {
   margin-bottom: 4px;
+  text-transform: uppercase;
+  
   @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
     margin-bottom: 0.27777vw;
   }

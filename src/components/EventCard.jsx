@@ -8,15 +8,17 @@ import Image from 'next/image';
 import { format } from 'date-fns';
 import { useCategories } from '@/pages/api/context/categoriesProvider';
 import { useEventLike } from '@/utils/eventLikeService';
+import { Heart } from 'lucide-react';
 
 
-function EventCard({ event, isProfilePage, onDelete, onEdit }) {
+function EventCard({ event, isProfilePage, removeEventBtn, onDelete, onEdit }) {
   const supabase = createClient();  
-  const { likeCount, isLiked, toggleLike, isLoading } = useEventLike(event.id)
   const { categories } = useCategories();
   const category = categories.find((cat) => cat.id === event.category_id);
   const eventCategory = category ? category.name : 'No category';
 
+  // Event likes state
+  const { likeCount, isLiked, toggleLike, isProcessing } = useEventLike(event.id);
 
   const handleEdit = () => {
     onEdit(event.id);
@@ -43,7 +45,8 @@ function EventCard({ event, isProfilePage, onDelete, onEdit }) {
   }
 
   const formatTime = (timeString) => {
-    return format(new Date(timeString), 'HH:mm');
+    const date = new Date(timeString);
+    return format(date, date.getMinutes() === 0 ? 'h a' : 'h:mm a');
   };
 
   return (
@@ -85,7 +88,7 @@ function EventCard({ event, isProfilePage, onDelete, onEdit }) {
         <div className={styles.eventsCard__info}>
             <div className={styles.left}>
               <h4 className='txt-medium'>{event.title}</h4>
-              <div className={`${styles.eventCard__date} txt-small`}><CalendarClock size={16}/>{format(event.start_time,'eee, MMMM d ')} {formatTime(event.start_time)} - {formatTime(event.end_time)}</div>
+              <div className={`${styles.eventCard__date} txt-medium`}><CalendarClock size={16}/>{format(event.start_time,'eee, MMM d ')} {formatTime(event.start_time)} - {formatTime(event.end_time)}</div>
             </div>
             <div className={styles.right}>
               <ArrowUpCircleIcon size={32} className={styles.eventCard__icon} />
@@ -93,8 +96,7 @@ function EventCard({ event, isProfilePage, onDelete, onEdit }) {
         </div>
       </Link>
       : 
-      <>
-      
+      <Link href={`/event/${event.id}`} className={styles.eventCard__link}>
       <div className={styles.eventsCard__media}>
       {event.images.length > 0 ?
             <Image
@@ -127,13 +129,16 @@ function EventCard({ event, isProfilePage, onDelete, onEdit }) {
       <div className={styles.eventCard__actions}>
       <h4 className='txt-medium'>{event.title}</h4>
       <div className={`${styles.eventCard__date} txt-small`}><CalendarClock size={16}/>{format(event.start_time,'eee, MMMM d ')} {formatTime(event.start_time)} - {formatTime(event.end_time)}</div>
-      <div className={styles.buttons}>
-       <button onClick={handleEdit} className={`${styles.btn__edit} btn__primary`}>Edit</button>
-       <AlertModal handleDelete={handleDelete} eventId={event.id}/>
+        {
+          isProfilePage && !removeEventBtn &&
+          <div className={styles.buttons}>
+          <button onClick={handleEdit} className={`${styles.btn__edit} btn__primary`}>Edit</button>
+          <AlertModal handleDelete={handleDelete} eventId={event.id}/>
+        </div>
+        }
+        </div>
       </div>
-   </div>
-      </div>
-      </>
+      </Link>
       }
     </li>
   )

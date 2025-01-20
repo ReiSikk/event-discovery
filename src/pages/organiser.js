@@ -63,7 +63,7 @@ function OrganiserPage({ pageData }) {
         </div>
         <div className={styles.heroSection__side}>
           {pageData?.hero_image &&
-            <Image src={`http://localhost:1337${pageData?.hero_image.formats.large.url}`} alt={pageData?.title} className={styles.heroSection__image} width={1200} height={800}/>
+            <Image src={`${pageData?.hero_image.formats.large.url}`} alt={pageData?.title} className={styles.heroSection__image} width={1200} height={800} />
           }
         </div>
     </header>

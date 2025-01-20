@@ -48,11 +48,15 @@
 
 .filterCard__inner.expanded {
   position: absolute;
-  z-index: 1;
+  z-index: 10;
   height: auto;
   overflow: auto;
   opacity: 1;
   display: block;
+  max-height: 50vh;
+  overflow-y: scroll;
+  scrollbar-color: var(--primary) var(--bg-dark);
+  scrollbar-width: thin;
 }
 
 .filterCard__button {

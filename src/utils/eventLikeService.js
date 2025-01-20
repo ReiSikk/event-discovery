@@ -98,6 +98,8 @@ export async function hasUserLikedEvent(userId, eventId) {
         throw error
         }
 
+        // Convert data to boolean
+        // If user has liked the event return truthy value
         return !!data
     } catch (error) {
         console.error('Error checking like status:', error)
@@ -141,10 +143,10 @@ export function useEventLike(eventId) {
   
         try {
           setIsProcessing(true)
-          const count = await getEventLikeCount(eventId)
+          // const count = await getEventLikeCount(eventId)
           const liked = await hasUserLikedEvent(userId, eventId)
           
-          setLikeCount(count)
+          // setLikeCount(count)
           setIsLiked(liked)
         } catch (error) {
           console.error('Error fetching like data:', error)
@@ -181,9 +183,9 @@ export function useEventLike(eventId) {
     }
   
     return { 
-      likeCount, 
+      // likeCount, 
       isLiked, 
       toggleLike,
-      isProcessing 
+      isProcessing
     }
 }
