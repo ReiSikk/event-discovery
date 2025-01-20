@@ -41,7 +41,7 @@
 }
 .eventsCard__media > img {
   width: 100%;
-  height: 41.1061vh;
+  height: 100%;
   object-fit: cover;
   border-top-right-radius: var(--bradius);
   border-top-left-radius: var(--bradius);
