@@ -12,6 +12,10 @@ const nextConfig = {
         hostname: 'hdhpocotckesuowltwtk.supabase.co',
       },
       {
+        protocol: 'https',
+        hostname: 'credible-apparel-63eacfb187.media.strapiapp.com',
+      },
+      {
         protocol: 'http',
         hostname: 'localhost'
       },

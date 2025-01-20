@@ -28,6 +28,9 @@
     color: var(--red);
   }
 }
+.eventsCard {
+  
+}
 
 .eventsCard__media {
   position: relative;

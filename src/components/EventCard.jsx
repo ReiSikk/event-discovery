@@ -96,7 +96,7 @@ function EventCard({ event, isProfilePage, removeEventBtn, onDelete, onEdit }) {
         </div>
       </Link>
       : 
-      <>
+      <Link href={`/event/${event.id}`} className={styles.eventCard__link}>
       <div className={styles.eventsCard__media}>
       {event.images.length > 0 ?
             <Image
@@ -137,17 +137,8 @@ function EventCard({ event, isProfilePage, removeEventBtn, onDelete, onEdit }) {
         </div>
         }
         </div>
-      {/* {
-        removeEventBtn && isProfilePage &&
-        <div className={styles.buttons}>
-        <button className="like__btn" onClick={toggleLike} disabled={isProcessing}>
-            <Heart size={24} fill={isLiked ? "#ff5745" : "none"} className={styles.eventCard__like} />
-            {isLiked ? <span>Remove</span> : <span>Like</span>}
-          </button>
-        </div>
-      } */}
       </div>
-      </>
+      </Link>
       }
     </li>
   )
