@@ -172,6 +172,7 @@ const HomePage = ({ pageData, events, location }) => {
     async function fetchFilteredEvents() {
       try {
         const events = await getFilteredEvents(filterState);
+        console.log('filtered events:', events);
         setFilteredEvents(events);
 
         const filteredEventIds = events.map(event => event.id); 
