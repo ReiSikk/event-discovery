@@ -1070,6 +1070,14 @@ div[data-testid="underlay"] {
   color: var(--primary);
 }
 
+.eventSwiper__slide {
+  height: 100% !important;
+
+  @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+    height: 58.997vh !important;
+    max-height: 700px;
+  }
+}
 /*
      FONTS
      ========================================================================== */

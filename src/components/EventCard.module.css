@@ -31,6 +31,11 @@
 .eventsCard {
   
 }
+.eventsCard__swiper {
+  @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+      height: 100%;
+  }
+}
 
 .eventsCard__media {
   position: relative;
@@ -64,10 +69,12 @@
 
 .eventsCard__info {
   display: flex;
+  flex-direction: column;
   flex: 1;
   justify-content: space-between;
   padding-block: 16px;
   padding-inline: 16px;
+  gap: 16px;
   border-bottom-left-radius: var(--bradius);
   border-bottom-right-radius: var(--bradius);
   transition: background 0.4s ease;
@@ -82,11 +89,11 @@
 }
 .left {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  justify-content: space-between;
+  gap: 16px;
 }
 .right {
-  padding-left: 16px;
+
 }
 .eventCard__date {
   display: flex;

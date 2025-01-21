@@ -26,6 +26,7 @@ export async function getServerSideProps() {
       return null;
     });
   
+  //TODO: Fix error in prod environment which returns an empty array
   // Get user's location coordinates from the API response to use in the Postgres function call
   /* const lat = userLocation?.location?.latitude;
   const long = userLocation?.location?.longitude; */
@@ -35,6 +36,8 @@ export async function getServerSideProps() {
     .from('events')
     .select('*');
 
+
+  //TODO: Fix error in prod environment which returns an empty array
   // Fetch events from Supabase and sort by distance to user location by calling a Postgres function as a remote stored procedure
  /*  let { data: events, error: eventsError } = await supabase.rpc('nearby_events', { lat, long })
   if (eventsError) {

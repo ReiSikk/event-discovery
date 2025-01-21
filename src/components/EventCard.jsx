@@ -11,7 +11,7 @@ import { useEventLike } from '@/utils/eventLikeService';
 import { Heart } from 'lucide-react';
 
 
-function EventCard({ event, isProfilePage, removeEventBtn, onDelete, onEdit }) {
+function EventCard({ event, isProfilePage, removeEventBtn, onDelete, onEdit, isSwiperCard }) {
   const supabase = createClient();  
   const { categories } = useCategories();
   const category = categories.find((cat) => cat.id === event.category_id);
@@ -49,10 +49,18 @@ function EventCard({ event, isProfilePage, removeEventBtn, onDelete, onEdit }) {
     return format(date, date.getMinutes() === 0 ? 'h a' : 'h:mm a');
   };
 
+  // Shorten description to fit on card
+  const truncateText = (text, maxLength) => {
+    if (text.length <= maxLength) {
+      return text;
+    }
+    return text.substring(0, maxLength) + '...';
+  };
+
   return (
     <li 
     key={event.id}
-    className={`${styles.eventsCard} fp-col`}
+    className={isSwiperCard ? `${styles.eventsCard} ${styles.eventsCard__swiper} fp-col ` : `${styles.eventsCard} fp-col`}
     >
       {
         !isProfilePage ?
@@ -86,12 +94,15 @@ function EventCard({ event, isProfilePage, removeEventBtn, onDelete, onEdit }) {
           }
         </div>
         <div className={styles.eventsCard__info}>
+          <div>
             <div className={styles.left}>
               <h4 className='txt-medium'>{event.title}</h4>
-              <div className={`${styles.eventCard__date} txt-medium`}><CalendarClock size={16}/>{format(event.start_time,'eee, MMM d ')} {formatTime(event.start_time)} - {formatTime(event.end_time)}</div>
-            </div>
-            <div className={styles.right}>
               <ArrowUpCircleIcon size={32} className={styles.eventCard__icon} />
+            </div>
+            <p>{truncateText(event.description, 40)}</p>
+          </div>
+            <div className={styles.right}>
+              <div className={`${styles.eventCard__date} txt-medium`}><CalendarClock size={16}/>{format(event.start_time,'eee, MMM d ')} {formatTime(event.start_time)} - {formatTime(event.end_time)}</div>
             </div>
         </div>
       </Link>

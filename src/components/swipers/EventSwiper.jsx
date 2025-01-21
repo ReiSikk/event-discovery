@@ -31,7 +31,7 @@ function EventSwiper({ relatedEvents }) {
         >
         {relatedEvents.map((event) => (
                   <SwiperSlide key={event.id} className='eventSwiper__slide'>
-                    <EventCard event={event}/>
+                    <EventCard event={event} isSwiperCard/>
                   </SwiperSlide>
         ))}
     </Swiper>
