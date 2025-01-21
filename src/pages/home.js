@@ -27,19 +27,19 @@ export async function getServerSideProps() {
     });
   
   // Get user's location coordinates from the API response to use in the Postgres function call
-  const lat = userLocation?.location?.latitude;
-  const long = userLocation?.location?.longitude;
+  /* const lat = userLocation?.location?.latitude;
+  const long = userLocation?.location?.longitude; */
 
   // Fetch events from Supabase
-  // let { data: events, error: eventsError } = await supabase
-  //   .from('events')
-  //   .select('*');
+  let { data: events, error: eventsError } = await supabase
+    .from('events')
+    .select('*');
 
   // Fetch events from Supabase and sort by distance to user location by calling a Postgres function as a remote stored procedure
-  let { data: events, error: eventsError } = await supabase.rpc('nearby_events', { lat, long })
+ /*  let { data: events, error: eventsError } = await supabase.rpc('nearby_events', { lat, long })
   if (eventsError) {
     console.error(eventsError)
-  }
+  } */
 
 
   if (eventsError) {
