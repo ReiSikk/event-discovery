@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background: var(--bg-dark);
+  background: var(--blue);
   border-radius: var(--bradius);
   padding: 16px;
   height: 52.3168vh;

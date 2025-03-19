@@ -284,7 +284,7 @@ function EventPage({ event, relatedEvents, eventImgUrls }) {
               </div>
               <div className={styles.contentRight__cost_main}>
                 {event.cost && event.ticket_link && (
-                  <a href={event.ticket_link} rel="noopener noreferrer" className="btn__primary">
+                  <a href={event.ticket_link} rel="noopener noreferrer" className="btn__secondary">
                     Get tickets
                   </a>
                 )}
@@ -292,7 +292,7 @@ function EventPage({ event, relatedEvents, eventImgUrls }) {
                 {event.cost === null || (event.cost === 0 && event.ticket_link) ? (
                   <>
                     <span className={styles.free}>Free Entry</span>
-                    <a href={event.ticket_link} rel="noopener noreferrer" className="btn__primary">
+                    <a href={event.ticket_link} rel="noopener noreferrer" className="btn__primary btn__secondary btn__secondary--light">
                       Register
                     </a>
                   </>
@@ -341,7 +341,7 @@ function EventPage({ event, relatedEvents, eventImgUrls }) {
                     {markerPosition && (
                       <>
                         <AdvancedMarker ref={markerRef} position={markerPosition} onClick={handleMarkerClick}>
-                          <Pin background={"#7dffaf"} glyphColor={"#000"} borderColor={"#000"} />
+                          <Pin background={"#283cffff"} glyphColor={"#000D31"} borderColor={"#000D31"} />
                         </AdvancedMarker>
                         {infoWindowOpen && (
                           <InfoWindow

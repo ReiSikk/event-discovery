@@ -10,6 +10,7 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
+  color: var(--blue);
 }
 .mainError > p {
   margin-bottom: 24px;
@@ -37,6 +38,9 @@
     margin-top: 0;
   }
 }
+.formSection__main > h1 {
+  color: var(--blue);
+}
 
 .feedbackToast {
   position: fixed;
@@ -44,10 +48,10 @@
   right: 32px;
   max-width: 300px;
   padding: 16px 24px;
-  background: var(--bg-dark);
-  color: var(--white);
+  background: var(--blue);
+  color: var(--blue);
   border-radius: var(--bradius);
-  border: 1px solid var(--primary);
+  border: 1px solid var(--blue);
   text-align: center;
   z-index: 1000;
   transform: translateX(200%);

@@ -140,7 +140,7 @@ function AutoCompleteMap({
         {markerPosition && (
           <>
             <AdvancedMarker ref={markerRef} position={markerPosition} onClick={handleMarkerClick}>
-              <Pin background={"#7dffaf"} glyphColor={"#000"} borderColor={"#000"} />
+              <Pin background={"#283cffff"} glyphColor={"#000D31"} borderColor={"#000D31"} />
             </AdvancedMarker>
             {infoWindowOpen && (
               <InfoWindow

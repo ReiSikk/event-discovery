@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-color: var(--bg-dark);
+  background-color: var(--blue);
   border-radius: var(--bradius);
 
   @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
@@ -17,7 +17,7 @@
   display: none;
   align-items: center;
   padding: 10px;
-  background-color: var(--bg-dark);
+  background-color: var(--blue);
   border-radius: 4px;
   @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
     display: flex;
@@ -30,8 +30,8 @@
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background-color: var(--bg-dark);
-  color: var(--white);
+  background-color: var(--blue);
+  color: var(--blue);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -39,22 +39,27 @@
 }
 
 .progressStep.currentStep {
-  background-color: var(--bg);
   display: flex;
+  background-color: var(--bg);
+  color: var(--blue);
+  
+  .stepNumber {
+    color: var(--bg);
+  }
 
   @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
-    border: 1px solid var(--white);
+    border: 1px solid var(--blue);
   }
 }
 
 .progressStep.completedStep {
   @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
-    border: 1px solid var(--primary);
+    border: 1px solid var(--blue);
   }
 }
 
 .progressStep .checkIcon {
-  color: var(--primary);
+  color: var(--blue);
   margin-right: 10px;
 }
 

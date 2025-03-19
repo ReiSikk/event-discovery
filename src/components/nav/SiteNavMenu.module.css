@@ -13,11 +13,11 @@
 .MenuList {
 	display: flex;
 	justify-content: center;
-	background-color: var(--bg-dark);
-	color: var(--white);
+	background-color: var(--blue);
+	color: var(--bg);
 	padding: 6px;
 	border-radius: 6px;
-	border: 1px solid var(--primary);
+	border: 1px solid var(--blue);
 	list-style: none;
 	margin: 0;
 }
@@ -32,13 +32,6 @@
 	line-height: 1;
 	border-radius: 4px;
 	font-size: 15px;
-	color: var(--violet-11);
-	&:focus {
-		box-shadow: 0 0 0 2px var(--violet-7);
-	}
-	&:hover {
-		background-color: var(--violet-3);
-	}
 }
 
 .Trigger {
@@ -104,7 +97,7 @@
 	transform-origin: top center;
 	margin-top: 10px;
 	width: 100%;
-	background-color: var(--bg-dark);
+	background-color: var(--blue);
 	border-radius: 6px;
 	overflow: hidden;
 	box-shadow:
@@ -157,10 +150,14 @@
 	font-size: 15px;
 	line-height: 1;
 	&:focus {
-		box-shadow: 0 0 0 1px var(--primary);
+		box-shadow: 0 0 0 1px var(--blue);
 	}
 	&:hover {
 		background-color: var(--bg);
+		color: var(--blue);
+		& .ListItemHeading {
+			color: var(--blue);
+		}
 	}
 }
 
@@ -168,12 +165,11 @@
 	font-weight: 600;
 	line-height: 1.2;
 	margin-bottom: 5px;
-	color: var(--primary);
+	color: var(--bg);
 }
 
 .ListItemText {
 	all: unset;
-	color: var(--mauve-11);
 	line-height: 1.4;
 	font-weight: initial;
 }
@@ -196,7 +192,7 @@
 }
 
 .CalloutHeading {
-	color: white;
+	color: var(--bg);
 	font-size: 18px;
 	font-weight: 500;
 	line-height: 1.2;
@@ -206,7 +202,6 @@
 
 .CalloutText {
 	all: unset;
-	color: var(--mauve-4);
 	font-size: 14px;
 	line-height: 1.3;
 }
@@ -223,7 +218,6 @@
 
 .CaretDown {
 	position: relative;
-	color: var(--violet-10);
 	top: 1px;
 	transition: transform 250ms ease;
 	[data-state="open"] > & {
@@ -234,7 +228,6 @@
 .Arrow {
 	position: relative;
 	top: 70%;
-	background-color: white;
 	width: 10px;
 	height: 10px;
 	transform: rotate(45deg);

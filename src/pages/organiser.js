@@ -57,7 +57,7 @@ function OrganiserPage({ pageData }) {
             <p className={styles.heroSection__lead}>
             {pageData ? pageData?.lead : 'Leia is more than an event platform — it\'s a place where communities are formed, friends are made and experiences are lived.'}
             </p>
-            <Link href="/event/create" className="btn btn__primary btn__secondary">
+            <Link href="/event/create" className="btn btn__primary">
                 Create an event
             </Link>
         </div>

@@ -7,6 +7,10 @@
 
 .header__title {
   margin-bottom: 1.6666vw;
+  color: var(--blue);
+}
+.header__text {
+  color: var(--blue);
 }
 
 .filterCards {
@@ -45,7 +49,7 @@
   flex-direction: column;
   padding-bottom: 24px;
   margin-bottom: 16px;
-  border-bottom: 1px solid var(--primary);
+  border-bottom: 1px solid var(--blue);
   gap: 12px;
 
   @media only screen and (min-width: 556px) and (max-width: 1024px), only screen and (min-width: 1025px) {
@@ -69,7 +73,7 @@
 .content_sidebar {
   padding: 16px;
   border-radius: var(--bradius);
-  background: var(--bg-dark);
+  background: var(--blue);
   margin-bottom: 16px;
 
   @media only screen and (min-width: 1025px) {
@@ -80,6 +84,7 @@
 }
 .sidebar__title {
   margin-bottom: 0;
+  color: var(--blue);
   @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
     font-size: clamp(2.4rem, 1.9444vw, 2.8rem);
     font-weight: 600;
@@ -107,7 +112,6 @@
   transition: color 0.2s ease;
 }
 .clear:hover {
-  color: var(--primary);
   text-decoration: none;
 }
 .sidebarList {
@@ -125,16 +129,17 @@
 .sidebar__filter {
   padding-block: 5px;
   width: fit-content;
-  background: var(--bg-dark);
-  border: 1px solid var(--primary);
-  color: var(--white);
+  background: var(--blue);
+  border: 1px solid var(--blue-light);
+  color: var(--bg);
   min-width: fit-content;
   justify-content: space-between;
   padding-inline: 18px;
 
   &:hover {
-    background: var(--primary);
-    color: var(--bg);
+    background: var(--bg);
+    color: var(--blue);
+    border-color: var(--blue) ;
   }
 }
 .content_main {
@@ -146,7 +151,9 @@
   }
 }
 .mapBtn {
-  background: var(--bg-dark);
+  background: var(--blue);
+  color: var(--bg);
+  border: 1px solid var(--blue);
   align-self: flex-start;
   @media only screen and (min-width: 556px) and (max-width: 1024px), only screen and (min-width: 1025px) {
     align-self: flex-end;
@@ -173,6 +180,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  color: var(--blue);
   width: 100%;
   @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
     padding-inline: 1.666vw;

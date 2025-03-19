@@ -4,19 +4,12 @@
   --font-headings: "GeneralSans-Medium", -apple-system, BlinkMacSystemFont, sans-serif;
 
   /* CSS HEX */
-  /* --bg: #fcf6ecff;
-  --primary: #283cffff; */
-  /* --bg: #381026; */
-  --bg: #000f0a;
-  --bg-dark: #0d1b16;
-  /* --primary: #FF5745; */
-  --primary: #7dffaf;
+  --blue-light: #283cffff;
+  --blue: #000D31;
+  --bg: #fcf6ecff;
   --secondary: #02f559;
-  --pink: #ef92b8;
-  --red: #ff5745;
   --black: #1a1a1a;
-  /* --white: #f4e0d9; */
-  --white: #f4f4f4;
+  --red: #ff0000;
 
   /*  Grid  */
   --container-width: 100%;
@@ -148,7 +141,7 @@ h4,
   text-decoration: underline;
   text-underline-offset: 3px;
   &:hover {
-    text-decoration-color: var(--primary);
+    text-decoration-color: var(--blue-light);
   }
 }
 
@@ -302,7 +295,7 @@ h4,
    Site Footer
    ========================================================================== */
 .siteFooter {
-  background: var(--bg-dark);
+  background: var(--blue);
   padding-block: 32px;
   color: var(--white);
   display: flex;
@@ -367,7 +360,7 @@ h4,
   font-size: var(--txt-medium);
   opacity: 0.9;
   &:hover {
-    color: var(--primary);
+    color: var(--blue-light);
   }
 }
 .footerList > h4 {
@@ -412,9 +405,12 @@ padding-inline: 5vw;
   justify-content: space-between;
   align-items: center;
   gap: 16px;
+  background: var(--bg);
+  padding: 16px;
 
   & > h4 {
     margin-bottom: 0;
+    color: var(--blue);
   }
 }
 }
@@ -447,7 +443,7 @@ padding-inline: 5vw;
 }
 
 .modal__content {
-  background-color: var(--bg-dark);
+  background-color: var(--blue);
   border-radius: var(--bradius);
   padding: 20px;
   display: flex;
@@ -481,7 +477,7 @@ padding-inline: 5vw;
 
 .modal__close:hover,
 .modal__close:focus {
-  color: var(--primary);
+  color: var(--blue-light);
   text-decoration: none;
   cursor: pointer;
 }
@@ -494,7 +490,7 @@ padding-inline: 5vw;
 }
 
 .autoCompleteMap__infoWindow {
-  color: var(--bg-dark);
+  color: var(--blue);
   font-family: var(--font-body);
 }
 .infoWindow__btn {
@@ -509,12 +505,12 @@ padding-inline: 5vw;
 .btn__primary.btn__cancel {
   background: var(--red);
   border: none;
-  color: var(--bg-dark);
+  color: var(--blue);
   transition: opacity 0.2s ease;
   &:hover {
     background: var(--red);
     opacity: 0.9;
-    color: var(--bg-dark);
+    color: var(--blue);
   }
 }
 
@@ -527,8 +523,8 @@ padding-inline: 5vw;
   cursor: pointer;
   outline: none;
   border: none;
-  background: var(--white);
-  color: var(--bg-dark);
+  background: var(--bg);
+  color: var(--blue);
   gap: 8px;
   border-radius: 999px;
   padding: 12px;
@@ -538,7 +534,8 @@ padding-inline: 5vw;
   max-width: fit-content;
   transition: all 0.2s ease;
   &:hover {
-    background: var(--primary);
+    background: var(--blue);
+    color: var(--bg);
   }
   @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
       gap: 0.5555vw;
@@ -561,7 +558,7 @@ padding-inline: 5vw;
 }
 
 .AlertDialogContent {
-  background-color: var(--bg-dark);
+  background-color: var(--blue);
   border-radius: var(--bradius);
   box-shadow: hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
   position: fixed;
@@ -637,26 +634,37 @@ padding-inline: 5vw;
   align-items: center;
   justify-content: center;
   gap: 6px;
-  border: 1px solid var(--primary);
-  background: var(--bg);
-  color: var(--primary);
+  border: 1px solid var(--blue);
+  background: var(--blue);
+  color: var(--bg);
   font-family: var(--font-headings);
   font-weight: 500;
   transition: background 0.3s ease-in-out;
   cursor: pointer;
 
   &:hover {
-    background: var(--primary);
-    color: var(--bg);
+    background: var(--bg);
+    color: var(--blue);
   }
 }
 
 .btn__secondary {
+  color: var(--blue);
+  background: var(--bg);
+  &:hover {
+    background: var(--blue);
+    color: var(--bg);
+  }
+}
+.btn__secondary--light {
   color: var(--bg);
-  background: var(--primary);
+  background: var(--blue-light);
+  border: 1px solid var(--blue-light);
+  transition: all 0.3s ease;
   &:hover {
     background: var(--bg);
-    color: var(--white);
+    border-color: var(--bg);
+    color: var(--blue);
   }
 }
 
@@ -686,10 +694,10 @@ padding-inline: 5vw;
   }
 }
 .searchBar__input {
-  background: var(--bg-dark);
+  background: var(--blue);
   padding-block: 10px;
   padding-inline: 20px 32px;
-  border: 1px solid var(--primary);
+  border: 1px solid var(--blue-light);
   border-radius: 200px;
   width: 100%;
 
@@ -736,7 +744,7 @@ div[data-testid="underlay"] {
   flex-direction: column;
   gap: 32px;
   padding: 16px;
-  background: var(--bg-dark);
+  background: var(--blue);
   border-radius: var(--bradius);
   box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.2);
 
@@ -771,6 +779,7 @@ div[data-testid="underlay"] {
   justify-content: flex-start;
 }
 .formNav__btn {
+  
 }
 
 .loginForm__section,
@@ -779,7 +788,6 @@ div[data-testid="underlay"] {
   height: 100%;
   display: flex;
   flex-direction: column;
-  background: var(--bg);
   align-items: center;
   margin-top: 64px;
 
@@ -802,9 +810,9 @@ div[data-testid="underlay"] {
 .tabs__list {
   position: relative;
   display: flex;
-  background: var(--white);
+  background: var(--blue);
   border-radius: 200px;
-  border: 1px solid var(--white);
+  border: 1px solid var(--blue);
   flex-wrap: nowrap;
   justify-content: space-between;
   padding-inline: 3px;
@@ -858,7 +866,7 @@ div[data-testid="underlay"] {
 
   &[data-state="active"] {
     transition-delay: 200ms;
-    color: var(--primary);
+    color: var(--blue);
   }
 
   @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
@@ -901,7 +909,7 @@ div[data-testid="underlay"] {
   border-radius: var(--bradius-inner);
   padding-block: 64px;
   padding-inline: 32px;
-  background: var(--bg-dark);
+  background: var(--blue);
 
   @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
     width: 20.8333vw;
@@ -957,7 +965,7 @@ div[data-testid="underlay"] {
 
 .form__input {
   padding: 10px;
-  border: 1px solid var(--white);
+  border: 1px solid var(--blue);
   background: var(--bg);
   border-radius: 4px;
   transition: box-shadow 0.2s ease;
@@ -983,7 +991,7 @@ div[data-testid="underlay"] {
 .input__error {
   text-align: center;
   padding: 12px;
-  background: var(--bg-dark);
+  background: var(--blue);
   border-radius: var(--bradius);
   margin-top: 8px;
   margin-inline: auto;
@@ -1012,7 +1020,7 @@ div[data-testid="underlay"] {
   padding-inline: 24px;
   text-align: center;
   border-radius: var(--bradius);
-  background: var(--bg-dark);
+  background: var(--blue);
   margin-bottom: 8px;
 
   @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
@@ -1046,6 +1054,7 @@ div[data-testid="underlay"] {
 .editEvent__header > h1 {
   margin-inline: auto;
   text-align: center;
+  color: var(--blue);
 }
 
 /*
@@ -1053,8 +1062,8 @@ div[data-testid="underlay"] {
    ========================================================================== */
 .sticky_top {
   position: sticky;
-  top: 0; /* Adjust the top value as needed */
-  z-index: 10; /* Ensure the sticky element is above other content */
+  top: 0;
+  z-index: 10;
 }
 
 /*
@@ -1067,7 +1076,7 @@ div[data-testid="underlay"] {
 }
 .eventSwiper > .swiper-button-prev,
 .eventSwiper > .swiper-button-next {
-  color: var(--primary);
+  color: var(--blue-light);
 }
 
 .eventSwiper__slide {

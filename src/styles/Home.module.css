@@ -1,10 +1,9 @@
-
 /* ==========================================================================
    Home
    ========================================================================== */
-  .col-12 {
-    width: 100%;
-  }
+.col-12 {
+  width: 100%;
+}
 
 .main {
   height: 100%;
@@ -17,24 +16,20 @@
   @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
     margin-block: 5vw;
   }
-  
+}
+.heroSection__title, .heroSection__text {
+  color: var(--blue);
 }
 .heroSection__main {
   margin-bottom: 8.2051vw;
   display: flex;
   flex-direction: column;
-  
+
   @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
     width: 50%;
     padding-inline: 3.333vw 2.222vw;
-    margin-bottom: 0;    
+    margin-bottom: 0;
   }
-}
-.heroSection__title {
-
-}
-.heroSection__text {
-
 }
 .heroSection__cta {
   margin-top: 24px;
@@ -44,11 +39,6 @@
     margin-top: 2.222vw;
   }
 }
-.heroSection__cta > a {
-}
-.stats {
-
-}
 .heroSection__side {
   width: 100%;
 
@@ -56,7 +46,6 @@
     width: 50%;
     padding-inline: 5.7638vw;
   }
-
 }
 .heroSection__img {
   object-fit: cover;
@@ -65,65 +54,63 @@
   width: 100%;
   height: 40vh;
   border-radius: var(--bradius);
-  
+
   @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
     width: 36.875vw;
     height: 68.2617vh;
   }
 }
 
-
 /*
    USP Grid
    ========================================================================== */
 
-   .uspContainer {
-     padding-block: 32px;
-     margin-top: auto;
-    @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
-      padding-block: 3.888vw 0;
-    }
+.uspContainer {
+  padding-block: 32px;
+  margin-top: auto;
+  @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
+    padding-block: 3.888vw 0;
   }
-  
-  .uspGrid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1rem;
-  }
-  
-  .uspItem {
-    flex: 1;
-    text-align: center;
-    background-color: white;
-    padding: 1.5rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    background: var(--bg-dark);
-    transition: transform 0.3s ease;
-    min-width: 150px;
-  }
-  
-  .uspItem:hover {
-    transform: translateY(-5px);
-  }
-  
-  .uspIcon {
-    font-size: 3rem;
-    display: block;
-    margin-bottom: 1rem;
-  }
-  
-  .uspTitle {
-    color: var(--primary);
-    margin-bottom: 0.5rem;
-    font-size: 1.25rem;
-  }
-  
-  .uspDescription {
-    color: var(--lighblue);
-    font-size: var(--txt-small);
-    line-height: 1.35;
-  }
+}
+
+.uspGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  color: var(--bg);
+}
+
+.uspItem {
+  flex: 1;
+  text-align: center;
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background: var(--blue);
+  transition: transform 0.3s ease;
+  min-width: 150px;
+}
+
+.uspItem:hover {
+  transform: translateY(-5px);
+}
+
+.uspIcon {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.uspTitle {
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+}
+
+.uspDescription {
+  font-size: var(--txt-small);
+  line-height: 1.35;
+}

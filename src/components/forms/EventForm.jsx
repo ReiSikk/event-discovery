@@ -508,7 +508,7 @@ const handleLocationChange = (location) => {
      <div className='formNav'>
             {
               formStep !== 0 &&
-                <div className={`btn__primary formNav__btn ${formStep === 0 ? 'btn__disabled' : ''}`}
+                <div className={`btn__primary btn__secondary--light formNav__btn ${formStep === 0 ? 'btn__disabled' : ''}`}
                 onClick={handlePrevious}>
                   <ArrowLeft size={16} />
                   Previous step
@@ -516,7 +516,7 @@ const handleLocationChange = (location) => {
             }
             {
               formStep !== 4 &&
-              <div  className={`btn__primary formNav__btn formNav__btn--next ${formStep === 4 ? 'btn__disabled' : ''}`}
+              <div  className={`btn__primary btn__secondary--light formNav__btn formNav__btn--next ${formStep === 4 ? 'btn__disabled' : ''}`}
               onClick={handleNextStep}>
                 Next step
                 <ArrowRight size={16}

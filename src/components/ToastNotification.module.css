@@ -17,7 +17,7 @@
 }
 
 .Root {
-    background-color: var(--bg-dark);
+    background-color: var(--blue);
     border-radius: var(--bradius);
     box-shadow:
         hsl(206 22% 7% / 35%) 0px 10px 38px -10px,
@@ -142,7 +142,7 @@
 	align-items: center;
 	justify-content: center;
 	&:hover {
-		color: var(--primary);
+		color: var(--blue);
 	}
 	&:focus {
 		transform: scale(0.95);

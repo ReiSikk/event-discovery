@@ -143,7 +143,7 @@ function EventCard({ event, isProfilePage, removeEventBtn, onDelete, onEdit, isS
         {
           isProfilePage && !removeEventBtn &&
           <div className={styles.buttons}>
-          <button onClick={handleEdit} className={`${styles.btn__edit} btn__primary`}>Edit</button>
+          <button onClick={handleEdit} className={`${styles.btn__edit} btn__primary btn__secondary--light`}>Edit</button>
           <AlertModal handleDelete={handleDelete} eventId={event.id}/>
         </div>
         }

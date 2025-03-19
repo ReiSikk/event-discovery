@@ -9,7 +9,7 @@
 }
 .profileCard {
   position: relative;
-  background: var(--bg-dark);
+  background: var(--blue);
   border-radius: var(--bradius);
   padding: 16px;
   width: 100%;
@@ -53,7 +53,7 @@
 }
 .personalInfo__card {
   padding-left: 10px;
-  border-left: 1px solid var(--primary);
+  border-left: 1px solid var(--blue);
 }
 .personalInfo__card > span {
   font-size: 1.2rem;
@@ -99,6 +99,7 @@
 .profileCardList__item {
   flex: 1;
   background: var(--bg);
+  color: var(--blue);
   padding-block: 16px 12px;
   padding-inline: 16px;
   border-radius: var(--bradius-inner);
@@ -143,8 +144,9 @@
 }
 .eventsSection__title {
   margin-block: 24px;
-  border-bottom: 1px solid var(--primary);
+  border-bottom: 1px solid var(--blue);
   padding-bottom: 8px;
+  color: var(--blue);
 
   @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
     margin-inline: 3.333vw;
@@ -165,7 +167,7 @@
 }
 .eventsList > li {
   width: 100%;
-  background: var(--bg-dark);
+  background: var(--blue);
   border-radius: var(--bradius);
 }
 

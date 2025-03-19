@@ -95,7 +95,7 @@ function ModalMap({ modalOpen, toggleModal, filteredEvents, isAnyFilterActive })
                 onMouseEnter={() => handleMarkerHover(poi.location)}
                 onClick={() => handleMarkerHover(poi.location)}
               >
-                <Pin background={'#7dffaf'} glyphColor={'#000'} borderColor={'#000'} />
+                <Pin background={'#283cffff'} glyphColor={'#000D31'} borderColor={'#000D31'} />
               </AdvancedMarker>
               {infoWindowOpen.open && infoWindowOpen.position.lat === poi.location.lat && infoWindowOpen.position.lng === poi.location.lng && (
                 <InfoWindow

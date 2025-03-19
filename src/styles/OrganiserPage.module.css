@@ -15,6 +15,7 @@ OrganiserPage Styles
     flex-direction: column;
     padding-right: 40px;
     padding-bottom: 32px;
+	color: var(--blue);
     @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
         width: 50%;
         padding-right: 5.555vw;
@@ -80,7 +81,7 @@ OrganiserPage Styles
 
    }
    .Root {
-	background-color: var(--bg-dark);
+	background-color: var(--blue);
 	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     width: 100%;
     
@@ -124,19 +125,19 @@ OrganiserPage Styles
     font-size: clamp(1.8rem, 1.5277vw, 2.2rem);
     font-weight: 500;
 	box-shadow: 0 1px 0 var(--mauve-6);
-	background-color: var(--bg-dark);
+	background-color: var(--blue);
     border: 1px solid transparent;
 
 	&:hover {
-        border: 1px solid var(--primary);
+        border: 1px solid var(--blue);
 	}
 }
 
 .Content {
 	overflow: hidden;
 	font-size: 15px;
-	color: var(--bg-dark);
-	background-color: var(--white);
+	color: var(--blue);
+	background-color: var(--blue);
 	&[data-state="open"] {
 		animation: slideDown 300ms cubic-bezier(0.87, 0, 0.13, 1);
 	}

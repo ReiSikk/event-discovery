@@ -59,12 +59,12 @@
 }
 
 .eventsCard__label {
-  background: var(--bg-dark);
-  border: 1px solid var(--primary);
+  background: var(--blue);
+  border: 1px solid var(--bg);
   padding-block: 5px;
   padding-inline: 10px;
   border-radius: 200px;
-  color: var(--white);
+  color: var(--bg);
 }
 
 .eventsCard__info {
@@ -104,7 +104,7 @@
   min-width: 16px;
   min-height: 16px;
   transform: rotate(45deg);
-  transition: transform 0.3s ease, color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .eventsCard__categories {
@@ -121,7 +121,7 @@
 
 .eventCard__link {
   position: relative;
-  background: var(--bg-dark);
+  background: var(--blue);
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -136,10 +136,9 @@
 }
 
 .eventCard__link:hover .eventCard__icon {
-  color: var(--bg-dark);
   transform: rotate(90deg);
 }
 .eventCard__link:hover .eventsCard__info {
-  color: var(--bg-dark);
-  background: var(--white);
+  color: var(--bg);
+  background: var(--blue-light);
 }

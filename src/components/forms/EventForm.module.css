@@ -21,7 +21,7 @@
 }
 .formField__label {
   margin-bottom: 10px;
-  color: var(--white);
+  color: var(--blue);
   font-size: clamp(2.4rem, 1.9444vw, 2.8rem);
   font-weight: 600;
 
@@ -32,9 +32,9 @@
 
 .formField__input,
 .formField > select {
-  background: var(--bg-dark);
+  background: var(--blue);
   border-radius: var(--bradius-inner);
-  border: 1px solid var(--primary);
+  border: 1px solid var(--blue);
   padding-block: 10px;
   padding-inline: 6px;
   cursor: pointer;
@@ -50,7 +50,7 @@
   display: flex;
   flex-direction: column;
   gap: 1.666vw;
-  color: var(--white);
+  color: var(--blue);
 }
 .form__imgUpload > div:first-of-type {
   display: flex;
@@ -67,7 +67,7 @@
   position: relative;
   align-items: center;
   justify-content: center;
-  background: var(--bg-dark);
+  background: var(--blue);
   border-radius: var(--bradius-inner);
   border: 1px solid transparent;
   width: 100%;
@@ -76,7 +76,7 @@
   transition: border 0.2s ease;
 
   &:hover {
-    border: 1px solid var(--primary);
+    border: 1px solid var(--blue);
   }
 
   @media only screen and (min-width: 768px) and (max-width: 1024px), only screen and (min-width: 1025px) {
@@ -139,14 +139,14 @@
   align-items: center;
   gap: 8px;
   justify-content: center;
-  background: var(--bg-dark);
+  background: var(--blue);
   padding-block: 48px;
   padding-inline: 16px;
   cursor: pointer;
   transition: border 0.2s ease;
 
   &:hover {
-    border: 1px solid var(--primary);
+    border: 1px solid var(--blue);
   }
 
   & > input[type="radio"] {
@@ -163,7 +163,7 @@
   }
 }
 .active {
-  border: 1px solid var(--primary);
+  border: 1px solid var(--blue);
 }
 
 .radio__label {
@@ -216,8 +216,8 @@
   gap: 8px;
   padding-block: 16px;
   padding-inline: 16px;
-  background: var(--bg-dark);
-  border-top: 1px solid var(--primary);
+  background: var(--blue);
+  border-top: 1px solid var(--blue);
   border-radius: var(--bradius);
   z-index: 1000;
   animation: slideIn 200ms ease-out;

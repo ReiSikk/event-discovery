@@ -33,7 +33,7 @@
     align-items: center;
     padding-block: 12px;
     padding-inline: 16px;
-    border-bottom: 1px solid var(--primary);
+    border-bottom: 1px solid var(--blue);
 
 }
 .mobileMenu__title {
@@ -47,7 +47,7 @@
 }
 .mobileMenu__close:hover,
 .mobileMenu__close:focus {
-  color: var(--primary);
+  color: var(--blue);
   text-decoration: none;
   cursor: pointer;
 }
@@ -79,7 +79,7 @@
     text-transform: uppercase;
     &:hover {
         cursor: pointer;
-        color: var(--primary);
+        color: var(--blue);
 
     }
 
