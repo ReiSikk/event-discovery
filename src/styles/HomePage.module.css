@@ -154,9 +154,8 @@
   background: var(--blue);
   color: var(--bg);
   border: 1px solid var(--blue);
-  align-self: flex-start;
+  align-self: flex-end;
   @media only screen and (min-width: 556px) and (max-width: 1024px), only screen and (min-width: 1025px) {
-    align-self: flex-end;
   }
 }
 .eventsList {
